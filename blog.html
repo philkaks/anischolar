@@ -14,7 +14,9 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -58,7 +60,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
 
-<!--      <a href="#about" class="get-started-btn scrollto">Get Started</a>-->
+      <!--      <a href="#about" class="get-started-btn scrollto">Get Started</a>-->
     </div>
   </header><!-- End Header -->
 
@@ -81,85 +83,20 @@
     <section id="blog" class="blog">
       <div class="container" data-aos="fade-up">
 
-        <div class="row">
-
-          <div class="col-lg-8 entries">
-
-            <article class="entry">
-
-              <div class="entry-img">
-                <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
-              </div>
-
-              <h2 class="entry-title">
-                <a href="blog-single.html">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</a>
-              </h2>
-
-              <div class="entry-meta">
-                <ul>
-                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                </ul>
-              </div>
-
-              <div class="entry-content">
-                <p>
-                  Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                  Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.
-                </p>
-                <div class="read-more">
-                  <a href="blog-single.html">Read More</a>
-                </div>
-              </div>
-
-            </article><!-- End blog entry -->
-
-            <article class="entry">
-
-              <div class="entry-img">
-                <img src="assets/img/blog/blog-4.jpg" alt="" class="img-fluid">
-              </div>
-
-              <h2 class="entry-title">
-                <a href="blog-single.html">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</a>
-              </h2>
-
-              <div class="entry-meta">
-                <ul>
-                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-single.html">John Doe</a></li>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-single.html"><time datetime="2020-01-01">Jan 1, 2020</time></a></li>
-                </ul>
-              </div>
-
-              <div class="entry-content">
-                <p>
-                  Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                  Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis dolore.
-                </p>
-                <div class="read-more">
-                  <a href="blog-single.html">Read More</a>
-                </div>
-              </div>
-
-            </article><!-- End blog entry -->
-
-
-            <div class="blog-pagination">
-              <ul class="justify-content-center">
-                <li><a href="#">1</a></li>
-                <li class="active"><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-              </ul>
-            </div>
-
-          </div><!-- End blog entries list -->
-
-
-
-        </div>
-
+        <div class="row" id="blogEntries"></div>
+        <!-- <div class="blog-pagination">
+          <ul class="justify-content-center">
+            <li><a href="#">1</a></li>
+            <li class="active"><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+          </ul>
+        </div> -->
       </div>
-    </section><!-- End Blog Section -->
+    </section>
+    <!-- ===End Blog Section -->
+
+
+
 
   </main><!-- End #main -->
   <!-- ======= Footer ======= -->
@@ -185,7 +122,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -198,6 +136,75 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBLWh2yK95Ub9_5NwuF2iTmZ2HflkKBU2Y",
+      authDomain: "anisholar.firebaseapp.com",
+      databaseURL: "https://anisholar-default-rtdb.firebaseio.com",
+      projectId: "anisholar",
+      storageBucket: "anisholar.appspot.com",
+      messagingSenderId: "562532256946",
+      appId: "1:562532256946:web:dac38977534d9566d7cdab",
+      measurementId: "G-B7QFDXVD7Q"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+
+    async function getBlogs() {
+      const blogCollection = collection(db, "blogs");
+      const snapshot = await getDocs(blogCollection);
+      const blogList = snapshot.docs.map(doc => doc.data());
+      console.log(blogList);
+      return blogList;
+
+    }
+
+    const blogs = getBlogs();
+
+    blogs.then(blogList => {
+      const blogEntriesContainer = document.getElementById('blogEntries');
+      blogList.forEach(blog => {
+        const entry = document.createElement('div');
+        entry.classList.add('col-lg-8', 'entries');
+
+        entry.innerHTML = `
+        <article class="entry">
+          <div class="entry-img">
+            <img src="${blog.image}" alt="" class="img-fluid">
+          </div>
+          <h2 class="entry-title">
+            <a href="blog-single.html">${blog.title}</a>
+          </h2>
+          <div class="entry-meta">
+            <ul>
+              <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">${blog.author}</a></li>
+              <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="${blog.date}">${blog.date}</time></a></li>
+            </ul>
+          </div>
+          <div class="entry-content">
+            <p>${blog.body}</p>
+            <div class="read-more">
+              <a href="blog-single.html">Read More</a>
+            </div>
+          </div>
+        </article>
+      `;
+        blogEntriesContainer.appendChild(entry);
+      });
+    });
+
+
+
+  </script>
+
 
 </body>
 

@@ -10,5 +10,8 @@
     "type": "git",
     "url": "https://github.com/philkaks/anischolar.git"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "firebase": "^10.10.0"
+  }
 }
