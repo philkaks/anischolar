@@ -1,10 +1,10 @@
-/**
-* Template Name: Vesperr
-* Updated: Jan 09 2024 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+import "./assets/vendor/purecounter/purecounter_vanilla.js";
+import "./assets/vendor/bootstrap/js/bootstrap.bundle.min.js";
+import "./assets/vendor/glightbox/js/glightbox.min.js";
+import "./assets/vendor/isotope-layout/isotope.pkgd.min.js";
+import "./assets/vendor/swiper/swiper-bundle.min.js";
+import "./assets/vendor/php-email-form/validate.js";
+import AOS from "aos";
 
 (function() {
   "use strict";
