@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../assets/img/logo1.png"
 
 const navbar = () => {
@@ -7,20 +8,14 @@ const navbar = () => {
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
             <a href="index.html">
-              <img
-                src={logo}
-                alt=""
-                className="img-fluid"
-              ></img>
+              <img src={logo} alt="" className="img-fluid"></img>
             </a>
             AniScholar
           </div>
           <nav id="navbar" className="navbar">
             <ul>
               <li>
-                <a className="nav-link scrollto active" href="#hero">
-                  Home
-                </a>
+                <Link to="/">Home</Link>
               </li>
               <li>
                 <a className="nav-link scrollto" href="#about">
@@ -43,9 +38,7 @@ const navbar = () => {
                 </a>
               </li>
               <li>
-                <a className="nav-link scrollto" href="blog.html">
-                  Blog
-                </a>
+                <Link to="/blogs">Blog</Link>
               </li>
               <li>
                 <a className="nav-link scrollto" href="#contact">
