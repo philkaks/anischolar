@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "./assets/vendor/purecounter/purecounter_vanilla.js";
 import "./assets/vendor/bootstrap/js/bootstrap.bundle.min.js";
 import "./assets/vendor/glightbox/js/glightbox.min.js";
@@ -115,6 +116,7 @@ import AOS from "aos";
   /**
    * Mobile nav toggle
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   on('click', '.mobile-nav-toggle', function(e) {
     select('#navbar').classList.toggle('navbar-mobile')
     this.classList.toggle('bi-list')
@@ -218,13 +220,6 @@ import AOS from "aos";
       }, true);
     }
 
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
   });
 
   /**
