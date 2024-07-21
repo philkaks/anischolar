@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ServiceCard from "./serviceCard";
 
 const services = () => {
@@ -13,11 +14,13 @@ const services = () => {
 
             <div className="row">
               <div className="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-                <ServiceCard
-                  icon={<i className="bx bx-shape-square"></i>}
-                  name={"Internship"}
-                  desription={"Gain hands-on experience, mentorship."}
-                />
+                <Link to="/internships" style={{color: "black", textDecoration: "none"}}>
+                  <ServiceCard
+                    icon={<i className="bx bx-shape-square"></i>}
+                    name={"Internship"}
+                    desription={"Gain hands-on experience, mentorship."}
+                  />
+                </Link>
               </div>
               <div className="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                 <ServiceCard

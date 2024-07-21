@@ -3,6 +3,8 @@ import { collection, getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../Config/firebase.config";
+import logo from "../assets/img/logo1.png";
+
 
 const blogs = () => {
   interface MyData{
@@ -40,47 +42,42 @@ const blogs = () => {
   return (
     <div>
       <header id="header" className="fixed-top d-flex align-items-center">
-        <div className="container d-flex align-items-center">
-          <h1 className="logo me-auto">
+        <div className="container d-flex align-items-center justify-content-between">
+          <div className="logo">
             <a href="index.html">
-              Anischolar<span>.</span>
+              <img src={logo} alt="" className="img-fluid"></img>
             </a>
-          </h1>
+            AniScholar
+          </div>
 
           <nav id="navbar" className="navbar">
             <ul>
               <li>
-                <a className="nav-link scrollto active" href="blog.html">
-                  Blog
-                </a>
+                <Link className="text-decoration-none" to="/">
+                  Home
+                </Link>
               </li>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
+              <i className="bi bi-chevron-right"></i>
+              <li style={{ color: " #27ae60" }}>Blogs</li>
             </ul>
             <i className="bi bi-list mobile-nav-toggle"></i>
           </nav>
         </div>
       </header>
-
+      
       <main id="main">
         <section className="breadcrumbs">
-          <div className="container">
-            <ol>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>Blog</li>
-            </ol>
-            <h2>Blog</h2>
+          <div className="container d-flex justify-content-center p-5">
+            <h1 className="m-0" style={{ color: "#27ae60" }}>
+              Blogs
+            </h1>
           </div>
         </section>
 
         <section id="blog" className="blog">
-
-            {blogList.map((blog) => (
-              <article className="entry" key={blog.id} data-aos="fade-up">
-              <div className="entry-img" >
+          {blogList.map((blog) => (
+            <article className="entry" key={blog.id} data-aos="fade-up">
+              <div className="entry-img">
                 <img
                   // [src]=["{blog.image}"]
                   className="img-fluid"
@@ -116,7 +113,7 @@ const blogs = () => {
                 </div>
               </div>
             </article>
-            ))}
+          ))}
         </section>
       </main>
       <a
