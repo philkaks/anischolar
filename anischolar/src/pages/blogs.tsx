@@ -64,7 +64,7 @@ const blogs = () => {
           </nav>
         </div>
       </header>
-      
+
       <main id="main">
         <section className="breadcrumbs">
           <div className="container d-flex justify-content-center p-5">
@@ -74,47 +74,50 @@ const blogs = () => {
           </div>
         </section>
 
-        <section id="blog" className="blog">
-          {blogList.map((blog) => (
-            <article className="entry" key={blog.id} data-aos="fade-up">
-              <div className="entry-img">
-                <img
-                  // [src]=["{blog.image}"]
-                  className="img-fluid"
-                />
-              </div>
-              <h2 className="entry-title">
-                <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}">
-                  {blog.title}
-                </a>
-              </h2>
-              <div className="entry-meta">
-                <ul>
-                  <li className="d-flex align-items-center">
-                    <i className="bi bi-person"></i>{" "}
-                    <a href="#">{blog.author}</a>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <i className="bi bi-clock"></i>{" "}
-                    <a href="#">
-                      <time dateTime="{blog.date}">
-                        {new Date(blog.date).toDateString()}
-                      </time>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="entry-content">
-                {/* <p>{blog.teaser}</p> */}
-                <div className="read-more">
-                  <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}&paragraph2=${encodeURIComponent(blog.paragraph2)}&subtitle=${encodeURIComponent(blog.subtitle)}">
-                    Read More
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </section>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <section id="blog" className="blog rounded">
+                {blogList.map((blog) => (
+                  <article className="entry" key={blog.id} data-aos="fade-up">
+                    <div className="entry-img">
+                      <img src={blog.image} className="img-fluid" />
+                    </div>
+                    <h2 className="entry-title">
+                      <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}">
+                        {blog.title}
+                      </a>
+                    </h2>
+                    <div className="entry-meta">
+                      <ul>
+                        <li className="d-flex align-items-center">
+                          <i className="bi bi-person"></i>{" "}
+                          <a href="#">{blog.author}</a>
+                        </li>
+                        <li className="d-flex align-items-center">
+                          <i className="bi bi-clock"></i>{" "}
+                          <a href="#">
+                            <time dateTime="{blog.date}">
+                              {new Date(blog.date).toDateString()}
+                            </time>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="entry-content">
+                      <p>{blog.description}</p>
+                      <div className="read-more">
+                        <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}&paragraph2=${encodeURIComponent(blog.paragraph2)}&subtitle=${encodeURIComponent(blog.subtitle)}">
+                          Read More
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </section>
+            </div>
+          </div>
+        </div>
       </main>
       <a
         href="#"

@@ -4,6 +4,7 @@ import HomePage from './pages/homePage'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Blogs from './pages/blogs'
 import Internships from './pages/internships'
+import ApplicationForm from './pages/applicationForm'
 
 
 const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/internships',
     element: <Internships />
+  },
+  {
+    path: '/applicationForm',
+    element: <ApplicationForm />
   }
 ])
 
