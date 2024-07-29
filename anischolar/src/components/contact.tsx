@@ -1,5 +1,46 @@
+import axios from "axios";
+import { useState } from "react";
+
 const contact = () => {
-const rows = 5;
+  const rows = 5;
+
+  const [formData, setFormData] = useState({
+    name: "",
+    subject: "",
+    email: "",
+   message: "",
+  });
+
+   const [responseMessage, setResponseMessage] = useState("");
+
+   const handleChange = (e) => {
+     setFormData({
+       ...formData,
+       [e.target.name]: e.target.value,
+     });
+   };
+
+   const handleSubmit = (e) => {
+     e.preventDefault();
+
+     axios
+       .post(
+         "http://localhost/contact.php",
+         new URLSearchParams(formData).toString(),
+         {
+           headers: {
+             "Content-Type": "application/x-www-form-urlencoded",
+           },
+         }
+       )
+       .then((response) => {
+         setResponseMessage(response.data.message);
+       })
+       .catch((error) => {
+         console.error("Error:", error);
+         setResponseMessage("An error occurred.");
+       });
+   };
 
   return (
     <div>
@@ -74,7 +115,7 @@ const rows = 5;
                 data-aos-delay="300"
               >
                 <form
-                  action="forms/contact.php"
+                  onSubmit={handleSubmit}
                   method="post"
                   role="form"
                   className="php-email-form"
@@ -86,6 +127,8 @@ const rows = 5;
                       className="form-control"
                       id="name"
                       placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleChange}
                       required
                     ></input>
                   </div>
@@ -96,6 +139,8 @@ const rows = 5;
                       name="email"
                       id="email"
                       placeholder="Your Email"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                     ></input>
                   </div>
@@ -106,6 +151,8 @@ const rows = 5;
                       name="subject"
                       id="subject"
                       placeholder="Subject"
+                      value={formData.subject}
+                      onChange={handleChange}
                       required
                     ></input>
                   </div>
@@ -115,6 +162,8 @@ const rows = 5;
                       className="form-control"
                       name="message"
                       placeholder="Message"
+                      value={formData.message}
+                      onChange={handleChange}
                       required
                     ></textarea>
                   </div>
@@ -136,6 +185,6 @@ const rows = 5;
       </section>
     </div>
   );
-}
+};
 
-export default contact
+export default contact;

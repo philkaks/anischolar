@@ -7,7 +7,7 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import { onRequest } from "firebase-functions/v2/https";
+import {onRequest} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 
 // Start writing functions
@@ -20,32 +20,37 @@ import * as logger from "firebase-functions/logger";
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require("nodemailer");
 
+// Initialize Firebase Admin
 admin.initializeApp();
 
-// Replace with your SendGrid API Key
-const SENDGRID_API_KEY = "YOUR_SENDGRID_API_KEY";
-sgMail.setApiKey(SENDGRID_API_KEY);
+// Configure Nodemailer
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "musasiziallansmith@gmail.com",
+    pass: "musasizi2004",
+  },
+});
 
 exports.sendEmail = functions.firestore
   .document("applications/{docId}")
-  .onCreate((snap, context) => {
-    const data = snap.data();
+  .onCreate((snap: { data: () => any; }, context: { params: { docId: any; }; }) => {
+    const newValue = snap.data();
 
-    const msg = {
-      to: data.email, // recipient email
-      from: "anischolar23@gmail.com", // your email
-      subject: "Internship Application Received",
-      text: `Hello ${data.firstName} ${data.lastName},\n\nThank you for applying for the internship. We shall get back to you soon.`,
+    const mailOptions = {
+      from: "anischolar23@gmail.com",
+      to: newValue.email,
+      subject: "New Document Added",
+      text: `A new document with ID: ${context.params.docId} was added to your collection.`,
     };
 
-    return sgMail
-      .send(msg)
-      .then(() => {
-        console.log("Email sent successfully");
-      })
-      .catch((error: any) => {
+    return transporter.sendMail(mailOptions, (error: any, info: { response: any; }) => {
+      if (error) {
         console.error("Error sending email:", error);
-      });
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
   });

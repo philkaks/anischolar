@@ -82,7 +82,9 @@ const internships = () => {
                   </div>
                   <p className="card-text mb-1">
                     <strong>Farm: </strong>
-                    {internship.farm}
+                    <Link className="text-decoration-none" to="/farm">
+                      {internship.farm}
+                    </Link>
                   </p>
                   <h6 className="mb-3">
                     Available Slots:
