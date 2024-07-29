@@ -4,7 +4,7 @@ import image1 from "../assets/img/vet.png"
 const aboutUs = () => {
   return (
     <div>
-      <section id="about" className="mt-0">
+      <section id="about" className="mt-0 mb-0">
         <section className="about">
           <div className="container">
             <div className="section-title" data-aos="fade-up">
