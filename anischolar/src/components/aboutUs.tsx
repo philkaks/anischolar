@@ -2,7 +2,7 @@
 import image1 from "../assets/img/vet.png"
 
 const aboutUs = () => {
-  return (
+  return ( 
     <div>
       <section id="about" className="mt-0 mb-0">
         <section className="about">
