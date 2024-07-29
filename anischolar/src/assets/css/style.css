@@ -1395,6 +1395,15 @@ section {
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
+
+.contact {
+  background-image: url(../img/contact-bg.png);
+  background-color: rgba(0, 0, 0, 1);
+  background-position: left center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
 .contact .contact-about h3 {
   font-size: 28px;
   margin: 0 0 10px 0;
