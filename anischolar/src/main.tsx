@@ -5,12 +5,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Blogs from './pages/blogs'
 import Internships from './pages/internships'
 import ApplicationForm from './pages/applicationForm'
-
+import Farm from './pages/farm'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />
+  },
+  {
+    path: '/farm',
+    element: <Farm />
   },
   {
     path: '/blogs',
