@@ -1,7 +1,14 @@
 
 import image1 from "../assets/img/vet.png"
+// import PureCounter from '@srexi/purecounterjs/js/purecounter.js';
+
 
 const aboutUs = () => {
+  // const counter = new PureCounter(document.getElementById("purecounter"), {
+      
+  //   });
+  // counter();
+
   return ( 
     <div>
       <section id="about" className="mt-0 mb-0">

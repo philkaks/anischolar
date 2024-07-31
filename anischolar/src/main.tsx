@@ -6,6 +6,7 @@ import Blogs from './pages/blogs'
 import Internships from './pages/internships'
 import ApplicationForm from './pages/applicationForm'
 import Farm from './pages/farm'
+import './App'
 
 const router = createBrowserRouter([
   {

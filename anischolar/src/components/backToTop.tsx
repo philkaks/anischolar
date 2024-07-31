@@ -1,5 +1,29 @@
+import { useEffect } from "react";
 
 const backToTop = () => {
+  const useBackToTop = () => {
+    useEffect(() => {
+      const backToTop = document.querySelector(
+        ".back-to-top"
+      ) as HTMLButtonElement | null;
+
+      const toggleBackToTop = () => {
+        if (backToTop) {
+          if (window.scrollY > 100) {
+            backToTop.classList.add("active");
+          } else {
+            backToTop.classList.remove("active");
+          }
+        }
+      };
+
+      window.addEventListener("scroll", toggleBackToTop);
+      return () => window.removeEventListener("scroll", toggleBackToTop);
+    }, []);
+  };
+
+  useBackToTop();
+  
   return (
     <div>
       <a

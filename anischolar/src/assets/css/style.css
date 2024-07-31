@@ -81,7 +81,7 @@ h6 {
 #header {
   z-index: 997;
   transition: all 0.5s;
-  padding: 10px 0;
+  padding: 20px 0;
   background: #fff;
 }
 
@@ -1409,10 +1409,11 @@ section {
 
 .contact {
   background-image: url(../img/contact-bg.png);
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(248, 246, 246, 0.041);
   background-position: left center;
   background-repeat: no-repeat;
   position: relative;
+  color: black;
 }
 
 .contact .contact-about h3 {

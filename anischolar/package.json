@@ -16,6 +16,7 @@
     "@emailjs/browser": "^4.4.1",
     "@firebase/firestore": "^4.6.4",
     "@remixicon/react": "^4.2.0",
+    "@srexi/purecounterjs": "^1.2.0",
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
@@ -23,6 +24,7 @@
     "dotenv": "^16.4.5",
     "emailjs-com": "^3.2.0",
     "firebase": "^10.12.4",
+    "isotope-layout": "^3.0.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@types/aos": "^3.0.7",
+    "@types/isotope-layout": "^3.0.13",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",

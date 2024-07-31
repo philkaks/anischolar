@@ -11,7 +11,7 @@ import Services from "../components/services";
 import Team from "../components/team";
 import Testimonials from "../components/testimonials";
 import '../App.css';
-import '../App.tsx'
+import '../App.js'
 import "aos/dist/aos.css";
 
 
