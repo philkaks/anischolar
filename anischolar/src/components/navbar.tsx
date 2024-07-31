@@ -3,6 +3,7 @@ import logo from "../assets/img/logo1.png"
 import { useEffect } from "react";
 
 const navbar = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const scrollto = (el: string) => {
     const header = document.querySelector("#header") as HTMLElement | null;
     if (!header) return;
@@ -40,6 +41,33 @@ const navbar = () => {
        window.removeEventListener("scroll", handleScroll);
      };
    }, []);
+
+   const navbarlinksActive = () => {
+    const navbarLinks = document.querySelectorAll('#navbar .scrollto') as NodeListOf<HTMLElement>;
+  
+    navbarLinks.forEach((navbarLink) => {
+      const sectionId = navbarLink.getAttribute('href'); 
+  
+      if (sectionId) {
+        const section = document.querySelector(sectionId) as HTMLElement | null;
+        if (section) {
+          const position = window.scrollY + 200;
+  
+          if (position >= section.offsetTop && position <= section.offsetTop + section.offsetHeight) {
+            navbarLink.classList.add('active');
+  
+          } else {
+            navbarLink.classList.remove('active');
+          }
+        }
+      }
+    });
+  };
+  
+  window.addEventListener('load', navbarlinksActive);
+  window.addEventListener('scroll', navbarlinksActive);
+
+
   return (
     <div>
       <header id="header" className="fixed-top d-flex align-items-center">
@@ -53,8 +81,10 @@ const navbar = () => {
           <nav id="navbar" className="navbar">
             <ul>
               <li>
-                <Link to="/">Home</Link>
-              </li>
+              <a className="nav-link scrollto" href="#hero">
+                  Home
+                </a> 
+               </li>
               <li>
                 <a className="nav-link scrollto" href="#about">
                   About
@@ -76,7 +106,7 @@ const navbar = () => {
                 </a>
               </li>
               <li>
-                <Link to="/blogs">Blog</Link>
+                <Link className="text-decoration-none" to="/blogs">Blog</Link>
               </li>
               <li>
                 <a className="nav-link scrollto" href="#contact">
