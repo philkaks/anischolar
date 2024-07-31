@@ -1,7 +1,45 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo1.png"
+import { useEffect } from "react";
 
 const navbar = () => {
+  const scrollto = (el: string) => {
+    const header = document.querySelector("#header") as HTMLElement | null;
+    if (!header) return;
+
+    let offset = header.offsetHeight;
+
+    if (!header.classList.contains("header-scrolled")) {
+      offset -= 20;
+    }
+
+    const element = document.querySelector(el) as HTMLElement | null;
+    if (!element) return;
+
+    const elementPos = element.offsetTop;
+    window.scrollTo({
+      top: elementPos - offset,
+      behavior: "smooth",
+    });
+  };
+   const handleScroll = () => {
+     const header = document.querySelector("#header") as HTMLElement | null;
+     if (!header) return;
+
+     if (window.scrollY > 100) {
+       header.classList.add("header-scrolled");
+     } else {
+       header.classList.remove("header-scrolled");
+     }
+   };
+
+   useEffect(() => {
+     window.addEventListener("scroll", handleScroll);
+
+     return () => {
+       window.removeEventListener("scroll", handleScroll);
+     };
+   }, []);
   return (
     <div>
       <header id="header" className="fixed-top d-flex align-items-center">

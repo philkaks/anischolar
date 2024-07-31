@@ -13,9 +13,45 @@ import image8 from "../assets/img/portfolio/8.jpeg";
 import image9 from "../assets/img/portfolio/9.jpeg";
 import GalleryCard from "./galleryCard";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+// import Isotope from 'isotope-layout';
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
+// import { useEffect } from "react";
 
 
 const gallery = () => {
+//  const useIsotope = () => {
+//   useEffect(() => {
+//     const portfolioContainer = document.querySelector('.portfolio-container') as HTMLElement;
+//     if (portfolioContainer) {
+//       const portfolioIsotope = new Isotope(portfolioContainer, {
+//         itemSelector: '.portfolio-item',
+//         layoutMode: 'fitRows' 
+
+//       });
+
+//       const portfolioFilters = document.querySelectorAll('#portfolio-flters li');
+//       portfolioFilters.forEach(filter => {
+//         filter.addEventListener('click', (e) => {
+//           e.preventDefault();
+//           portfolioFilters.forEach(el => el.classList.remove('filter-active'));
+//           filter.classList.add('filter-active');
+
+
+//           portfolioIsotope.arrange({
+//             filter: filter.getAttribute('data-filter')
+//  || '*', 
+//           });
+//           portfolioIsotope.on("arrangeComplete", () => {
+//             AOS.refresh(); 
+//           });
+//         });
+//       });
+//     }
+//   }, []);
+// };
+  
+//   useIsotope();
   return (
     <div>
       <section id="portfolio">
