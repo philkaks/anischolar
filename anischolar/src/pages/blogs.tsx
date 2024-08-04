@@ -5,26 +5,25 @@ import { Link } from "react-router-dom";
 import { db } from "../Config/firebase.config";
 import logo from "../assets/img/logo1.png";
 
-
 const blogs = () => {
-  interface MyData{
+  interface MyData {
     id: string;
     title: string;
     author: string;
     authorTitle: string;
     image: string;
     description: string;
-    date: Date
+    date: Date;
   }
-  const [blogList, setBlogList] = useState<MyData[]>([]);
 
+  const [blogList, setBlogList] = useState<MyData[]>([]);
   const blogsCollection = collection(db, "blogs");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getBlogs = async () => {
       try {
         const data = await getDocs(blogsCollection);
-        
         const filteredData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
@@ -32,9 +31,10 @@ const blogs = () => {
         setBlogList(filteredData);
       } catch (err) {
         console.log("my error", err);
+      } finally {
+        setLoading(false);
       }
-    }
-
+    };
 
     getBlogs();
   }, []);
@@ -75,10 +75,18 @@ const blogs = () => {
         </section>
 
         <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <section id="blog" className="blog rounded">
-                {blogList.map((blog) => (
+          {loading ? (
+            <div id="loadingSpinner" className="text-center">
+              <div className="spinner">
+                <div className="dot1"></div>
+                <div className="dot2"></div>
+              </div>
+              <p>Loading articles, please wait...</p>
+            </div>
+          ) : (
+            <div className="row">
+              {blogList.map((blog) => (
+                <section id="blog" className="blog col-md-6 rounded">
                   <article className="entry" key={blog.id} data-aos="fade-up">
                     <div className="entry-img">
                       <img src={blog.image} className="img-fluid" />
@@ -113,10 +121,10 @@ const blogs = () => {
                       </div>
                     </div>
                   </article>
-                ))}
-              </section>
+                </section>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </main>
       <a

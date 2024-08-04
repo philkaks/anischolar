@@ -1682,10 +1682,14 @@ section {
   padding: 40px 0 20px 0;
 }
 
+article{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 .blog .entry {
   padding: 30px;
   margin-bottom: 60px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .blog .entry .entry-img {
@@ -1695,6 +1699,7 @@ section {
 }
 
 .blog .entry .entry-title {
+  text-decoration: none;
   font-size: 28px;
   font-weight: bold;
   padding: 0;
@@ -1702,11 +1707,13 @@ section {
 }
 
 .blog .entry .entry-title a {
+    text-decoration: none;
   color: #111111;
   transition: 0.3s;
 }
 
 .blog .entry .entry-title a:hover {
+    text-decoration: none;
   color: #27ae60;
 }
 
@@ -1732,6 +1739,7 @@ section {
   font-size: 16px;
   margin-right: 8px;
   line-height: 0;
+    text-decoration: none;
 }
 
 .blog .entry .entry-meta a {
@@ -1739,15 +1747,18 @@ section {
   font-size: 14px;
   display: inline-block;
   line-height: 1;
+    text-decoration: none;
 }
 
 .blog .entry .entry-content p {
   line-height: 24px;
+    text-decoration: none;
 }
 
 .blog .entry .entry-content .read-more {
   -moz-text-align-last: right;
   text-align-last: right;
+    text-decoration: none;
 }
 
 .blog .entry .entry-content .read-more a {
@@ -1758,6 +1769,7 @@ section {
   transition: 0.3s;
   font-size: 14px;
   border-radius: 4px;
+    text-decoration: none;
 }
 
 .blog .entry .entry-content .read-more a:hover {
@@ -1768,6 +1780,7 @@ section {
   font-size: 22px;
   margin-top: 30px;
   font-weight: bold;
+    text-decoration: none;
 }
 
 .blog .entry .entry-content blockquote {
