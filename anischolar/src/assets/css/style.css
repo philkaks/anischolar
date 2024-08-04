@@ -9,6 +9,21 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
+:root {
+    --background-color: #ffffff;
+    --default-color: #444444;
+    --heading-color: #222222;
+    --accent-color: #3498db;
+    --surface-color: #ffffff;
+    --contrast-color: #ffffff;
+}
+:root {
+    --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --heading-font: "Raleway", sans-serif;
+    --nav-font: "Poppins", sans-serif;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -81,13 +96,13 @@ h6 {
 #header {
   z-index: 997;
   transition: all 0.5s;
-  padding: 20px 0;
+  padding: 15px 0;
   background: #fff;
 }
 
 #header.header-scrolled {
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 #header .logo h1 {
@@ -364,9 +379,10 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+
+
 #hero {
   width: 100%;
-  height: 90vh;
   margin-top: 70px;
 }
 
@@ -1409,11 +1425,19 @@ section {
 
 .contact {
   background-image: url(../img/contact-bg.png);
-  background-color: rgba(248, 246, 246, 0.041);
   background-position: left center;
   background-repeat: no-repeat;
   position: relative;
-  color: black;
+}
+
+.contact:before {
+    content: "";
+    background: color-mix(in srgb, var(--background-color), transparent 30%);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .contact .contact-about h3 {
@@ -1423,14 +1447,15 @@ section {
   line-height: 1;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #222222;
+  color: black;
 }
 
 .contact .contact-about p {
   font-size: 14px;
   line-height: 24px;
   font-family: "Raleway", sans-serif;
-  color: #888;
+  color: black;
+  font-weight: 500;
 }
 
 .contact .social-links {
@@ -1545,6 +1570,8 @@ section {
 .contact .php-email-form button[type="submit"]:hover {
   background: #2383c4;
 }
+
+
 
 @keyframes animate-loading {
   0% {

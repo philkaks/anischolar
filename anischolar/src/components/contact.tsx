@@ -1,5 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
+import emailjs from "emailjs-com";
+import Swal from "sweetalert2";
+
 
 const contact = () => {
   const rows = 5;
@@ -8,44 +10,60 @@ const contact = () => {
     name: "",
     subject: "",
     email: "",
-   message: "",
+    message: "",
   });
 
    const [responseMessage, setResponseMessage] = useState("");
 
-   const handleChange = (e) => {
+   const handleChange = (
+     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+   ) => {
      setFormData({
        ...formData,
        [e.target.name]: e.target.value,
      });
    };
 
-   const handleSubmit = (e) => {
+   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
 
-     axios
-       .post(
-         "http://localhost/contact.php",
-         new URLSearchParams(formData).toString(),
-         {
-           headers: {
-             "Content-Type": "application/x-www-form-urlencoded",
-           },
-         }
+     emailjs
+       .send(
+         "service_9woakfw",
+         "template_msw9di6",
+         formData,
+         "N6kF27B0JBmJHfAVf"
        )
        .then((response) => {
-         setResponseMessage(response.data.message);
+         Swal.fire({
+           position: "top-end",
+           icon: "success",
+           title: "Message sent",
+           showConfirmButton: false,
+           timer: 1000,
+         });
+         setFormData({
+           name: "",
+           subject: "",
+           email: "",
+           message: "",
+         });
        })
        .catch((error) => {
          console.error("Error:", error);
-         setResponseMessage("An error occurred.");
+         Swal.fire({
+           position: "top-end",
+           icon: "error",
+           title: "Failed",
+           showConfirmButton: false,
+           timer: 1000,
+         });
        });
    };
 
   return (
     <div>
-      <section id="contact">
-        <section className="contact">
+      <section id="contact" className="contact section">
           <div className="container">
             <div className="section-title" data-aos="fade-up">
               <h2>Contact Us</h2>
@@ -118,7 +136,7 @@ const contact = () => {
                   onSubmit={handleSubmit}
                   method="post"
                   role="form"
-                  className="php-email-form"
+                  className=""
                 >
                   <div className="form-group">
                     <input
@@ -132,6 +150,7 @@ const contact = () => {
                       required
                     ></input>
                   </div>
+                  <br />
                   <div className="form-group">
                     <input
                       type="email"
@@ -144,6 +163,7 @@ const contact = () => {
                       required
                     ></input>
                   </div>
+                  <br />
                   <div className="form-group">
                     <input
                       type="text"
@@ -156,33 +176,32 @@ const contact = () => {
                       required
                     ></input>
                   </div>
+                  <br />
                   <div className="form-group">
                     <textarea
                       rows={rows}
                       className="form-control"
                       name="message"
+                      id="message"
                       placeholder="Message"
                       value={formData.message}
                       onChange={handleChange}
                       required
                     ></textarea>
                   </div>
-                  <div className="my-3">
-                    <div className="loading">Loading</div>
-                    <div className="error-message"></div>
-                    <div className="sent-message">
-                      Your message has been sent. Thank you!
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <button type="submit">Send Message</button>
+                  <div className="text-center mt-3">
+                    <button
+                      type="submit"
+                      className="fw-blod text-white btn bg-success"
+                    >
+                      Send Message
+                    </button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
         </section>
-      </section>
     </div>
   );
 };

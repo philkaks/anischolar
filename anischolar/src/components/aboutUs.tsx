@@ -1,15 +1,10 @@
 
 import image1 from "../assets/img/vet.png"
-// import PureCounter from '@srexi/purecounterjs/js/purecounter.js';
-
+import CountUp from "react-countup";
 
 const aboutUs = () => {
-  // const counter = new PureCounter(document.getElementById("purecounter"), {
-      
-  //   });
-  // counter();
 
-  return ( 
+  return (
     <div>
       <section id="about" className="mt-0 mb-0">
         <section className="about">
@@ -77,12 +72,7 @@ const aboutUs = () => {
                     <div className="col-md-6 d-md-flex align-items-md-stretch">
                       <div className="count-box">
                         <i className="bi bi-emoji-smile"></i>
-                        <span
-                          data-purecounter-start="0"
-                          data-purecounter-end="65"
-                          data-purecounter-duration="1"
-                          className="purecounter"
-                        ></span>
+                        <CountUp start={0} end={65}></CountUp>
                         <p>
                           <strong>Happy Students</strong> Delighting Beyond
                           Expectations: Our Success is Measured in Satisfied
@@ -94,12 +84,7 @@ const aboutUs = () => {
                     <div className="col-md-6 d-md-flex align-items-md-stretch">
                       <div className="count-box">
                         <i className="bi bi-journal-richtext"></i>
-                        <span
-                          data-purecounter-start="0"
-                          data-purecounter-end="85"
-                          data-purecounter-duration="1"
-                          className="purecounter"
-                        ></span>
+                        <CountUp start={0} end={85}></CountUp>
                         <p>
                           <strong>internships</strong> Unlocking Potential, One
                           Internship at a Time: Where Learning Meets Experience!
@@ -115,7 +100,8 @@ const aboutUs = () => {
                           data-purecounter-end="15"
                           data-purecounter-duration="1"
                           className="purecounter"
-                        ></span>
+                        ></span>{" "}
+                        <CountUp start={0} end={15}></CountUp>
                         <p>
                           <strong>Projects</strong> Join the Momentum, Fuel the
                           Innovation: Where Passion Meets Purpose in Every

@@ -3,7 +3,7 @@ import heroImage from "../assets/img/teaching.png";
 const hero = () => {
   return (
     <div>
-      <section id="hero" className="mt-0">
+      <section id="hero">
         <section className="d-flex align-items-center">
           <div className="container">
             <div className="row">
