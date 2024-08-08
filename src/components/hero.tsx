@@ -1,4 +1,6 @@
 import heroImage from "../assets/img/teaching.png";
+import React from "react";
+
 
 const hero = () => {
   return (

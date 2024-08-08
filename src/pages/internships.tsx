@@ -3,14 +3,24 @@ import logo from "../assets/img/logo1.png";
 import { collection, getDocs } from "@firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Config/firebase.config";
+import React from "react";
 
 const internships = () => {
   interface MyData {
+    id: string;
     title: string;
     supervisor: string;
     slots: number;
     farm: string;
   }
+
+  interface FirestoreData {
+    title: string;
+    supervisor: string;
+    slots: number;
+    farm: string;
+  }
+
   const [internshipList, setInternshipList] = useState<MyData[]>([]);
   const [loading, setLoading] = useState(true);
   const internshipCollection = collection(db, "internships");
@@ -21,14 +31,14 @@ const internships = () => {
         const data = await getDocs(internshipCollection);
 
         const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
+          ...(doc.data() as FirestoreData),
           id: doc.id,
         }));
         setInternshipList(filteredData);
       } catch (err) {
         console.log("my error", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
@@ -112,7 +122,8 @@ const internships = () => {
                   </div>
                 ))}
               </div>
-            </div>)}
+            </div>
+          )}
         </div>
       </main>
     </>

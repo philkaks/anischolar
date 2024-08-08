@@ -1,18 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
+import React from "react";
 
 const contact = () => {
-  const rows = 5;
-
   const [formData, setFormData] = useState({
     name: "",
     subject: "",
     email: "",
     message: "",
   });
-
-  const [responseMessage, setResponseMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -35,7 +33,7 @@ const contact = () => {
         formData,
         "N6kF27B0JBmJHfAVf"
       )
-      .then((response) => {
+      .then(() => {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -182,8 +180,7 @@ const contact = () => {
                 </div>
                 <br />
                 <div className="form-group">
-                  <textarea
-                    rows={rows}
+                  <input
                     className="form-control"
                     name="message"
                     id="message"
@@ -191,7 +188,7 @@ const contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                  ></textarea>
+                  ></input>
                 </div>
                 <div className="text-center mt-3">
                   <button

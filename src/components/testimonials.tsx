@@ -7,6 +7,8 @@ import image3 from '../assets/img/testimonials/3.jpeg'
 import image4 from '../assets/img/testimonials/4.jpeg'
 import image5 from '../assets/img/testimonials/5.jpeg'
 import TestimonialCard from "./testimonialCard";
+import React from "react";
+
 
 const testimonials = () => {
   return (

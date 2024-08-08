@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { collection, getDocs } from "@firebase/firestore";
+import { collection, getDocs, Timestamp } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../Config/firebase.config";
 import logo from "../assets/img/logo1.png";
+import React from "react";
+
 
 const blogs = () => {
   interface MyData {
@@ -24,10 +26,25 @@ const blogs = () => {
     const getBlogs = async () => {
       try {
         const data = await getDocs(blogsCollection);
-        const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
+  
+        // Map Firestore data to MyData
+        const filteredData: MyData[] = data.docs.map((doc) => {
+          const docData = doc.data();
+          
+          // Convert Firestore Timestamp to Date
+          const date = docData.date instanceof Timestamp ? docData.date.toDate() : new Date(docData.date);
+  
+          return {
+            id: doc.id,
+            title: docData.title || '',
+            author: docData.author || '',
+            authorTitle: docData.authorTitle || '',
+            image: docData.image || '',
+            description: docData.description || '',
+            date,
+          };
+        });
+  
         setBlogList(filteredData);
       } catch (err) {
         console.log("my error", err);

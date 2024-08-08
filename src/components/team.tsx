@@ -1,6 +1,8 @@
 import image1 from '../assets/img/team/1.jpeg'
 import image2 from '../assets/img/team/2.jpeg'
 import image3 from '../assets/img/team/3.jpeg'
+import React from "react";
+
 
 
 const team = () => {

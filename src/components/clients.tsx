@@ -5,6 +5,7 @@ import image4 from "../assets/img/clients/brinas.jpeg"
 import image5 from "../assets/img/clients/naliri.png"
 import image6 from "../assets/img/clients/mpigiLG.png"
 import image7 from "../assets/img/clients/nagrc.png"
+import React from "react"
 
 
 const clients = () => {

@@ -1,6 +1,7 @@
 import React from "react";
 
 interface teamCardProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   name: string;
   desription: string;

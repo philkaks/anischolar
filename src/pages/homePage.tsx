@@ -13,6 +13,8 @@ import Testimonials from "../components/testimonials";
 import '../App.css';
 import '../App.js'
 import "aos/dist/aos.css";
+import React from "react";
+
 
 
 const homePage = () => {

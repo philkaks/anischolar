@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo1.png"
 import { useEffect } from "react";
+import React from "react";
+
 
 const navbar = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,6 +25,7 @@ const navbar = () => {
       behavior: "smooth",
     });
   };
+
    const handleScroll = () => {
      const header = document.querySelector("#header") as HTMLElement | null;
      if (!header) return;
