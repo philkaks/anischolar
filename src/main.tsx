@@ -7,6 +7,7 @@ import Internships from './pages/internships'
 import ApplicationForm from './pages/applicationForm'
 import Farm from './pages/farm'
 import './App'
+import SingleBlog from './pages/singleBlog'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/applicationForm',
     element: <ApplicationForm />
+  },
+  {
+    path: '/blogDetail/:id',
+    element: <SingleBlog />
   }
 ])
 

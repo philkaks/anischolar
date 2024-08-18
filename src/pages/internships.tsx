@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo1.png";
 import { collection, getDocs } from "@firebase/firestore";
-import { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { db } from "../Config/firebase.config";
 import React from "react";
 

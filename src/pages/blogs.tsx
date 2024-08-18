@@ -109,9 +109,7 @@ const blogs = () => {
                       <img src={blog.image} className="img-fluid" />
                     </div>
                     <h2 className="entry-title">
-                      <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}">
-                        {blog.title}
-                      </a>
+                      <Link to={`/blogDetail/${blog.id}`}>{blog.title}</Link>
                     </h2>
                     <div className="entry-meta">
                       <ul>
@@ -132,9 +130,7 @@ const blogs = () => {
                     <div className="entry-content">
                       <p>{blog.description}</p>
                       <div className="read-more">
-                        <a href="blog-single.html?title=${encodeURIComponent(blog.title)}&author=${encodeURIComponent(blog.author)}&date=${encodeURIComponent(blog.date)}&content=${encodeURIComponent(blog.body)}&teaser=${encodeURIComponent(blog.teaser)}&image=${encodeURIComponent(blog.image)}&quote=${encodeURIComponent(blog.blockquote)}&paragraph2=${encodeURIComponent(blog.paragraph2)}&subtitle=${encodeURIComponent(blog.subtitle)}">
-                          Read More
-                        </a>
+                        <Link to={`/blog/${blog.id}`}>Read More</Link>
                       </div>
                     </div>
                   </article>
