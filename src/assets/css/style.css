@@ -1684,6 +1684,7 @@ section {
 
 article{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    
 }
 
 .blog .entry {
@@ -1693,9 +1694,10 @@ article{
 }
 
 .blog .entry .entry-img {
-  max-height: 440px;
-  margin: -30px -30px 20px -30px;
-  overflow: hidden;
+      max-height: 400px;
+    margin: -30px -30px 20px -30px;
+    overflow: hidden;
+    height: 400px;
 }
 
 .blog .entry .entry-title {
@@ -1704,6 +1706,9 @@ article{
   font-weight: bold;
   padding: 0;
   margin: 0 0 20px 0;
+  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
 }
 
 .blog .entry .entry-title a {
@@ -1754,14 +1759,21 @@ article{
   line-height: 24px;
     text-decoration: none;
 }
+.blog .entry .entry-content {
+    height: 150px;
+    overflow-y: hidden;
+}
 
-.blog .entry .entry-content .read-more {
+
+
+.blog .entry  .read-more {
   -moz-text-align-last: right;
+  margin-top: 10px;
   text-align-last: right;
     text-decoration: none;
 }
 
-.blog .entry .entry-content .read-more a {
+.blog .entry  .read-more a {
   display: inline-block;
   background: #27ae60;
   color: #fff;
@@ -1772,7 +1784,7 @@ article{
     text-decoration: none;
 }
 
-.blog .entry .entry-content .read-more a:hover {
+.blog .entry  .read-more a:hover {
   background: #5faee3;
 }
 
@@ -1783,7 +1795,7 @@ article{
     text-decoration: none;
 }
 
-.blog .entry .entry-content blockquote {
+.blog .entry blockquote {
   overflow: hidden;
   background-color: #fafafa;
   padding: 60px;
@@ -1792,7 +1804,7 @@ article{
   margin: 20px 0;
 }
 
-.blog .entry .entry-content blockquote p {
+.blog .entry blockquote p {
   color: #444444;
   line-height: 1.6;
   margin-bottom: 0;
@@ -1801,7 +1813,7 @@ article{
   font-size: 22px;
 }
 
-.blog .entry .entry-content blockquote::after {
+.blog .entry blockquote::after {
   content: "";
   position: absolute;
   left: 0;
@@ -2458,4 +2470,9 @@ body {
 
 .swiper-3d .swiper-slide-active {
   filter: blur(0px);
+}
+
+.internship img{
+  height: -webkit-fill-available;
+  
 }

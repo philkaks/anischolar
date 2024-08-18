@@ -90,7 +90,7 @@ const SingleBlog = () => {
                         className="img-fluid"
                       />
                     </div>
-                    <div className="entry-content">
+                    <div className="">
                       <h2 className="entry-title" id="blogTitle">
                         {blog.title}
                       </h2>
@@ -104,11 +104,9 @@ const SingleBlog = () => {
                         <p id="quote">{blog.fun_fact}</p>
                       </blockquote>
                       <h3>Et quae iure vel ut odit alias.</h3>
-                      <div id="blogContent">
-                        
-                      </div>
+                      <div id="blogContent"></div>
                       <h3 id="subtitle"></h3>
-                      <p id="paragraph2"></p>
+                      <p id="paragraph2">{blog.description}</p>
                     </div>
                   </article>
                 </div>

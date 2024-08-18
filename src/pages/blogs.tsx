@@ -129,9 +129,9 @@ const blogs = () => {
                     </div>
                     <div className="entry-content">
                       <p>{blog.description}</p>
-                      <div className="read-more">
-                        <Link to={`/blog/${blog.id}`}>Read More</Link>
-                      </div>
+                    </div>
+                    <div className="read-more">
+                      <Link to={`/blogDetail/${blog.id}`}>Read More</Link>
                     </div>
                   </article>
                 </section>
