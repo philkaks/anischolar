@@ -34,7 +34,7 @@ const internships = () => {
   const [internshipList, setInternshipList] = useState<MyData[]>([]);
   const [loading, setLoading] = useState(true);
   const internshipCollection = collection(db, "internships");
-  const [farmData, setFarmData] = useState<Record<string, Farm>>({}); // State to store farm data
+  const [farmData, setFarmData] = useState<Record<string, Farm>>({});
 
   useEffect(() => {
     const getInternships = async () => {
@@ -45,7 +45,6 @@ const internships = () => {
           id: doc.id,
         }));
 
-        // Fetch farm data for each internship
         const farms = {};
         for (const internship of filteredData) {
           const farmDoc = await getDoc(internship.farm);
@@ -70,7 +69,7 @@ const internships = () => {
     const postDate = timestamp.toDate();
     const seconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
 
-    console.log(`Seconds: ${seconds}`); // Debugging
+    console.log(`Seconds: ${seconds}`); 
 
     let interval = Math.floor(seconds / 31536000);
     if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;

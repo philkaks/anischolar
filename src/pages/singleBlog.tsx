@@ -21,6 +21,7 @@ interface Blog {
 const SingleBlog = () => {
   const { id } = useParams<{ id: string }>();
   const [blog, setBlog] = useState<Blog | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
