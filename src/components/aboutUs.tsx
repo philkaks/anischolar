@@ -70,7 +70,7 @@ const aboutUs = () => {
                     <div className="col-md-12 d-md-flex align-items-md-stretch">
                       <div className="count-box">
                         <p>
-                          <h3>Our Vission</h3>
+                          <h3>Our Vision</h3>
                           To lead in career readiness and connectivity of students to opportunities through tailored internships.
                         </p>
                       </div>
