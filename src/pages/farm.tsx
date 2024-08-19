@@ -1,32 +1,59 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import logo from "../assets/img/logo1.png";
 import { doc, getDoc } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
+import internships from "./internships";
 
+interface Farm {
+  id: string;
+  image: string;
+  name: string;
+  description: string;
+  email: string;
+  contact: number;
+  location: string;
+}
 const farm = () => {
+  
+  const { id } = useParams<{ id: string }>(); // Get the farm ID from the URL
+  const [farm, setFarm] = useState<Farm | null>(null);
+  const [loading, setLoading] = useState(true);
 
-   const [farmData, setFarmData] = useState(null);
+  useEffect(() => {
+    const fetchFarm = async () => {
+      try {
+        if (id) {
+          const farmRef = doc(db, "farms", id);
+          const farmSnap = await getDoc(farmRef);
 
-   useEffect(() => {
-     const docRef = doc(db, "farms", "farmId"); // Replace with your document ID
-     getDoc(docRef)
-       .then((doc) => {
-         if (doc.exists()) {
-           setFarmData(doc.data());
-         } else {
-           // Handle no document found
-           console.log("No such document!");
-         }
-       })
-       .catch((error) => {
-         console.error("Error getting document:", error);
-       });
-   }, []);
+          if (farmSnap.exists()) {
+            const farmData = farmSnap.data() as Omit<Farm, "id">;
+            setFarm({ id: farmSnap.id, ...farmData });
+          } else {
+            console.log("No such document!");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching farm:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchFarm();
+  }, [id]);
+
+  const handleClick = () => {
+    if (farm) {
+      const mailtoLink = `mailto:${farm.email}?subject=Interested in your farm&body=Hello, I am interested in learning more about your farm.`;
+      window.location.href = mailtoLink;
+    }
+  };
 
   return (
-    <div className="">
+    <div>
       <header id="header" className="fixed-top d-flex align-items-center">
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
@@ -53,70 +80,74 @@ const farm = () => {
 
       <div className=" page-title dark-background" data-aos="fade">
         <div className="container position-relative">
-          <h1>About</h1>
+          <h1 className="mt-4">About</h1>
           <p>
-            Esse dolorum voluptatum ullam est sint nemo et est ipsa porro
-            placeat quibusdam quia assumenda numquam molestias.
+            Get to know more about your potential employer
           </p>
-          <nav className=".breadcrumbs-2">
+          <nav className="breadcrumbs-2">
             <ol>
               <li>
-                <a href="index.html">Home</a>
+                <a>
+                  <Link to="/internships">Internships</Link>
+                </a>
               </li>
-              <li className="current">About</li>
+              <i className="bi bi-chevron-right"></i>
+              <li className="current">About Farm</li>
             </ol>
           </nav>
         </div>
       </div>
-
-      <section id="about-3" className="about-3 section">
-        <div className="container">
-          <div className="row gy-4 justify-content-between align-items-center">
-            <div
-              className="col-lg-6 order-lg-2 position-relative"
-              data-aos="zoom-out"
-            >
-              <img
-                src={farmData.image}
-                alt="Image"
-                className="img-fluid"
-              />
-              <a
-                href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
-                className="glightbox pulsating-play-btn"
+      {loading ? (
+        <div id="loadingSpinner" className="text-center">
+          <div className="spinner">
+            <div className="dot1"></div>
+            <div className="dot2"></div>
+          </div>
+          <p>Loading farm details, please wait...</p>
+        </div>
+      ) : (
+        <section id="about-3" className="about-3 section">
+          <div className="container">
+            <div className="row gy-4 justify-content-between align-items-center">
+              <div
+                className="col-lg-6 order-lg-2 position-relative"
+                data-aos="zoom-out"
               >
-                <span className="play">
-                  <i className="bi bi-play-fill"></i>
-                </span>
-              </a>
-            </div>
-            <div
-              className="col-lg-5 order-lg-1"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            >
-              <h2 className="content-title mb-4">Plants Make Life Better</h2>
-              <p className="mb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-                necessitatibus placeat, atque qui voluptatem velit explicabo
-                vitae repellendus architecto provident nisi ullam minus
-                asperiores commodi! Tenetur, repellat aliquam nihil illo.
-              </p>
-              <ul className="list-unstyled list-check">
-                <li>Lorem ipsum dolor sit amet</li>
-                <li>Velit explicabo vitae repellendu</li>
-                <li>Repellat aliquam nihil illo</li>
-              </ul>
-
-              <p>
-                <a href="#" className="btn-cta">
-                  Get in touch
+                <img src={farm?.image} alt="Image" className="img-fluid" />
+                <a
+                  href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
+                  className="glightbox pulsating-play-btn"
+                >
+                  <span className="play">
+                    <i className="bi bi-play-fill"></i>
+                  </span>
                 </a>
-              </p>
+              </div>
+              <div
+                className="col-lg-5 order-lg-1"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <h2 className="content-title mb-4">{farm?.name}</h2>
+                <p className="mb-4">
+                  {farm?.description}
+                </p>
+                <ul className="list-unstyled">
+                  <li className="d-flex gap-4"><i className="bi bi-envelope"></i> {farm?.email}</li>
+                  <li className="d-flex gap-4"><i className="bi bi-phone"></i> {farm?.contact}</li>
+                  <li className="d-flex gap-4"><i className="bi bi-geo-alt-fill"></i> {farm?.location}</li>
+                </ul>
+
+                <p>
+                  <button className="btn-cta" onClick={handleClick}>
+                    Get in touch
+                  </button>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };
