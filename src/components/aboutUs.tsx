@@ -1,10 +1,8 @@
-
 import React from "react";
-import image1 from "../assets/img/vet.png"
-import CountUp from "react-countup";
+import image1 from "../assets/img/vet.png";
+// import CountUp from "react-countup";
 
 const aboutUs = () => {
-
   return (
     <div>
       <section id="about" className="mt-0 mb-0">
@@ -38,16 +36,15 @@ const aboutUs = () => {
                 data-aos-delay="300"
               >
                 <p>
-                  AniScholar is a digital platform that connects agricultural
-                  students (crop & animal studies) with internships that ignite
-                  their passions, challenge their minds, and shape their
-                  professional identities. We go beyond just placements,
-                  matching students with interests, opportunities that foster
-                  real-world impact, collaboration, and meaningful mentorship.
+                  AniScholar is a career readiness platform dedicated to
+                  bridging the gap between students and the workforce. We offer
+                  career readiness, guidance, tailored internships and a range
+                  of programs designed to equip students with the skills and
+                  experience they need to succeed. Through webinars, workshops,
+                  fairs and industry connections, we empower students to
+                  transition seamlessly from education to employment, ensuring
+                  they are well-prepared to thrive in their chosen careers.
                 </p>
-                <a href="#" className="btn-learn-more">
-                  Learn More
-                </a>
               </div>
             </div>
           </div>
@@ -68,45 +65,24 @@ const aboutUs = () => {
                 data-aos="fade-left"
                 data-aos-delay="300"
               >
-                <div className="content d-flex flex-column justify-content-center">
+                <div className="content">
                   <div className="row">
-                    <div className="col-md-6 d-md-flex align-items-md-stretch">
+                    <div className="col-md-12 d-md-flex align-items-md-stretch">
                       <div className="count-box">
-                        <i className="bi bi-emoji-smile"></i>
-                        <CountUp start={0} end={65}></CountUp>
                         <p>
-                          <strong>Happy Students</strong> Delighting Beyond
-                          Expectations: Our Success is Measured in Satisfied
-                          Smiles!
+                          <h3>Our Vission</h3>
+                          To lead in career readiness and connectivity of students to opportunities through tailored internships.
                         </p>
                       </div>
                     </div>
 
-                    <div className="col-md-6 d-md-flex align-items-md-stretch">
+                    <div className="col-md-12 d-md-flex align-items-md-stretch">
                       <div className="count-box">
-                        <i className="bi bi-journal-richtext"></i>
-                        <CountUp start={0} end={85}></CountUp>
+                        {/* <i className="bi bi-journal-richtext"></i> */}
+                        {/* <CountUp start={0} end={85}></CountUp> */}
                         <p>
-                          <strong>internships</strong> Unlocking Potential, One
-                          Internship at a Time: Where Learning Meets Experience!
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="col-md-6 d-md-flex align-items-md-stretch">
-                      <div className="count-box">
-                        <i className="bi bi-award"></i>
-                        <span
-                          data-purecounter-start="0"
-                          data-purecounter-end="15"
-                          data-purecounter-duration="1"
-                          className="purecounter"
-                        ></span>{" "}
-                        <CountUp start={0} end={15}></CountUp>
-                        <p>
-                          <strong>Projects</strong> Join the Momentum, Fuel the
-                          Innovation: Where Passion Meets Purpose in Every
-                          Project!
+                          <h3>Mission</h3> 
+                          To foster student-employer synergy through crafted internships that advance career readiness, enhance skill development, and showcase student potential in the workplace.
                         </p>
                       </div>
                     </div>
@@ -119,6 +95,6 @@ const aboutUs = () => {
       </section>
     </div>
   );
-}
+};
 
-export default aboutUs
+export default aboutUs;
