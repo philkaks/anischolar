@@ -62,20 +62,9 @@ const gallery = () => {
               <h2>Gallery</h2>
               <p>visual narrative of the enriching experiences we create.</p>
             </div>
-            <div className="row " data-aos="fade-up" data-aos-delay="200">
-              <div className="col-lg-12 justify-content-center">
-                <ul id="portfolio-flters">
-                  <li data-filter="*" className="filter-active">
-                    All
-                  </li>
-                  <li data-filter=".filter-app">Internships</li>
-                  <li data-filter=".filter-card">Projects</li>
-                  <li data-filter=".filter-web">Events</li>
-                </ul>
-              </div>
-            </div>
+
             <div
-              className="row portfolio-container"
+              className="row portfolio-container mt-2"
               data-aos="fade-up"
               data-aos-delay="400"
             >
