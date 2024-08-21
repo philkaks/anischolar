@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo1.png";
-import { collection, DocumentReference, getDoc, getDocs } from "@firebase/firestore";
+import {
+  collection,
+  DocumentReference,
+  getDoc,
+  getDocs,
+} from "@firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Config/firebase.config";
 import React from "react";
@@ -69,7 +74,7 @@ const internships = () => {
     const postDate = timestamp.toDate();
     const seconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
 
-    console.log(`Seconds: ${seconds}`); 
+    console.log(`Seconds: ${seconds}`);
 
     let interval = Math.floor(seconds / 31536000);
     if (interval >= 1) return `${interval} year${interval > 1 ? "s" : ""} ago`;
@@ -89,7 +94,7 @@ const internships = () => {
 
     return `${Math.floor(seconds)} second${seconds > 1 ? "s" : ""} ago`;
   };
-  
+
   return (
     <>
       <header id="header" className="fixed-top d-flex align-items-center">
@@ -136,59 +141,70 @@ const internships = () => {
           ) : (
             internshipList.map((internship) => (
               <>
-                <div className="row mt-5 mb-5">
-                  <div className="col-md-6 internship">
-                    <div className="card mb-3 shadow card-borderless">
-                      <div className="row g-0">
-                        <div className="col-md-5">
-                          <img
-                            src={internship.image}
-                            className="img-fluid rounded-start"
-                            alt="..."
-                          />
-                        </div>
-                        <div className="col-md-7">
-                          <div className="card-body">
-                            <div className="d-flex mb-4 align-items-center">
-                              <div>
-                                <h5 className="card-title mb-1">
-                                  {internship.title}
-                                </h5>
-                                <p className="text-muted mb-0">
-                                  <strong>Supervisor: </strong>
-                                  {internship.supervisor}
-                                </p>
+                <div className="d-flex flex-column justify-content-center">
+                  <div className="row mb-5" style={{ marginTop: "70px" }}>
+                    <div className="col-md-12 internship">
+                      <div className="card shadow card-borderless">
+                        <div className="row g-0">
+                          <div className="col-md-6">
+                            <img
+                              src={internship.image}
+                              className="img-fluid rounded-start"
+                              alt="..."
+                            />
+                          </div>
+                          <div className="col-md-5">
+                            <div className="card-body">
+                              <div className="d-flex mb-4 align-items-center">
+                                <div>
+                                  <h5
+                                    className="card-title mt-3 mb-3 fs-7"
+                                    style={{ fontSize: "30px" }}
+                                  >
+                                    {internship.title}
+                                  </h5>
+                                  <p
+                                    className="text-muted"
+                                    style={{ fontSize: "20px" }}
+                                  >
+                                    <strong>Supervisor: </strong>
+                                    {internship.supervisor}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <p className="card-text mb-1">
-                              <strong>Farm: </strong>
-                              <Link
-                                className="text-decoration-none"
-                                to={`/farm/${internship.farm.id}`}
+                              <p
+                                className="card-text mb-3"
+                                style={{ fontSize: "18px" }}
                               >
-                                {farmData[internship.farm.id]?.name ||
-                                  "Loading..."}
-                              </Link>
-                            </p>
-                            <h6 className="mb-3">
-                              Available Slots:
-                              <span className="badge bg-primary-subtle text-primary  badge-border">
-                                {internship.slots}
-                              </span>
-                            </h6>
-
-                            <div className="d-flex justify-content-between align-items-center">
-                              <p className="card-text">
-                                <small className="text-body-secondary">
-                                  Posted {getDuration(internship.createdAt)}
-                                </small>
+                                <strong>Farm: </strong>
+                                <Link
+                                  className="text-decoration-none"
+                                  to={`/farm/${internship.farm.id}`}
+                                >
+                                  {farmData[internship.farm.id]?.name ||
+                                    "Loading..."}
+                                </Link>
                               </p>
-                              <Link
-                                to="/applicationForm"
-                                className="btn bg-success text-white"
-                              >
-                                Apply Now
-                              </Link>
+                              <h6 className="mb-4" style={{ fontSize: "20px" }}>
+                                Available Slots:
+                                <span className="badge bg-primary-subtle text-primary  badge-border">
+                                  {internship.slots}
+                                </span>
+                              </h6>
+
+                              <div className="d-flex gap-5 justify-content-end align-items-center">
+                                <p className="card-tex mb-0">
+                                  <small className="text-body-secondary">
+                                    Posted {getDuration(internship.createdAt)}
+                                  </small>
+                                </p>
+                                <Link
+                                  to="/applicationForm"
+                                  className="btn bg-success text-white"
+                                >
+                                  Apply Now
+                                </Link>
+                              </div>
                             </div>
                           </div>
                         </div>

@@ -19,7 +19,7 @@ const team = () => {
               </p>
             </div>
             <div className="row">
-              <div className="col-lg-4 col-md-6">
+              <div className="col-md-4">
                 <div className="member" data-aos="fade-up" data-aos-delay="100">
                   <div className="member-img">
                     <img src={image1} className="img-fluid" alt=""></img>
@@ -42,7 +42,7 @@ const team = () => {
                 </div>
               </div>
 
-              <div className="col-lg-4 col-md-6">
+              <div className="col-md-4">
                 <div className="member" data-aos="fade-up" data-aos-delay="200">
                   <div className="member-img">
                     <img src={image2} className="img-fluid" alt=""></img>
@@ -62,7 +62,7 @@ const team = () => {
                 </div>
               </div>
 
-              <div className="col-lg-4 col-md-6 ">
+              <div className="col-md-4 ">
                 <div className="member" data-aos="fade-up" data-aos-delay="300">
                   <div className="member-img">
                     <img src={image3} className="img-fluid" alt=""></img>

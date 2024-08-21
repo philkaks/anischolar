@@ -57,7 +57,7 @@ const farm = () => {
       <header id="header" className="fixed-top d-flex align-items-center">
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
-            <a href="index.html">
+            <a>
               <img src={logo} alt="" className="img-fluid"></img>
             </a>
             AniScholar
@@ -106,7 +106,7 @@ const farm = () => {
           <p>Loading farm details, please wait...</p>
         </div>
       ) : (
-        <section id="about-3" className="about-3 section">
+        <section id="about-3" className="mt-5 about-3 section">
           <div className="container">
             <div className="row gy-4 justify-content-between align-items-center">
               <div

@@ -1,4 +1,4 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import React from "react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -12,47 +12,47 @@ import image6 from "../assets/img/portfolio/6.jpeg";
 import image7 from "../assets/img/portfolio/7.jpeg";
 import image8 from "../assets/img/portfolio/8.jpeg";
 import image9 from "../assets/img/portfolio/9.jpeg";
+import image10 from "../assets/img/portfolio/10.jpeg";
+import image11 from "../assets/img/portfolio/11.jpeg";
 import GalleryCard from "./galleryCard";
-import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+// import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";
 // import Isotope from 'isotope-layout';
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
 // import { useEffect } from "react";
 
-
 const gallery = () => {
-//  const useIsotope = () => {
-//   useEffect(() => {
-//     const portfolioContainer = document.querySelector('.portfolio-container') as HTMLElement;
-//     if (portfolioContainer) {
-//       const portfolioIsotope = new Isotope(portfolioContainer, {
-//         itemSelector: '.portfolio-item',
-//         layoutMode: 'fitRows' 
+  //  const useIsotope = () => {
+  //   useEffect(() => {
+  //     const portfolioContainer = document.querySelector('.portfolio-container') as HTMLElement;
+  //     if (portfolioContainer) {
+  //       const portfolioIsotope = new Isotope(portfolioContainer, {
+  //         itemSelector: '.portfolio-item',
+  //         layoutMode: 'fitRows'
 
-//       });
+  //       });
 
-//       const portfolioFilters = document.querySelectorAll('#portfolio-flters li');
-//       portfolioFilters.forEach(filter => {
-//         filter.addEventListener('click', (e) => {
-//           e.preventDefault();
-//           portfolioFilters.forEach(el => el.classList.remove('filter-active'));
-//           filter.classList.add('filter-active');
+  //       const portfolioFilters = document.querySelectorAll('#portfolio-flters li');
+  //       portfolioFilters.forEach(filter => {
+  //         filter.addEventListener('click', (e) => {
+  //           e.preventDefault();
+  //           portfolioFilters.forEach(el => el.classList.remove('filter-active'));
+  //           filter.classList.add('filter-active');
 
+  //           portfolioIsotope.arrange({
+  //             filter: filter.getAttribute('data-filter')
+  //  || '*',
+  //           });
+  //           portfolioIsotope.on("arrangeComplete", () => {
+  //             AOS.refresh();
+  //           });
+  //         });
+  //       });
+  //     }
+  //   }, []);
+  // };
 
-//           portfolioIsotope.arrange({
-//             filter: filter.getAttribute('data-filter')
-//  || '*', 
-//           });
-//           portfolioIsotope.on("arrangeComplete", () => {
-//             AOS.refresh(); 
-//           });
-//         });
-//       });
-//     }
-//   }, []);
-// };
-  
-//   useIsotope();
+  //   useIsotope();
   return (
     <div>
       <section id="portfolio">
@@ -68,90 +68,72 @@ const gallery = () => {
               data-aos="fade-up"
               data-aos-delay="400"
             >
-              <Swiper
-                effect={"coverflow"}
-                grabCursor={true}
-                centeredSlides={true}
-                loop={true}
-                slidesPerView={"auto"}
-                coverflowEffect={{
-                  rotate: 0,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 2,
-                }}
-                pagination={{ el: ".swiper-pagination", clickable: true }}
-                navigation={{
-                  nextEl: ".swiper-button-next",
-                  prevEl: ".swiper-button-prev",
-                }}
-                modules={[EffectCoverflow, Pagination, Navigation]}
-                className="swiper_container"
+              <div
+                className="portfolio-item col-md-4
+              "
               >
-                <SwiperSlide>
-                  <div className="portfolio-item filter-app">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image1} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="portfolio-item filter-web">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image2} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="portfolio-item  filter-app">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image3} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="portfolio-item filter-card">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image4} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="portfolio-item  filter-web">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image5} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className=" portfolio-item filter-app">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image6} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="portfolio-item  filter-card">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image7} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className=" portfolio-item filter-card">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image8} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className=" portfolio-item filter-web">
-                    <div className="portfolio-wrap">
-                      <GalleryCard image={image9} />
-                    </div>
-                  </div>
-                </SwiperSlide>
-              </Swiper>
+                <GalleryCard image={image1} />
+              </div>
+              <div
+                className="portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image2} />
+              </div>
+              <div
+                className="portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image3} />
+              </div>
+              <div
+                className="portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image4} />
+              </div>
+              <div
+                className="portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image5} />
+              </div>
+              <div
+                className=" portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image6} />
+              </div>
+              <div
+                className="portfolio-item col-md-4
+               "
+              >
+                <GalleryCard image={image7} />
+              </div>
+              <div
+                className=" portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image8} />
+              </div>
+              <div
+                className=" portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image9} />
+              </div>
+              <div
+                className=" portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image10} />
+              </div>
+              <div
+                className=" portfolio-item col-md-4
+              "
+              >
+                <GalleryCard image={image11} />
+              </div>
             </div>
           </div>
         </section>
