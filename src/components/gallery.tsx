@@ -5,7 +5,6 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import image1 from "../assets/img/portfolio/1.jpeg";
 import image2 from "../assets/img/portfolio/2.jpeg";
-import image3 from "../assets/img/portfolio/3.jpeg";
 import image4 from "../assets/img/portfolio/4.jpeg";
 import image5 from "../assets/img/portfolio/5.jpeg";
 import image6 from "../assets/img/portfolio/6.jpeg";
@@ -84,7 +83,7 @@ const gallery = () => {
                 className="portfolio-item col-md-4
               "
               >
-                <GalleryCard image={image3} />
+                <GalleryCard image={image11} />
               </div>
               <div
                 className="portfolio-item col-md-4
@@ -127,12 +126,6 @@ const gallery = () => {
               "
               >
                 <GalleryCard image={image10} />
-              </div>
-              <div
-                className=" portfolio-item col-md-4
-              "
-              >
-                <GalleryCard image={image11} />
               </div>
             </div>
           </div>
