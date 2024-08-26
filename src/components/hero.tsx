@@ -11,12 +11,11 @@ const hero = () => {
             <div className="row">
               <div className="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                 <h1 data-aos="fade-up">
-                  Pawsibilities Await: Elevate Your Vet Journey{" "}
+                Dream, Refine & Launch Your Career
                 </h1>
                 <h2 data-aos="fade-up" data-aos-delay="400">
-                  Facilitating Opportunities: Our Team Bridges the Gap,
-                  Connecting Veterinary Students to Internships with Precision
-                  and Professionalism.
+                AniScholar is a career readiness platform bridging the gap between the industry and the 
+                educational institutes of learning.
                 </h2>
                 <div data-aos="fade-up" data-aos-delay="800">
                   <a href="#about" className="btn-get-started scrollto">
