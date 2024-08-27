@@ -5,51 +5,49 @@ import { useState } from "react";
 import { db } from "../Config/firebase.config";
 import React from "react";
 
-
-
 const applicationForm = () => {
-   const [formData, setFormData] = useState({
-     firstName: "",
-     lastName: "",
-     email: "",
-     phoneNumber: "",
-     countryOfOrigin: "",
-     address: "",
-     yearOfStudy: "",
-     GPA: "",
-     CGPA: "",
-     preference: "",
-   });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    countryOfOrigin: "",
+    address: "",
+    yearOfStudy: "",
+    GPA: "",
+    CGPA: "",
+    preference: "",
+  });
 
-   const handleChange = (e) => {
-     const { name, value } = e.target;
-     setFormData({
-       ...formData,
-       [name]: value,
-     });
-   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-   const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       const docRef = await addDoc(collection(db, "applications"), formData);
-       console.log("Document written with ID: ", docRef.id);
-       setFormData({
-         firstName: "",
-         lastName: "",
-         email: "",
-         phoneNumber: "",
-         countryOfOrigin: "",
-         address: "",
-         yearOfStudy: "",
-         preference: "",
-         GPA: "",
-         CGPA: "",
-       });
-     } catch (e) {
-       console.error("Error adding document: ", e);
-     }
-   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const docRef = await addDoc(collection(db, "applications"), formData);
+      console.log("Document written with ID: ", docRef.id);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        countryOfOrigin: "",
+        address: "",
+        yearOfStudy: "",
+        preference: "",
+        GPA: "",
+        CGPA: "",
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
     <>
@@ -212,7 +210,7 @@ const applicationForm = () => {
             </div>
 
             <div className="formbold-input-flex">
-              <div>
+              {/* <div>
                 <label htmlFor="post" className="formbold-form-label">
                   GPA
                 </label>
@@ -225,7 +223,7 @@ const applicationForm = () => {
                   required
                   className="formbold-form-input"
                 />
-              </div>
+              </div> */}
               <div>
                 <label htmlFor="area" className="formbold-form-label">
                   CGPA

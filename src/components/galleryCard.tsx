@@ -11,7 +11,7 @@ const galleryCard: React.FC<galleryCarProp> = ({ image }) => {
           <a
             href={image}
             data-gallery="portfolioGallery"
-            className=""
+            className="image-holder"
             title=""
           ></a>
       </div>

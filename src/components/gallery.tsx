@@ -14,9 +14,10 @@ import image9 from "../assets/img/portfolio/9.jpeg";
 import image10 from "../assets/img/portfolio/10.jpeg";
 import image11 from "../assets/img/portfolio/11.jpeg";
 import GalleryCard from "./galleryCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const gallery = () => {
- 
   return (
     <div>
       <section id="portfolio">
@@ -26,73 +27,59 @@ const gallery = () => {
               <h2>Gallery</h2>
               <p>visual narrative of the enriching experiences we create.</p>
             </div>
-
-            <div
-              className="row portfolio-container mt-2"
-              data-aos="fade-up"
-              data-aos-delay="400"
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={30}
+              slidesPerView={3}
+              speed={500}
+              loop={true}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              navigation={{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              }}
+              pagination={{ clickable: true }}
+              className="mySwiper"
             >
-              <div
-                className="portfolio-item col-md-4
-              "
-              >
+              <SwiperSlide>
                 <GalleryCard image={image1} />
-              </div>
-              <div
-                className="portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image2} />
-              </div>
-              <div
-                className="portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image11} />
-              </div>
-              <div
-                className="portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image4} />
-              </div>
-              <div
-                className="portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image5} />
-              </div>
-              <div
-                className=" portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image6} />
-              </div>
-              <div
-                className="portfolio-item col-md-4
-               "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image7} />
-              </div>
-              <div
-                className=" portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image8} />
-              </div>
-              <div
-                className=" portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image9} />
-              </div>
-              <div
-                className=" portfolio-item col-md-4
-              "
-              >
+              </SwiperSlide>
+              <SwiperSlide>
                 <GalleryCard image={image10} />
-              </div>
-            </div>
+              </SwiperSlide>
+              {/* Navigation buttons */}
+              <div className="swiper-button-next"></div>
+              <div className="swiper-button-prev"></div>
+            </Swiper>
+             {/* Pagination */}
+             <div className="swiper-pagination"></div>
           </div>
         </section>
       </section>

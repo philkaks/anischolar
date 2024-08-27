@@ -1041,7 +1041,6 @@ section {
 }
 
 .img-width {
-  height: 360px;
   border-radius: 10px;
   width: 100%;
 }
@@ -2367,33 +2366,6 @@ body {
   right: 4%;
 }
 
-.swiper-3d .swiper-slide,
-.swiper-3d .swiper-slide-shadow,
-.swiper-3d .swiper-slide-shadow-bottom,
-.swiper-3d .swiper-slide-shadow-left,
-.swiper-3d .swiper-slide-shadow-right,
-.swiper-3d .swiper-slide-shadow-top,
-.swiper-3d .swiper-wrapper {
-  transform-style: preserve-3d;
-  width: 80%;
-}
-
-.swiper-slide-next,
-.swiper-slide-prev {
-  background: none;
-  border-radius: 10px;
-}
-
-.swiper-3d .swiper-slide {
-  background-position: center;
-  background-size: cover;
-  width: 600px;
-  filter: blur(4px);
-}
-
-.swiper-3d .swiper-slide-active {
-  filter: blur(0px);
-}
 
 .internship img {
   height: -webkit-fill-available;
@@ -2546,3 +2518,47 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+
+/* Navigation buttons */
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  background-color: #ccc;
+  color: green;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.mySwiper  .swiper-button-next::after,
+.mySwiper  .swiper-button-prev::after {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.mySwiper .swiper-button-next:hover,
+.mySwiper .swiper-button-prev:hover {
+  background-color: #bbb;
+}
+/* Pagination styling */
+.mySwiper .swiper-pagination-bullet {
+  background-color: #8d8d8d;
+  opacity: 1;
+}
+
+.mySwiper .swiper-pagination-bullet-active {
+  background-color: green;
+  width: 20px;
+  border-radius: 9px;
+}
+
+.mySwiper .swiper-pagination {
+  position: unset;
+  padding-top: 20px;
+}
+
+.mySwiper .swiper-pagination-bullet {
+  margin: 0 5px;
+}
+
