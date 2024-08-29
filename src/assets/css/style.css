@@ -1043,6 +1043,8 @@ section {
 .img-width {
   border-radius: 10px;
   width: 100%;
+  height: 370px;
+  object-fit: cover;
 }
 
 .portfolio .portfolio-wrap:hover::before {
