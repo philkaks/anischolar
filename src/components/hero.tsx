@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import heroImage from "../assets/img/teaching.png";
 import React from "react";
 
@@ -18,9 +19,7 @@ const hero = () => {
                 educational institutes of learning.
                 </h2>
                 <div data-aos="fade-up" data-aos-delay="800">
-                  <a href="#about" className="btn-get-started scrollto">
-                    About Us
-                  </a>
+                  <Link to="/register" className="btn-get-started scrollto">Get Started</Link>
                 </div>
               </div>
               <div

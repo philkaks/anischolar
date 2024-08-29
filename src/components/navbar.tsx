@@ -117,9 +117,7 @@ const navbar = () => {
                 </a>
               </li>
               <li>
-                <a className="getstarted scrollto" href="#contact">
-                  Talk To Us
-                </a>
+              <Link className="text-decoration-none getstarted" to="/login">Login</Link>
               </li>
             </ul>
             <i className="bi bi-list mobile-nav-toggle"></i>
