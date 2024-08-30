@@ -25,6 +25,7 @@ const internships = () => {
     farm: DocumentReference<Farm>;
     image: string;
     createdAt: firebase.firestore.Timestamp;
+    description: string;
   }
 
   interface FirestoreData {
@@ -34,6 +35,7 @@ const internships = () => {
     farm: DocumentReference<Farm>;
     image: string;
     createdAt: firebase.firestore.Timestamp;
+    description: string;
   }
 
   const [internshipList, setInternshipList] = useState<MyData[]>([]);
@@ -146,53 +148,59 @@ const internships = () => {
                     <div className="col-md-12 internship">
                       <div className="card shadow card-borderless">
                         <div className="row g-0">
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <img
                               src={internship.image}
                               className="img-fluid rounded-start"
                               alt="..."
                             />
                           </div>
-                          <div className="col-md-5">
+                          <div className="col-md-8">
                             <div className="card-body">
-                              <div className="d-flex mb-4 align-items-center">
-                                <div>
-                                  <h5
-                                    className="card-title mt-3 mb-3 fs-7"
-                                    style={{ fontSize: "30px" }}
-                                  >
-                                    {internship.title}
-                                  </h5>
-                                  <p
-                                    className="text-muted"
-                                    style={{ fontSize: "20px" }}
-                                  >
-                                    <strong>Supervisor: </strong>
-                                    {internship.supervisor}
-                                  </p>
-                                </div>
-                              </div>
-                              <p
-                                className="card-text mb-3"
-                                style={{ fontSize: "18px" }}
+                              <h6
+                                className="available-slots"
+                                style={{ position: "relative" }}
                               >
-                                <strong>Farm: </strong>
-                                <Link
-                                  className="text-decoration-none"
-                                  to={`/farm/${internship.farm.id}`}
-                                >
-                                  {farmData[internship.farm.id]?.name ||
-                                    "Loading..."}
-                                </Link>
-                              </p>
-                              <h6 className="mb-4" style={{ fontSize: "20px" }}>
                                 Available Slots:
                                 <span className="badge bg-primary-subtle text-primary  badge-border">
                                   {internship.slots}
                                 </span>
                               </h6>
+                              <div className="d-flex mb-4 align-items-center">
+                                <div>
+                                  <h5
+                                    className="card-title"
+                                    // style={{ fontSize: "27px" }}
+                                  >
+                                    {internship.title}
+                                  </h5>
+                                  <p
+                                    className="text-muted mb-1"
+                                    // style={{ fontSize: "20px" }}
+                                  >
+                                    <strong>Supervisor: </strong>
+                                    {internship.supervisor}
+                                  </p>
+                                  <p
+                                    className="card-text"
+                                    // style={{ fontSize: "18px" }}
+                                  >
+                                    <strong>Farm: </strong>
+                                    <Link
+                                      className="text-decoration-none"
+                                      to={`/farm/${internship.farm.id}`}
+                                    >
+                                      {farmData[internship.farm.id]?.name ||
+                                        "Loading..."}
+                                    </Link>
+                                  </p>
+                                  <p>
+                                    {internship.description}
+                                  </p>
+                                </div>
+                              </div>
 
-                              <div className="d-flex gap-5 justify-content-end align-items-center">
+                              <div className="d-flex justify-content-between align-items-center">
                                 <p className="card-tex mb-0">
                                   <small className="text-body-secondary">
                                     Posted {getDuration(internship.createdAt)}

@@ -2564,3 +2564,13 @@ body {
   margin: 0 5px;
 }
 
+.available-slots{
+  position: relative;
+    left: 75%;
+    background: rgba(2, 104, 2, 0.945);
+    width: fit-content;
+    padding: 12px;
+    color: white;
+    border-radius: 5px;
+    bottom: 11px;
+}
