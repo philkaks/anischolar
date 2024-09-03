@@ -19,8 +19,8 @@ app.post('/send-email', (req, res) => {
       Messages: [
         {
           From: {
-            Email: 'musasizi.com', // Your Mailjet verified sender email
-            Name: 'Your Name'
+            Email: 'anischolar23@gmail.com', 
+            Name: 'Anischolar'
           },
           To: [
             {
