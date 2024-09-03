@@ -2371,6 +2371,7 @@ body {
 
 .internship img {
   height: -webkit-fill-available;
+  object-fit: cover;
 }
 
 /*--------------------------------------------------------------
@@ -2569,7 +2570,7 @@ body {
     left: 75%;
     background: rgba(2, 104, 2, 0.945);
     width: fit-content;
-    padding: 12px;
+    padding: 8px;
     color: white;
     border-radius: 5px;
     bottom: 11px;
