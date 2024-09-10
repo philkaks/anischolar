@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import ServiceCard from "./serviceCard";
 import React from "react";
 
-
 const services = () => {
   return (
     <div>
@@ -15,7 +14,7 @@ const services = () => {
             </div>
 
             <div className="row">
-              <div className="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+              <div className="col-md-6 col-lg-3 align-items-stretch mb-5 mb-lg-0">
                 <Link
                   to="/internships"
                   style={{ color: "black", textDecoration: "none" }}

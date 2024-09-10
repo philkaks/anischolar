@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import logo from "../assets/img/logo1.png";
-import { Link, useNavigate } from 'react-router-dom';
-import { db } from "../Config/firebase.config"; 
-import { collection, addDoc } from "firebase/firestore"; 
-import Swal from 'sweetalert2';
+import { Link, useNavigate } from "react-router-dom";
+import { db } from "../Config/firebase.config";
+import { collection, addDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); 
-    
+    setIsSubmitting(true);
+
     try {
       await addDoc(collection(db, "users"), {
         name: name,
         email: email,
-        password: password, 
+        password: password,
         createdAt: new Date(),
       });
       Swal.fire({
@@ -30,7 +30,7 @@ const Register = () => {
         showConfirmButton: false,
         timer: 1000,
       });
-      navigate('/login'); 
+      navigate("/login");
     } catch (error) {
       console.error("Error adding document: ", error);
     } finally {
@@ -40,9 +40,9 @@ const Register = () => {
 
   return (
     <>
-      <section className="" style={{ backgroundColor: "#9A616D" }}>
-        <div className="container py-5 h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
+      <section>
+        <div className="container py-5">
+          <div className="row d-flex justify-content-center align-items-center">
             <div className="col col-xl-6">
               <div className="card" style={{ borderRadius: "1rem" }}>
                 <div className="row">
@@ -104,7 +104,8 @@ const Register = () => {
                             type="submit"
                             disabled={isSubmitting} // Disable button while submitting
                           >
-                            {isSubmitting ? 'Registering...' : 'Register'} {/* Show different text while submitting */}
+                            {isSubmitting ? "Registering..." : "Register"}{" "}
+                            {/* Show different text while submitting */}
                           </button>
                         </div>
 

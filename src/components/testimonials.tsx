@@ -1,14 +1,13 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
-import image1 from '../assets/img/testimonials/dummy1.jpg'
-import image2 from '../assets/img/testimonials/2.jpeg'
-import image3 from '../assets/img/testimonials/3.jpeg'
-import image4 from '../assets/img/testimonials/4.jpeg'
-import image5 from '../assets/img/testimonials/5.jpeg'
+import image1 from "../assets/img/testimonials/dummy1.jpg";
+import image2 from "../assets/img/testimonials/2.jpeg";
+import image3 from "../assets/img/testimonials/3.jpeg";
+import image4 from "../assets/img/testimonials/4.jpeg";
+import image5 from "../assets/img/testimonials/5.jpeg";
 import TestimonialCard from "./testimonialCard";
 import React from "react";
-
 
 const testimonials = () => {
   return (
@@ -32,7 +31,6 @@ const testimonials = () => {
               <Swiper
                 modules={[Pagination, Autoplay]}
                 spaceBetween={30}
-                slidesPerView={2}
                 speed={500}
                 loop={true}
                 autoplay={{
@@ -40,6 +38,14 @@ const testimonials = () => {
                   disableOnInteraction: false,
                 }}
                 pagination={{ clickable: true }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                }}
               >
                 <SwiperSlide>
                   <TestimonialCard

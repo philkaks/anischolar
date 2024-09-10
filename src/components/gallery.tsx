@@ -30,7 +30,6 @@ const gallery = () => {
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={30}
-              slidesPerView={3}
               speed={500}
               loop={true}
               autoplay={{
@@ -42,6 +41,16 @@ const gallery = () => {
                 prevEl: ".swiper-button-prev",
               }}
               pagination={{ clickable: true }}
+              breakpoints={{
+                0: {
+                  // Mobile devices
+                  slidesPerView: 1,
+                },
+                768: {
+                  // Tablets and larger screens
+                  slidesPerView: 3,
+                },
+              }}
               className="mySwiper"
             >
               <SwiperSlide>
@@ -78,8 +87,8 @@ const gallery = () => {
               <div className="swiper-button-next"></div>
               <div className="swiper-button-prev"></div>
             </Swiper>
-             {/* Pagination */}
-             <div className="swiper-pagination"></div>
+            {/* Pagination */}
+            <div className="swiper-pagination"></div>
           </div>
         </section>
       </section>

@@ -1,22 +1,42 @@
-import { Link } from 'react-router-dom';
-import logo from '../assets/img/logo1.png';
-import { useState } from 'react';
-import React from 'react';
-import axios from 'axios';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../assets/img/logo1.png";
+import { useEffect, useState } from "react";
+import React from "react";
+import { addDoc, collection } from "@firebase/firestore";
+import { db } from "../Config/firebase.config";
+import Swal from "sweetalert2";
 
 const ApplicationForm = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    countryOfOrigin: '',
-    address: '',
-    yearOfStudy: '',
-    GPA: '',
-    CGPA: '',
-    preference: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    countryOfOrigin: "",
+    address: "",
+    yearOfStudy: "",
+    GPA: "",
+    CGPA: "",
+    preference: "",
+    internshipId: "", // Added field
+    internshipName: "", // Added field
   });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract query parameters from URL
+    const params = new URLSearchParams(location.search);
+    const internshipId = params.get("internshipId") || "";
+    const internshipName = params.get("internshipName") || "";
+
+    setFormData((prevState) => ({
+      ...prevState,
+      internshipId,
+      internshipName,
+    }));
+  }, [location.search]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,20 +46,91 @@ const ApplicationForm = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
-      // Send the application data to your server
-      await axios.post('/api/apply', formData);
-  
-      // Send email notification to the applicant
-      await axios.post('http://localhost:5000/send-email', formData);
-  
-      // Show success message
-      alert("Application submitted successfully!");
+      // Store the application data in Firestore
+      await addDoc(collection(db, "applications"), formData);
+
+      // Backend proxy URL
+      const backendURL = "http://localhost:3001/send-email";
+
+      // Send an email to the applicant
+      const response = await fetch(backendURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Messages: [
+            {
+              From: {
+                Email: "anischolar23@gmail.com",
+                Name: "AniScholar",
+              },
+              To: [
+                {
+                  Email: formData.email,
+                  Name: `${formData.firstName} ${formData.lastName}`,
+                },
+              ],
+              Subject: "Thank you for applying!",
+              TextPart: "We shall get back to you soon.",
+              HTMLPart:
+                "<h3>Thank you for applying!</h3><p>We shall get back to you soon.</p>",
+            },
+            {
+              From: {
+                Email: "anischolar23@gmail.com",
+                Name: "AniScholar",
+              },
+              To: [
+                {
+                  Email: "anischolar23@gmail.com",
+                  Name: "Admin",
+                },
+              ],
+              Subject: "New Internship Application",
+              TextPart: `A new application has been submitted for the ${formData.preference} internship.`,
+              HTMLPart: `<h3>New Application</h3>
+                  <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
+                  <p><strong>Email:</strong> ${formData.email}</p>
+                  <p><strong>Internship:</strong> ${formData.preference}</p>`,
+            },
+          ],
+        }),
+      });
+
+      if (response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const result = await response.json();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Application Successful",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        navigate("/internships");
+      } else {
+        const result = await response.json();
+        throw new Error(result.error);
+      }
     } catch (error) {
       console.error("Error submitting application:", error);
-      alert("Failed to submit application.");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Application failed, try again",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,7 +153,7 @@ const ApplicationForm = () => {
                 </Link>
               </li>
               <i className="bi bi-chevron-right"></i>
-              <li style={{ color: ' #27ae60' }}>Internships</li>
+              <li style={{ color: " #27ae60" }}>Internships</li>
             </ul>
             <i className="bi bi-list mobile-nav-toggle"></i>
           </nav>
@@ -70,7 +161,7 @@ const ApplicationForm = () => {
       </header>
 
       <div className="formbold-main-wrapper">
-        <div className="formbold-form-wrapper">
+        <div className="mobile formbold-form-wrapper">
           <form onSubmit={handleSubmit} method="POST">
             <div className="formbold-form-title">
               <h2 className="">Apply for the opportunity</h2>
@@ -253,7 +344,9 @@ const ApplicationForm = () => {
               </label>
             </div>
 
-            <button className="formbold-btn">Register Now</button>
+            <button type="submit" className="formbold-btn" disabled={isLoading}>
+              {isLoading ? "Sending application..." : " Apply Now"}
+            </button>
           </form>
         </div>
       </div>

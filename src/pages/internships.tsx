@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import { db } from "../Config/firebase.config";
 import React from "react";
 import firebase from "firebase/compat/app";
-import { useAuth } from '../authProvider'; // Adjust the import path
+import { useAuth } from "../authProvider"; // Adjust the import path
 
 const Internships = () => {
   interface Farm {
@@ -44,8 +44,8 @@ const Internships = () => {
   const [loading, setLoading] = useState(true);
   const internshipCollection = collection(db, "internships");
   const [farmData, setFarmData] = useState<Record<string, Farm>>({});
-  const { isLoggedIn } = useAuth(); 
-  const navigate = useNavigate(); 
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getInternships = async () => {
@@ -101,7 +101,7 @@ const Internships = () => {
 
   const handleLoginRedirect = () => {
     // Store the intended path in state
-    navigate('/login', { state: { from: '/applicationForm' } });
+    navigate("/login", { state: { from: "/applicationForm" } });
   };
 
   return (
@@ -149,7 +149,10 @@ const Internships = () => {
             </div>
           ) : (
             internshipList.map((internship) => (
-              <div key={internship.id} className="d-flex flex-column justify-content-center">
+              <div
+                key={internship.id}
+                className="d-flex flex-column justify-content-center"
+              >
                 <div className="row mb-5" style={{ marginTop: "70px" }}>
                   <div className="col-md-12 internship">
                     <div className="card shadow card-borderless">
@@ -184,21 +187,24 @@ const Internships = () => {
                                     className="text-decoration-none"
                                     to={`/farm/${internship.farm.id}`}
                                   >
-                                    {farmData[internship.farm.id]?.name || "Loading..."}
+                                    {farmData[internship.farm.id]?.name ||
+                                      "Loading..."}
                                   </Link>
                                 </p>
                                 <p>{internship.description}</p>
                                 {farmData[internship.farm.id]?.dealIn && (
                                   <div className="mt-3">
                                     <strong>Deals In: </strong>
-                                    {farmData[internship.farm.id].dealIn.map((deal, index) => (
-                                      <span
-                                        key={index}
-                                        className="badge bg-success-subtle text-dark me-2"
-                                      >
-                                        {deal}
-                                      </span>
-                                    ))}
+                                    {farmData[internship.farm.id].dealIn.map(
+                                      (deal, index) => (
+                                        <span
+                                          key={index}
+                                          className="badge bg-success-subtle text-dark me-2"
+                                        >
+                                          {deal}
+                                        </span>
+                                      )
+                                    )}
                                   </div>
                                 )}
                               </div>
@@ -212,7 +218,7 @@ const Internships = () => {
                               </p>
                               {isLoggedIn ? (
                                 <Link
-                                  to="/applicationForm"
+                                  to={`/applicationForm?internshipId=${internship.id}&internshipName=${internship.title}`}
                                   className="btn bg-success text-white"
                                 >
                                   Apply Now

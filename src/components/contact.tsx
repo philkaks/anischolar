@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import emailjs from "emailjs-com";
+import axios from "axios";
 import Swal from "sweetalert2";
 import React from "react";
 
@@ -22,18 +22,17 @@ const contact = () => {
   };
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    emailjs
-      .send(
-        "service_9woakfw",
-        "template_msw9di6",
-        formData,
-        "N6kF27B0JBmJHfAVf"
-      )
-      .then(() => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/sendMailjet",
+        formData
+      );
+
+      if (response.status === 200) {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -47,20 +46,21 @@ const contact = () => {
           email: "",
           message: "",
         });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: "Failed",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed",
+        showConfirmButton: false,
+        timer: 1000,
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

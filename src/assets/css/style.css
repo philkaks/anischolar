@@ -990,11 +990,11 @@ section {
   .testimonials .testimonial-item {
     padding: 30px;
     margin: 15px;
+    height: 350px;
   }
 
   .testimonials .testimonial-item .testimonial-img {
     position: static;
-    left: auto;
   }
 }
 
@@ -1569,6 +1569,24 @@ section {
 
   .breadcrumbs ol li {
     display: inline-block;
+  }
+
+  .team .member {
+    width: 100%;
+  }
+
+  .card.shadow.card-borderless {
+    margin: 0 5px;
+  }
+
+  h6.available-slots {
+    left: 56%;
+    bottom: 50px;
+  }
+
+  .mobile.formbold-form-wrapper {
+    padding: 0;
+    padding-top: 40px;
   }
 }
 
@@ -2368,7 +2386,6 @@ body {
   right: 4%;
 }
 
-
 .internship img {
   height: -webkit-fill-available;
   object-fit: cover;
@@ -2522,7 +2539,6 @@ body {
   align-items: center;
 }
 
-
 /* Navigation buttons */
 .mySwiper .swiper-button-next,
 .mySwiper .swiper-button-prev {
@@ -2534,8 +2550,8 @@ body {
   font-size: 14px;
 }
 
-.mySwiper  .swiper-button-next::after,
-.mySwiper  .swiper-button-prev::after {
+.mySwiper .swiper-button-next::after,
+.mySwiper .swiper-button-prev::after {
   font-size: 14px;
   font-weight: 900;
 }
@@ -2565,13 +2581,13 @@ body {
   margin: 0 5px;
 }
 
-.available-slots{
+.available-slots {
   position: relative;
-    left: 75%;
-    background: rgba(2, 104, 2, 0.945);
-    width: fit-content;
-    padding: 8px;
-    color: white;
-    border-radius: 5px;
-    bottom: 11px;
+  left: 75%;
+  background: rgba(2, 104, 2, 0.945);
+  width: fit-content;
+  padding: 8px;
+  color: white;
+  border-radius: 5px;
+  bottom: 11px;
 }

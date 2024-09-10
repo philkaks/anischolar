@@ -7,42 +7,41 @@ import logo from "../assets/img/logo1.png";
 import { useAuth, UserData } from "../authProvider";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const usersCollection = collection(db, 'users');
-      const q = query(usersCollection, where('email', '==', email));
+      const usersCollection = collection(db, "users");
+      const q = query(usersCollection, where("email", "==", email));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        throw new Error('No user found with this email');
+        throw new Error("No user found with this email");
       }
 
       const userDoc = querySnapshot.docs[0].data() as UserData;
 
       if (!userDoc || !userDoc.password) {
-        throw new Error('User data not found or password is missing');
+        throw new Error("User data not found or password is missing");
       }
 
       if (userDoc.password !== password) {
-        throw new Error('Invalid password');
+        throw new Error("Invalid password");
       }
 
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Login Successful',
+        position: "top-end",
+        icon: "success",
+        title: "Login Successful",
         showConfirmButton: false,
         timer: 1000,
       });
@@ -54,11 +53,11 @@ const Login = () => {
       const from = (state as any)?.from || "/";
       navigate(from);
     } catch (error) {
-      console.error('Error logging in: ', (error as Error).message);
+      console.error("Error logging in: ", (error as Error).message);
       Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Login failed',
+        position: "top-end",
+        icon: "error",
+        title: "Login failed",
         showConfirmButton: false,
         timer: 1000,
       });
@@ -69,9 +68,9 @@ const Login = () => {
   };
 
   return (
-    <section style={{ backgroundColor: "#f8f9fa" }}>
-      <div className="container py-5 h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100">
+    <section>
+      <div className="container py-5">
+        <div className="row d-flex justify-content-center align-items-center">
           <div className="col col-xl-6">
             <div className="card" style={{ borderRadius: "1rem" }}>
               <div className="row">
