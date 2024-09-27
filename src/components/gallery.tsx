@@ -1,23 +1,32 @@
-// import { Swiper, SwiperSlide } from "swiper/react";
-import React from "react";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import image1 from "../assets/img/portfolio/1.jpeg";
-import image2 from "../assets/img/portfolio/2.jpeg";
-import image4 from "../assets/img/portfolio/4.jpeg";
-import image5 from "../assets/img/portfolio/5.jpeg";
-import image6 from "../assets/img/portfolio/6.jpeg";
-import image7 from "../assets/img/portfolio/7.jpeg";
-import image8 from "../assets/img/portfolio/8.jpeg";
-import image9 from "../assets/img/portfolio/9.jpeg";
-import image10 from "../assets/img/portfolio/10.jpeg";
-import image11 from "../assets/img/portfolio/11.jpeg";
-import GalleryCard from "./galleryCard";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import { collection, DocumentData, getDocs } from "firebase/firestore";
+import { db } from "../Config/firebase.config";
+import GalleryCard from "./galleryCard";
 
-const gallery = () => {
+const Gallery = () => {
+  const [galleryItems, setGalleryItems] = useState<DocumentData[]>([]);
+
+  useEffect(() => {
+    const fetchGalleryImages = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "gallery"));
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setGalleryItems(items);
+      } catch (error) {
+        console.error("Error fetching gallery images:", error);
+      }
+    };
+
+    fetchGalleryImages();
+  }, []);
+
   return (
     <div>
       <section id="portfolio">
@@ -25,7 +34,7 @@ const gallery = () => {
           <div className="container">
             <div className="section-title" data-aos="fade-up">
               <h2>Gallery</h2>
-              <p>visual narrative of the enriching experiences we create.</p>
+              <p>Visual narrative of the enriching experiences we create.</p>
             </div>
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
@@ -43,51 +52,22 @@ const gallery = () => {
               pagination={{ clickable: true }}
               breakpoints={{
                 0: {
-                  // Mobile devices
                   slidesPerView: 1,
                 },
                 768: {
-                  // Tablets and larger screens
                   slidesPerView: 3,
                 },
               }}
               className="mySwiper"
             >
-              <SwiperSlide>
-                <GalleryCard image={image1} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image2} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image11} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image4} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image5} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image6} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image7} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image8} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image9} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <GalleryCard image={image10} />
-              </SwiperSlide>
-              {/* Navigation buttons */}
+              {galleryItems.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <GalleryCard image={item.image} />
+                </SwiperSlide>
+              ))}
               <div className="swiper-button-next"></div>
               <div className="swiper-button-prev"></div>
             </Swiper>
-            {/* Pagination */}
             <div className="swiper-pagination"></div>
           </div>
         </section>
@@ -96,4 +76,4 @@ const gallery = () => {
   );
 };
 
-export default gallery;
+export default Gallery;

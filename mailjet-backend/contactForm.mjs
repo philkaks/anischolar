@@ -27,10 +27,10 @@ app.post("/api/sendMailjet", async (req, res) => {
           },
           To: [
             {
-              Email: 'anischolar23@gmail.com',  // Recipient email address
+              Email: 'anischolar23@gmail.com',  
             },
           ],
-          Subject: subject,  // Subject of the email
+          Subject: subject, 
           TextPart: `Message from ${name} (${email}): ${message}`,  // Plain text version of the email
           HTMLPart: `<h3>Message from ${name} (${email})</h3><p>${message}</p>`,  // HTML version of the email
         },

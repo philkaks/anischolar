@@ -1,91 +1,40 @@
-import image1 from "../assets/img/clients/marula.png"
-import image2 from "../assets/img/clients/olivet.png"
-import image3 from "../assets/img/clients/vetline.png"
-import image4 from "../assets/img/clients/brinas.jpeg"
-import image5 from "../assets/img/clients/naliri.png"
-import image6 from "../assets/img/clients/mpigiLG.png"
-import image7 from "../assets/img/clients/nagrc.png"
-import React from "react"
+// Clients.js
+import React, { useEffect, useState } from "react";
+import { collection, DocumentData, getDocs } from "firebase/firestore";
+import { db } from "../Config/firebase.config"; // Adjust the import path as necessary
 
+const Clients = () => {
+  const [clients, setClients] = useState<DocumentData[]>([]);
 
-const clients = () => {
+  useEffect(() => {
+    const fetchClients = async () => {
+      const querySnapshot = await getDocs(collection(db, "partners"));
+      const clientsData = querySnapshot.docs.map((doc) => doc.data());
+      setClients(clientsData);
+    };
+
+    fetchClients();
+  }, []);
+
   return (
     <div>
       <section id="clients" className="clients clients">
         <div className="container">
           <div className="row">
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image1}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="300"
-              ></img>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image2}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-              ></img>
-            </div>
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image3}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="100"
-              ></img>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image4}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="200"
-              ></img>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image5}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="400"
-              ></img>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image6}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="600"
-              ></img>
-            </div>
-
-            <div className="col-lg-2 col-md-4 col-6">
-              <img
-                src={image7}
-                className="img-fluid"
-                alt=""
-                data-aos="zoom-in"
-                data-aos-delay="500"
-              ></img>
-            </div>
+            {clients.map((partner, index) => (
+              <div className="col-lg-2 col-md-4 col-6" key={index}>
+                <img
+                  src={partner.image}
+                  className="img-fluid"
+                  data-aos-delay={`${index * 100}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
 
-export default clients
+export default Clients;
