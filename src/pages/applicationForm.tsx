@@ -5,6 +5,7 @@ import React from "react";
 import { addDoc, collection } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
 import Swal from "sweetalert2";
+import emailjs from "emailjs-com";
 
 const ApplicationForm = () => {
   const [formData, setFormData] = useState({
@@ -56,70 +57,49 @@ const ApplicationForm = () => {
       // Store the application data in Firestore
       await addDoc(collection(db, "applications"), formData);
 
-      // Backend proxy URL
-      const backendURL = "http://localhost:3001/send-email";
+      const templateParams = {
+        from_name: "AniScholar",
+        name: `${formData.firstName} ${formData.lastName}`,
+        reply_to: formData.email,
+        internship: formData.preference,
+        email: formData.email,
+      };
 
-      // Send an email to the applicant
-      const response = await fetch(backendURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Messages: [
-            {
-              From: {
-                Email: "anischolar23@gmail.com",
-                Name: "AniScholar",
-              },
-              To: [
-                {
-                  Email: formData.email,
-                  Name: `${formData.firstName} ${formData.lastName}`,
-                },
-              ],
-              Subject: "Thank you for applying!",
-              TextPart: "We shall get back to you soon.",
-              HTMLPart:
-                "<h3>Thank you for applying!</h3><p>We shall get back to you soon.</p>",
-            },
-            {
-              From: {
-                Email: "anischolar23@gmail.com",
-                Name: "AniScholar",
-              },
-              To: [
-                {
-                  Email: "anischolar23@gmail.com",
-                  Name: "Admin",
-                },
-              ],
-              Subject: "New Internship Application",
-              TextPart: `A new application has been submitted for the ${formData.preference} internship.`,
-              HTMLPart: `<h3>New Application</h3>
-                  <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-                  <p><strong>Email:</strong> ${formData.email}</p>
-                  <p><strong>Internship:</strong> ${formData.preference}</p>`,
-            },
-          ],
-        }),
+      console.log("Template Params:", templateParams); // Log template params
+
+      // Send email to the applicant
+      await emailjs.send(
+        "service_9woakfw",
+        "template_0qrgp0v",
+        templateParams,
+        "N6kF27B0JBmJHfAVf"
+      );
+
+      // Send email to admin
+      const adminTemplateParams = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        to_name: "Admin",
+        message: `${formData.firstName} ${formData.lastName} has applied for the internship: ${formData.internshipName}.`,
+        email: formData.email,
+      };
+
+      console.log("Admin Template Params:", adminTemplateParams);
+
+      await emailjs.send(
+        "service_9woakfw",
+        "template_msw9di6",
+        adminTemplateParams,
+        "N6kF27B0JBmJHfAVf"
+      );
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Application Successful",
+        showConfirmButton: false,
+        timer: 1000,
       });
-
-      if (response.ok) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const result = await response.json();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Application Successful",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        navigate("/internships");
-      } else {
-        const result = await response.json();
-        throw new Error(result.error);
-      }
+      navigate("/internships");
     } catch (error) {
       console.error("Error submitting application:", error);
       Swal.fire({
@@ -133,7 +113,6 @@ const ApplicationForm = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <>
       <header id="header" className="fixed-top d-flex align-items-center">

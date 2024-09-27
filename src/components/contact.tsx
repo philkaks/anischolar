@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import React from "react";
+import emailjs from "emailjs-com";
 
 const contact = () => {
   const [formData, setFormData] = useState({
@@ -13,13 +13,14 @@ const contact = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,9 +28,11 @@ const contact = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/sendMailjet",
-        formData
+      const response = await emailjs.send(
+        "service_9woakfw",
+        "template_msw9di6",
+        formData,
+        "N6kF27B0JBmJHfAVf"
       );
 
       if (response.status === 200) {
@@ -134,12 +137,7 @@ const contact = () => {
               data-aos="fade-up"
               data-aos-delay="300"
             >
-              <form
-                onSubmit={handleSubmit}
-                method="post"
-                role="form"
-                className=""
-              >
+              <form onSubmit={handleSubmit} className="">
                 <div className="form-group">
                   <input
                     type="text"
