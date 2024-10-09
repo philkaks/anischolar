@@ -11,6 +11,7 @@ import { db } from "../Config/firebase.config";
 import React from "react";
 import firebase from "firebase/compat/app";
 import { useAuth } from "../authProvider"; // Adjust the import path
+import Header from "../components/Header";
 
 const Internships = () => {
   interface Farm {
@@ -106,29 +107,7 @@ const Internships = () => {
 
   return (
     <>
-      <header id="header" className="fixed-top d-flex align-items-center">
-        <div className="container d-flex align-items-center justify-content-between">
-          <div className="logo">
-            <a href="index.html">
-              <img src={logo} alt="" className="img-fluid" />
-            </a>
-            AniScholar
-          </div>
-
-          <nav id="navbar" className="navbar">
-            <ul>
-              <li>
-                <Link className="text-decoration-none" to="/">
-                  Home
-                </Link>
-              </li>
-              <i className="bi bi-chevron-right"></i>
-              <li style={{ color: "#27ae60" }}>Internships</li>
-            </ul>
-            <i className="bi bi-list mobile-nav-toggle"></i>
-          </nav>
-        </div>
-      </header>
+     <Header title="Internships" title2="" />
       <main id="main">
         <section className="breadcrumbs">
           <div className="container d-flex justify-content-center p-5">

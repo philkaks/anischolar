@@ -5,6 +5,7 @@ import logo from "../assets/img/logo1.png";
 import { doc, getDoc } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
 import internships from "./internships";
+import Header from "../components/Header";
 
 interface Farm {
   id: string;
@@ -54,29 +55,7 @@ const farm = () => {
 
   return (
     <div>
-      <header id="header" className="fixed-top d-flex align-items-center">
-        <div className="container d-flex align-items-center justify-content-between">
-          <div className="logo">
-            <a>
-              <img src={logo} alt="" className="img-fluid"></img>
-            </a>
-            AniScholar
-          </div>
-
-          <nav id="navbar" className="navbar">
-            <ul>
-              <li>
-                <Link className="text-decoration-none" to="/interships">
-                  Internships
-                </Link>
-              </li>
-              <i className="bi bi-chevron-right"></i>
-              <li style={{ color: " #27ae60" }}>Farm</li>
-            </ul>
-            <i className="bi bi-list mobile-nav-toggle"></i>
-          </nav>
-        </div>
-      </header>
+      <Header title="Farm" title2="" />
 
       <div className=" page-title dark-background" data-aos="fade">
         <div className="container position-relative">

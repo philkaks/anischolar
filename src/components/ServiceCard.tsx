@@ -6,7 +6,7 @@ interface teamCardProps {
   name: string;
   desription: string;
 }
-const serviceCard: React.FC<teamCardProps> = ({ icon, name, desription }) => {
+const ServiceCard: React.FC<teamCardProps> = ({ icon, name, desription }) => {
   return (
     <div>
       <div className="icon-box" data-aos="fade-up" data-aos-delay="100">
@@ -20,4 +20,4 @@ const serviceCard: React.FC<teamCardProps> = ({ icon, name, desription }) => {
   );
 };
 
-export default serviceCard;
+export default ServiceCard;

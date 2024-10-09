@@ -1,6 +1,6 @@
 import React from "react";
 
-const faq = () => {
+const Faq = () => {
   return (
     <div>
       <section id="faq">
@@ -131,4 +131,4 @@ const faq = () => {
   );
 }
 
-export default faq
+export default Faq

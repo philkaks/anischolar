@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import React from "react";
 import emailjs from "emailjs-com";
 
-const contact = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     subject: "",
@@ -206,4 +206,4 @@ const contact = () => {
   );
 };
 
-export default contact;
+export default Contact;

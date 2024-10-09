@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { db } from "../Config/firebase.config";
 import logo from "../assets/img/logo1.png";
 import React from "react";
+import Header from "../components/Header";
 
 
 const blogs = () => {
@@ -26,14 +27,14 @@ const blogs = () => {
     const getBlogs = async () => {
       try {
         const data = await getDocs(blogsCollection);
-  
+
         // Map Firestore data to MyData
         const filteredData: MyData[] = data.docs.map((doc) => {
           const docData = doc.data();
-          
+
           // Convert Firestore Timestamp to Date
           const date = docData.date instanceof Timestamp ? docData.date.toDate() : new Date(docData.date);
-  
+
           return {
             id: doc.id,
             title: docData.title || '',
@@ -44,7 +45,7 @@ const blogs = () => {
             date,
           };
         });
-  
+
         setBlogList(filteredData);
       } catch (err) {
         console.log("my error", err);
@@ -58,29 +59,7 @@ const blogs = () => {
 
   return (
     <div>
-      <header id="header" className="fixed-top d-flex align-items-center">
-        <div className="container d-flex align-items-center justify-content-between">
-          <div className="logo">
-            <a href="index.html">
-              <img src={logo} alt="" className="img-fluid"></img>
-            </a>
-            AniScholar
-          </div>
-
-          <nav id="navbar" className="navbar">
-            <ul>
-              <li>
-                <Link className="text-decoration-none" to="/">
-                  Home
-                </Link>
-              </li>
-              <i className="bi bi-chevron-right"></i>
-              <li style={{ color: " #27ae60" }}>Blogs</li>
-            </ul>
-            <i className="bi bi-list mobile-nav-toggle"></i>
-          </nav>
-        </div>
-      </header>
+      <Header title="Blogs" title2="" />
 
       <main id="main">
         <section className="breadcrumbs">

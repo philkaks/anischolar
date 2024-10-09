@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import heroImage from "../assets/img/teaching.png";
 import React from "react";
+import { useAuth } from "../authProvider";
 
 
-const hero = () => {
+const Hero = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <div>
       <section id="hero">
@@ -19,7 +22,10 @@ const hero = () => {
                 educational institutes of learning.
                 </h2>
                 <div data-aos="fade-up" data-aos-delay="800">
+                  { isLoggedIn ? 
+                  <Link to="/userDataForm" className="btn-get-started scrollto">Get CV</Link> :
                   <Link to="/register" className="btn-get-started scrollto">Get Started</Link>
+                }
                 </div>
               </div>
               <div
@@ -37,4 +43,4 @@ const hero = () => {
   );
 }
 
-export default hero
+export default Hero

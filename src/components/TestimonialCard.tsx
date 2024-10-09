@@ -6,7 +6,7 @@ interface testmonialCardProps {
   title: string;
   desription: string;
 }
-const testimonialCard: React.FC<testmonialCardProps> = ({image, name, title, desription}) => {
+const TestimonialCard: React.FC<testmonialCardProps> = ({image, name, title, desription}) => {
     return (
       <div>
         <div className="testimonial-wrap">
@@ -25,4 +25,4 @@ const testimonialCard: React.FC<testmonialCardProps> = ({image, name, title, des
     );
 };
 
-export default testimonialCard;
+export default TestimonialCard;

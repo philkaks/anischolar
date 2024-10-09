@@ -2367,6 +2367,36 @@ body {
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 
+.button-container {
+  display: flex;
+  gap: 16px;
+}
+
+.formbold-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.formbold-table-header {
+  background-color: #f3f4f6;
+  color: #333; 
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #ddd;
+}
+
+.formbold-table-row:nth-child(even) {
+  background-color: #f9fafb; 
+}
+
+.formbold-table-cell {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+
 /* Spinner */
 .spinner {
   margin: 100px auto 30px;

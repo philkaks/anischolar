@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
 import { db } from "../Config/firebase.config";
-import GalleryCard from "./galleryCard";
+import GalleryCard from "./GalleryCard";
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<DocumentData[]>([]);

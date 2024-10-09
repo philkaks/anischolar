@@ -2,7 +2,7 @@ import React from "react";
 import image1 from "../assets/img/vet.png";
 // import CountUp from "react-countup";
 
-const aboutUs = () => {
+const AboutUs = () => {
   return (
     <div>
       <section id="about" className="mt-0 mb-0">
@@ -97,4 +97,4 @@ const aboutUs = () => {
   );
 };
 
-export default aboutUs;
+export default AboutUs;

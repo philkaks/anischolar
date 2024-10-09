@@ -4,7 +4,7 @@ import { db } from "../Config/firebase.config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
-import TestimonialCard from "./testimonialCard";
+import TestimonialCard from "./TestimonialCard";
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState<DocumentData[]>([]);

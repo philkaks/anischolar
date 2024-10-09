@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import ServiceCard from "./serviceCard";
+import ServiceCard from "./ServiceCard";
 import React from "react";
 
-const services = () => {
+const Services = () => {
   return (
     <div>
       <section id="services">
@@ -77,4 +77,4 @@ const services = () => {
   );
 };
 
-export default services;
+export default Services;

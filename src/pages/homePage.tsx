@@ -1,17 +1,17 @@
-import AboutUs from "../components/aboutUs";
-import BackToTop from "../components/backToTop";
-import Clients from "../components/clients";
-import Contact from "../components/contact";
-import Faq from "../components/faq";
-import Footer from "../components/footer";
-import Gallery from "../components/gallery";
-import Hero from "../components/hero";
-import Navbar from "../components/navbar";
-import Services from "../components/services";
-import Team from "../components/team";
-import Testimonials from "../components/testimonials";
+import AboutUs from "../components/AboutUs.js";
+import BackToTop from "../components/BackToTop.js";
+import Clients from "../components/Clients.js";
+import Contact from "../components/Contact.js";
+import Faq from "../components/Faq.js";
+import Footer from "../components/Footer.js";
+import Gallery from "../components/Gallery.js";
+import Hero from "../components/Hero.js";
+import Navbar from "../components/Navbar.js";
+import Services from "../components/Services.js";
+import Team from "../components/Team.js";
+import Testimonials from "../components/Testimonials.js";
 import '../App.css';
-import '../App.js'
+import '../main.js'
 import "aos/dist/aos.css";
 import React from "react";
 

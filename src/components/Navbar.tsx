@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import React from "react";
 import { useAuth } from "../authProvider";
 
-const navbar = () => {
+const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
 
   useEffect(() => {
@@ -186,4 +186,4 @@ const navbar = () => {
   );
 };
 
-export default navbar;
+export default Navbar;
