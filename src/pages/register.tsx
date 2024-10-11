@@ -24,6 +24,7 @@ const Register = () => {
   const {displayName, email, password, confirmPassword } = state;
 
   const handleChange = e => {
+    setError("")
     setState({ ...state, [e.target.name]: e.target.value })
   }
 
