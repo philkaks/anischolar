@@ -190,7 +190,7 @@ const MultiStepForm: React.FC = () => {
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
-                                            <th>Degree</th>
+                                            <th>Award</th>
                                             <th>Institution</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
@@ -210,7 +210,7 @@ const MultiStepForm: React.FC = () => {
                                 </table>
                                 <div>
                                     <label htmlFor="degree" className="formbold-form-label">
-                                        Degree
+                                        Award
                                     </label>
                                     <input
                                         type="text"

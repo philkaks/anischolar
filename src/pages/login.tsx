@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { db } from "../Config/firebase.config";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import logo from "../assets/img/logo1.png";
-import { useAuth, UserData } from "../authProvider";
+import { useAuth } from "../authProvider";
+import { auth } from "../Config/firebase.config"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,23 +22,29 @@ const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const usersCollection = collection(db, "users");
-      const q = query(usersCollection, where("email", "==", email));
-      const querySnapshot = await getDocs(q);
+      // const usersCollection = collection(db, "users");
+      // const q = query(usersCollection, where("email", "==", email));
+      // const querySnapshot = await getDocs(q);
 
-      if (querySnapshot.empty) {
-        throw new Error("No user found with this email");
-      }
+      // if (querySnapshot.empty) {
+      //   throw new Error("No user found with this email");
+      // }
 
-      const userDoc = querySnapshot.docs[0].data() as UserData;
+      // const userDoc = querySnapshot.docs[0].data() as UserData;
 
-      if (!userDoc || !userDoc.password) {
-        throw new Error("User data not found or password is missing");
-      }
+      const {user} = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-      if (userDoc.password !== password) {
-        throw new Error("Invalid password");
-      }
+      // if (!user || !user.password) {
+      //   throw new Error("User data not found or password is missing");
+      // }
+
+      // if (user.password !== password) {
+      //   throw new Error("Invalid password");
+      // }
 
       Swal.fire({
         position: "top-end",
@@ -46,7 +54,7 @@ const Login = () => {
         timer: 1000,
       });
 
-      login(userDoc); // Set the user using the context login method
+      login(user); // Set the user using the context login method
       // Redirect to the intended page or home page
       const { state } = location;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

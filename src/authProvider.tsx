@@ -2,22 +2,22 @@
 
 import React, { createContext, ReactNode, useState, useContext, useEffect } from 'react';
 
-export interface UserData {
-  email: string;
-  password: string;
-}
+// export interface UserData {
+//   email: string;
+//   // password: string;
+// }
 
 interface AuthContextType {
-  user: UserData | null;
+  user: null;
   isLoggedIn: boolean;
-  login: (user: UserData) => void;
+  login: (user) => void;
   logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState(null);
 
   // Function to initialize the user state from localStorage
   const initializeUser = () => {
@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     initializeUser(); // Initialize user state on component mount
   }, []);
 
-  const login = (userData: UserData) => {
+  const login = (userData) => {
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
   };

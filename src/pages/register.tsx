@@ -1,28 +1,53 @@
 import React, { useState } from "react";
 import logo from "../assets/img/logo1.png";
 import { Link, useNavigate } from "react-router-dom";
-import { db } from "../Config/firebase.config";
+import { auth, db } from "../Config/firebase.config";
 import { collection, addDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
+const initialState = {
+  displayName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+}
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState(initialState);
+  const [error, setError] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {displayName, email, password, confirmPassword } = state;
+
+  const handleChange = e => {
+    setState({ ...state, [e.target.name]: e.target.value })
+  }
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      await addDoc(collection(db, "users"), {
-        name: name,
-        email: email,
-        password: password,
-        createdAt: new Date(),
-      });
+      // await addDoc(collection(db, "users"), {
+      //   name: name,
+      //   email: email,
+      //   password: password,
+      //   createdAt: new Date(),
+      // });
+      if(password !== confirmPassword) {
+       return  setError("Passwords don't match");
+      }
+      if(displayName && email && password){
+        const {user} = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(user, {displayName: displayName});
+      } else {
+       return setError("All fields are mandatory to fill");
+      }
+
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -32,7 +57,7 @@ const Register = () => {
       });
       navigate("/login");
     } catch (error) {
-      console.error("Error adding document: ", error);
+      setError((error as Error).message);
     } finally {
       setIsSubmitting(false);
     }
@@ -59,15 +84,21 @@ const Register = () => {
                           Register Here
                         </h5>
 
+                        {error && (
+                        <div className="alert alert-danger" role="alert">
+                          {error}
+                        </div>
+                      )}
+
                         <div className="form-floating mb-3">
                           <input
                             type="text"
                             className="form-control"
                             id="floatingInput"
                             placeholder="anischolar"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
+                            name="displayName"
+                            value={displayName}
+                            onChange={handleChange}
                           />
                           <label htmlFor="floatingInput">Full Name</label>
                         </div>
@@ -78,9 +109,9 @@ const Register = () => {
                             className="form-control"
                             id="floatingInput"
                             placeholder="name@example.com"
+                            name="email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            onChange={handleChange}
                           />
                           <label htmlFor="floatingInput">Email address</label>
                         </div>
@@ -91,11 +122,24 @@ const Register = () => {
                             className="form-control"
                             id="floatingPassword"
                             placeholder="Password"
+                            name="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                            onChange={handleChange}
                           />
                           <label htmlFor="floatingPassword">Password</label>
+                        </div>
+
+                        <div className="form-floating mb-3">
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="floatingPassword"
+                            placeholder="Confirm Password"
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            onChange={handleChange}
+                          />
+                          <label htmlFor="floatingPassword">Confirm password</label>
                         </div>
 
                         <div className="pt-1 mb-4">
