@@ -13,9 +13,9 @@ const Hero = () => {
         <section className="d-flex align-items-center">
           <div className="container">
             <div className="row">
-              <div className="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+              <div className="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
                 <h1 data-aos="fade-up">
-                Dream, Refine & Launch Your Career
+                Launch Your Career
                 </h1>
                 <h2 data-aos="fade-up" data-aos-delay="400">
                 AniScholar is a career readiness platform bridging the gap between the industry and the 

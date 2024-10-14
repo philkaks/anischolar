@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/img/logo1.png";
+import logo from "../assets/img/logo2.png";
 import { useEffect } from "react";
 import React from "react";
 import { useAuth } from "../authProvider";
@@ -122,7 +122,6 @@ const Navbar = () => {
             <a>
               <img src={logo} alt="" className="img-fluid"></img>
             </a>
-            AniScholar
           </div>
           <nav id="navbar" className="mobile-view navbar">
             <ul>
