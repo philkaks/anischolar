@@ -1,5 +1,5 @@
 import React from "react";
-import image1 from "../assets/img/vet.png";
+import image1 from "../assets/img/student.jpg";
 // import CountUp from "react-countup";
 
 const AboutUs = () => {

@@ -1,16 +1,15 @@
 import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/img/logo1.png";
+import logo from "../assets/img/logo2.png";
 
 const Header = ({ title, title2 }) => {
     return (
         <header id="header" className="fixed-top d-flex align-items-center">
             <div className="container d-flex align-items-center justify-content-between">
                 <div className="logo">
-                    <a href="index.html">
+                    <a href="/">
                         <img src={logo} alt="" className="img-fluid" />
                     </a>
-                    AniScholar
                 </div>
 
                 <nav id="navbar" className="navbar">

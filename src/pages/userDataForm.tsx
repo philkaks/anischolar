@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import jsPDF from 'jspdf';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import { addDoc, collection } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
 import Swal from "sweetalert2";
+import { API_KEY } from '../Config/constants';
+import { useAuth } from '../authProvider';
 
 const MultiStepForm: React.FC = () => {
+    const { cvContent, setCvContent } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -50,8 +55,8 @@ const MultiStepForm: React.FC = () => {
         setEducationEntry((prev) => ({ ...prev, [name]: value }));
     };
 
-       // Handle change for experience entry
-       const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Handle change for experience entry
+    const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setExperienceEntry((prev) => ({ ...prev, [name]: value }));
     };
@@ -66,8 +71,8 @@ const MultiStepForm: React.FC = () => {
         setEducationEntry({ degree: '', institution: '', educationStartDate: '', educationEndDate: '' });
     };
 
-     // Add education entry to formData
-     const handleAddExperience = () => {
+    // Add education entry to formData
+    const handleAddExperience = () => {
         console.log(experienceEntry);
         setFormData((prev) => ({
             ...prev,
@@ -84,28 +89,134 @@ const MultiStepForm: React.FC = () => {
         setStep((prev) => Math.max(prev - 1, 1)); // Limit to min step
     };
 
+    const generateCV = async () => {
+        const formattedExperience = formData.workExperience.map(exp => ({
+          jobTitle: exp.jobTitle,
+          company: exp.company,
+          duration: `${exp.experienceStartDate} to ${exp.experienceEndDate}`, // Consistent format
+          duties: exp.description.split('. ').map(duty => duty.trim()) // Split duties into an array
+        }));
+      
+        const formattedEducation = formData.education.map(edu => ({
+          degree: edu.degree,
+          institution: edu.institution,
+          duration: `${edu.educationStartDate} to ${edu.educationEndDate}` // Consistent format
+        }));
+      
+        const prompt = `
+          Generate a professional CV in JSON format for the following details:
+          {
+            "personalDetails": {
+              "name": "${formData.firstName} ${formData.lastName}",
+              "email": "${formData.email}",
+              "phone": "${formData.phoneNumber}"
+            },
+            "personalSummary": "Generate a personal summary based on the provided details.",
+            "experience": ${JSON.stringify(formattedExperience)},
+            "education": ${JSON.stringify(formattedEducation)},
+            "skills": ${JSON.stringify(formData.skills)},
+            "certifications": ${JSON.stringify(formData.certifications)}
+          }
+          Please make sure that:
+          - "duties" are formatted as an array for each experience entry.
+          - Use "to" between the start and end dates for consistency in "duration".
+          - Skills should be formatted as an array.
+          - Certifications should be in the format of an array with "title" and "link" fields.
+          Respond only with a valid JSON object in the following format:
+          {
+            personalDetails: {
+              name: "string",
+              email: "string",
+              phone: "string"
+            },
+            personalSummary: "string",
+            experience: [
+              {
+                jobTitle: "string",
+                company: "string",
+                duration: "string",
+                duties: ["string"]
+              }
+            ],
+            education: [
+              {
+                degree: "string",
+                institution: "string",
+                duration: "string"
+              }
+            ],
+            skills: ["string"],
+            certifications: [
+              {
+                title: "string",
+                link: "string"
+              }
+            ]
+          }
+        `;
+      
+        try {
+          const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+            model: 'gpt-4',
+            messages: [
+              { role: 'user', content: prompt }
+            ],
+            max_tokens: 800,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${API_KEY}`,
+              'Content-Type': 'application/json'
+            }
+          });
+      
+          const cvText = response.data.choices[0].message.content;
+      
+          // Use regex to extract the JSON part from the response
+          const jsonMatch = cvText.match(/\{.*\}/s);
+          if (jsonMatch) {
+            const parsedCV = JSON.parse(jsonMatch[0]);  // Parse the JSON part
+            setCvContent(parsedCV);
+            return parsedCV;  // You can now use the parsed CV
+          } else {
+            console.error("Could not find a valid JSON in the response");
+          }
+        } catch (error) {
+          console.error('Error generating CV:', error);
+        }
+      };
+      
+      
+      
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-    
+
         try {
-          // Store the application data in Firestore
-          await addDoc(collection(db, "userData"), formData);
-    
-          navigate("/");
+            // Store the application data in Firestore
+            await generateCV();
+              await addDoc(collection(db, "userData"), cvContent);
+            navigate("/");
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Data saved Successfully",
+                showConfirmButton: false,
+                timer: 1000,
+              });
         } catch (error) {
-          console.error("Error submitting application:", error);
-          Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: "Application failed, try again",
-            showConfirmButton: false,
-            timer: 1000,
-          });
+            console.error("Error submitting application:", error);
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Application failed, try again",
+                showConfirmButton: false,
+                timer: 1000,
+            });
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
-      };
+    };
 
     return (
         <div>

@@ -180,7 +180,15 @@ const Navbar = () => {
             <i className="bi bi-list mobile-nav-toggle"></i>
           </nav>
         </div>
+        <div className="blue-bar">
+        {/* Blue bar content */}
+      </div>
+      <div className="yellow-bar">
+        {/* Content goes here  */}
+      </div>
       </header>
+
+      
     </div>
   );
 };

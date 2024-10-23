@@ -1,0 +1,38 @@
+Nimusiima Vision
+Email: stein@stein.com
+Phone: 0751214286
+
+----------------------------------
+PERSONAL SUMMARY:
+A results-oriented Front-End Developer with a Bachelor’s degree in Land Economics and a Web Development Certificate. 
+Proven capacity to design and develop highly interactive, user-friendly websites and applications using Web, React, HTML, and CSS.
+
+----------------------------------
+PROFESSIONAL EXPERIENCE:
+
+FRONT-END DEVELOPER
+Dowell Research Ltd, Jan 2023 - March 2024
+
+- Developed a drag and drop form editor which incorporated a printing and sharing functionality.
+- Mastered HTML5/CSS3 and JavaScript skills, coupled with the ability to transform designs into functional code.
+- Conceptualized and implemented website layout while optimizing functionality and user experience.
+
+----------------------------------
+EDUCATION:
+
+Web Development Certificate, Outbox Uganda, Completed - March 2021
+
+Bachelor's Degree in Land Economics, Makerere University, May 2020 - Nov 2023
+
+----------------------------------
+SKILLS:
+
+- Proficient in Web, React, HTML, CSS with a keen understanding of web development.
+- Strong project management skills with a focus on delivering high-quality solutions.
+- Excellent problem-solving skills and attention to detail.
+
+----------------------------------
+CERTIFICATION:
+
+Web Development
+----------------------------------

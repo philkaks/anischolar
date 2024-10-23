@@ -28,7 +28,7 @@ const Team = () => {
               </p>
             </div>
             <div className="row">
-              {teamMembers.map((member, index) => (
+              {teamMembers.slice().reverse().map((member, index) => (
                 <div className="col-md-4" key={index}>
                   <div
                     className="member"

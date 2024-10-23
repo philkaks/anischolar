@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { db } from "../Config/firebase.config";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import logo from "../assets/img/logo1.png";
+import logo from "../assets/img/logo2.png";
 import { useAuth } from "../authProvider";
 import { auth } from "../Config/firebase.config"
 

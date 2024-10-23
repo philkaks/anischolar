@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/img/logo1.png";
+import logo from "../assets/img/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../Config/firebase.config";
 import { collection, addDoc } from "firebase/firestore";
