@@ -142,7 +142,7 @@ const CVPreview: React.FC = () => {
                             )}
 
                             <div id='divToPrint' className='w-100 pt-2'>
-                                <Template2
+                                <Template3
                                     cvData={cvData}
                                 />
                             </div>
