@@ -81,6 +81,7 @@ const CVPreview: React.FC = () => {
         //this function is called when the user clicks on the 'Save Resume' button.
         // it takes the 'div' element with id 'divToPrint' and then convert it into pdf format which is downloaded into the user's computer memory.
         const input = document.getElementById('divToPrint');
+        if(input)
         html2canvas(input, { scrollY: -window.scrollY })
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
