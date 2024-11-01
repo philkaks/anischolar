@@ -14,6 +14,8 @@ interface AuthContextType {
   logout: () => void;
   cvContent: any | null;
   setCvContent: (cv: any) => void;
+  template: null;
+  setTemplate: (temp: any) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +23,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState(null);
   const [cvContent, setCvContent] = useState<any | null>(null);
-
+  const [template, setTemplate] = useState<any | null>(null);
   // Function to initialize the user state from localStorage
   const initializeUser = () => {
     const storedUser = localStorage.getItem('user');
@@ -52,7 +54,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         login,
         logout,
         cvContent,
-        setCvContent
+        setCvContent,
+        template, 
+        setTemplate,
       }}
     >
       {children}

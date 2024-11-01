@@ -182,7 +182,7 @@ function Template2({ cvData }) {
         {/* Sidebar Section */}
         <div className='col-4 d-flex flex-column align-items-center pt-5' style={{ backgroundColor: "#3a506b", color: "#f8f9fa" }}>
           <div className="media mb-4">
-            <img className="rounded-circle border border-3" src={dp} alt='profile-pic' 
+            <img className="rounded-circle border border-3" src={cvData?.profilePicture?.url} alt='profile-pic' 
                  style={{ maxHeight: '180px', width: '150px', objectFit: 'cover', transition: 'transform 0.3s' }} />
           </div>
           <div className="text-center font-weight-bold mb-3" style={{ fontFamily: "Serif", transition: 'color 0.3s' }}>

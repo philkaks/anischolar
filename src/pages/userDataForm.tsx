@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
-import { addDoc, collection } from "@firebase/firestore";
+import { getDocs, query, where, addDoc, collection } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
 import Swal from "sweetalert2";
 import { API_KEY } from '../Config/constants';
 import { useAuth } from '../authProvider';
 
 const MultiStepForm: React.FC = () => {
-    const { cvContent, setCvContent } = useAuth();
+    const { user, cvContent, setCvContent } = useAuth();
+    console.log(user);
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -91,18 +93,18 @@ const MultiStepForm: React.FC = () => {
 
     const generateCV = async () => {
         const formattedExperience = formData.workExperience.map(exp => ({
-          jobTitle: exp.jobTitle,
-          company: exp.company,
-          duration: `${exp.experienceStartDate} to ${exp.experienceEndDate}`, // Consistent format
-          duties: exp.description.split('. ').map(duty => duty.trim()) // Split duties into an array
+            jobTitle: exp.jobTitle,
+            company: exp.company,
+            duration: `${exp.experienceStartDate} to ${exp.experienceEndDate}`, // Consistent format
+            duties: exp.description.split('. ').map(duty => duty.trim()) // Split duties into an array
         }));
-      
+
         const formattedEducation = formData.education.map(edu => ({
-          degree: edu.degree,
-          institution: edu.institution,
-          duration: `${edu.educationStartDate} to ${edu.educationEndDate}` // Consistent format
+            degree: edu.degree,
+            institution: edu.institution,
+            duration: `${edu.educationStartDate} to ${edu.educationEndDate}` // Consistent format
         }));
-      
+
         const prompt = `
           Generate a professional CV in JSON format for the following details:
           {
@@ -154,39 +156,39 @@ const MultiStepForm: React.FC = () => {
             ]
           }
         `;
-      
+
         try {
-          const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-4',
-            messages: [
-              { role: 'user', content: prompt }
-            ],
-            max_tokens: 800,
-          }, {
-            headers: {
-              'Authorization': `Bearer ${API_KEY}`,
-              'Content-Type': 'application/json'
+            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+                model: 'gpt-4',
+                messages: [
+                    { role: 'user', content: prompt }
+                ],
+                max_tokens: 800,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const cvText = response.data.choices[0].message.content;
+
+            // Use regex to extract the JSON part from the response
+            const jsonMatch = cvText.match(/\{.*\}/s);
+            if (jsonMatch) {
+                const parsedCV = JSON.parse(jsonMatch[0]);  // Parse the JSON part
+                setCvContent(parsedCV);
+                return parsedCV;  // You can now use the parsed CV
+            } else {
+                console.error("Could not find a valid JSON in the response");
             }
-          });
-      
-          const cvText = response.data.choices[0].message.content;
-      
-          // Use regex to extract the JSON part from the response
-          const jsonMatch = cvText.match(/\{.*\}/s);
-          if (jsonMatch) {
-            const parsedCV = JSON.parse(jsonMatch[0]);  // Parse the JSON part
-            setCvContent(parsedCV);
-            return parsedCV;  // You can now use the parsed CV
-          } else {
-            console.error("Could not find a valid JSON in the response");
-          }
         } catch (error) {
-          console.error('Error generating CV:', error);
+            console.error('Error generating CV:', error);
         }
-      };
-      
-      
-      
+    };
+
+
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -195,15 +197,18 @@ const MultiStepForm: React.FC = () => {
         try {
             // Store the application data in Firestore
             await generateCV();
-              await addDoc(collection(db, "userData"), cvContent);
-            navigate("/");
+            await addDoc(collection(db, "userData"), {
+                ...cvContent,
+                userId: user?.uid,
+            });            
+            navigate("/templates");
             Swal.fire({
                 position: "top-end",
                 icon: "success",
                 title: "Data saved Successfully",
                 showConfirmButton: false,
                 timer: 1000,
-              });
+            });
         } catch (error) {
             console.error("Error submitting application:", error);
             Swal.fire({
@@ -217,6 +222,32 @@ const MultiStepForm: React.FC = () => {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        const userId = user?.uid;
+        const fetchUserData = async () => {
+            try {
+                const userDataRef = collection(db, "userData");
+                const q = query(userDataRef, where("userId", "==", userId));
+                const querySnapshot = await getDocs(q);
+                
+                if (!querySnapshot.empty) {
+                    const doc = querySnapshot.docs[0];
+                    setCvContent({ id: doc.id, ...doc.data() });
+                    navigate("/templates"); 
+                } else {
+                    console.log("No user data found for the specified userId.");
+                    setCvContent(null);
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+    
+        if (userId) {
+            fetchUserData();
+        }
+    }, [user?.uid]); // Re-run the effect if user?.uid changes
 
     return (
         <div>

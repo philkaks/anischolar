@@ -1,3 +1,7 @@
+import temp1Img from '../assets/img/temp1.png';
+import temp2Img from '../assets/img/temp2.png';
+import temp3Img from '../assets/img/temp3.png';
+
 export const API_KEY = "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"
 
 export const dummyCV = {
@@ -62,3 +66,18 @@ export const dummyCV = {
         }
     ]
 };
+
+export const templateImagesPaths =[
+    {
+        name:'Template 1',
+        imageSource:temp1Img,
+    },
+    {
+        name:'Template 2',
+        imageSource:temp2Img
+    },
+    {
+        name:'Template 3',
+        imageSource:temp3Img,
+    },
+]

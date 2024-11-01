@@ -94,18 +94,18 @@ function Template1({ cvData }) {
         <div className="col-3 text-center">
           <img
             className="rounded-circle border border-3"
-            src={dp}
+            src={cvData?.profilePicture?.url}
             alt="profile-pic"
             style={{ maxHeight: "150px", width: "150px", objectFit: "cover" }}
           />
         </div>
         <div className="col-6 text-center font-weight-bold">
-          <h1 style={{ color: "#333", fontSize: "45px", margin: "0" }}>{cvData.personalDetails.name}</h1>
+          <h1 style={{ color: "#333", fontSize: "45px", margin: "0" }}>{cvData?.personalDetails.name}</h1>
           <h5 style={{ color: "#6c757d", fontStyle: "italic" }}>Web Developer</h5>
         </div>
         <div className="col-3 text-right" style={{ fontSize: "16px" }}>
-          <p className="m-0">{cvData.personalDetails.email}</p>
-          <p className="m-0">{cvData.personalDetails.phone}</p>
+          <p className="m-0">{cvData?.personalDetails.email}</p>
+          <p className="m-0">{cvData?.personalDetails.phone}</p>
         </div>
       </div>
 
@@ -113,7 +113,7 @@ function Template1({ cvData }) {
 
       {/* Personal Summary */}
       <div className="mx-4 mb-4" style={{ fontSize: "18px", color: "#4a4a4a" }}>
-        {cvData.personalSummary}
+        {cvData?.personalSummary}
       </div>
 
       {/* Professional Experience */}
@@ -123,7 +123,7 @@ function Template1({ cvData }) {
             <h4>Professional Experience</h4>
           </div>
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
-            {cvData.experience.map((item, index) => (
+            {cvData?.experience.map((item, index) => (
               <div key={index} className="mb-3">
                 <div className="font-weight-bold" style={{ fontSize: "18px", color: "#333" }}>{item.jobTitle}</div>
                 <div style={{ color: "#6c757d" }}>
@@ -147,7 +147,7 @@ function Template1({ cvData }) {
             <h4>Education</h4>
           </div>
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
-            {cvData.education.map((item, index) => (
+            {cvData?.education.map((item, index) => (
               <div key={index} className="mb-2">
                 <div className="font-weight-bold" style={{ color: "#333" }}>{item.degree}</div>
                 <div style={{ color: "#6c757d" }}>
@@ -167,7 +167,7 @@ function Template1({ cvData }) {
           </div>
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
             <ul className="pl-3">
-              {cvData.skills.map((skill, index) => (
+              {cvData?.skills.map((skill, index) => (
                 <li key={index} style={{ color: "#4a4a4a" }}>{skill}</li>
               ))}
             </ul>

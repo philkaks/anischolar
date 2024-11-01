@@ -1,20 +1,87 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { updateDoc, query, where, getDocs, collection, doc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db } from "../../Config/firebase.config";
+import { useAuth } from '../../authProvider';
 
 const UpdateForm = ({
-    cvData,
-    setCvData,
-    handlePersonalDetailChange,
-    handleSummaryChange,
-    handleExperienceChange,
-    handleEducationChange,
-    handleSkillsChange,
-    handleCertificationsChange
+  cvData,
+  setCvData,
+  handlePersonalDetailChange,
+  handleSummaryChange,
+  handleExperienceChange,
+  handleEducationChange,
+  handleSkillsChange,
+  handleCertificationsChange
 }) => {
+
+  const [profilePic, setProfilePic] = useState(null);
+  const { user } = useAuth();
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0];
+    setProfilePic(file);
+
+    // Update cvData with the selected profile picture file
+    setCvData((prevData) => ({
+      ...prevData,
+      profilePicture: file
+    }));
+    console.log(cvData);
+    
+
+  };
+
+  const handleSubmit = async (e) => {
+    const userId = user?.uid;
+    e.preventDefault();
+
+    try {
+      const userDataRef = collection(db, "userData");
+      const q = query(userDataRef, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref;
+          
+          let profilePicture = cvData.profilePicture; // Keep existing data
+
+          // Upload profile picture if a new file is selected
+          if (profilePic) {
+              const storage = getStorage();
+              const profilePicRef = ref(storage, `profilePictures/${userId}`);
+              await uploadBytes(profilePicRef, profilePic);
+              const profilePicUrl = await getDownloadURL(profilePicRef);
+
+              // Update profilePicture as an object with URL and metadata
+              profilePicture = {
+                  url: profilePicUrl,
+                  fileType: profilePic.type,
+                  fileName: profilePic.name,
+              };
+          }
+
+          // Update Firestore document with updated cvData including profilePicture object
+          await updateDoc(docRef, {
+              ...cvData,
+              profilePicture,
+          });
+            alert("Profile updated successfully!");
+        } else {
+            console.log("No document found with the specified userId.");
+        }
+    } catch (error) {
+        console.error("Error updating profile:", error);
+    }
+};
+
   return (
     <div>
-       {/* Form Section */}
-       <div className="my-5 p-4 w-50" style={{border:"5px solid lightgrey"}}>
-        <h4>Update CV Details</h4>
+      {/* Form Section */}
+      <div className="my-5 p-4 w-50" style={{ border: "5px solid lightgrey" }}>
+        <div className='d-flex flex-row justify-content-between'>
+          <h4>Update CV Details</h4>
+          <button onClick={handleSubmit} className="formbold-btn">Update</button>
+        </div>
         <form>
           <div className="formbold-input-flex">
             <div>
@@ -50,6 +117,16 @@ const UpdateForm = ({
                 className="formbold-form-input"
               />
             </div>
+          </div>
+
+          {/* Add Profile Picture Upload */}
+          <div className="form-group">
+            <label className="formbold-form-label">Profile Picture</label>
+            <input
+              type="file"
+              onChange={handleProfilePicChange}
+              className="formbold-form-input"
+            />
           </div>
 
           <div>
