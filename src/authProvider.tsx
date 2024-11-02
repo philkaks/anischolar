@@ -6,9 +6,13 @@ import React, { createContext, ReactNode, useState, useContext, useEffect } from
 //   email: string;
 //   // password: string;
 // }
+interface User {
+  uid: string;
+  // add other user properties if necessary
+}
 
 interface AuthContextType {
-  user: null;
+  user: User | null;
   isLoggedIn: boolean;
   login: (user) => void;
   logout: () => void;
@@ -21,7 +25,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [cvContent, setCvContent] = useState<any | null>(null);
   const [template, setTemplate] = useState<any | null>(null);
   // Function to initialize the user state from localStorage

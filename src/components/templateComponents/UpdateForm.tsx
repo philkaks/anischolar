@@ -15,7 +15,7 @@ const UpdateForm = ({
   handleCertificationsChange
 }) => {
 
-  const [profilePic, setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState<File | null>(null);
   const { user } = useAuth();
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];

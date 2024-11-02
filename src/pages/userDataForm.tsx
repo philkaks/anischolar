@@ -189,26 +189,40 @@ const MultiStepForm: React.FC = () => {
 
 
 
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-
+    
         try {
-            // Store the application data in Firestore
-            await generateCV();
-            await addDoc(collection(db, "userData"), {
-                ...cvContent,
-                userId: user?.uid,
-            });            
-            navigate("/templates");
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Data saved Successfully",
-                showConfirmButton: false,
-                timer: 1000,
-            });
+            // Generate CV and get the returned data directly
+            const generatedCV = await generateCV();
+            
+            if (generatedCV) { // Ensure CV data is generated before proceeding
+                console.log(generateCV);
+                
+                await addDoc(collection(db, "userData"), {
+                    ...generatedCV, 
+                    userId: user?.uid,
+                });
+    
+                navigate("/templates");
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Data saved Successfully",
+                    showConfirmButton: false,
+                    timer: 1000,
+                });
+            } else {
+                console.error("CV generation failed, no data to save");
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "CV generation failed, please try again",
+                    showConfirmButton: false,
+                    timer: 1000,
+                });
+            }
         } catch (error) {
             console.error("Error submitting application:", error);
             Swal.fire({
@@ -222,6 +236,7 @@ const MultiStepForm: React.FC = () => {
             setIsLoading(false);
         }
     };
+    
 
     useEffect(() => {
         const userId = user?.uid;
@@ -247,7 +262,7 @@ const MultiStepForm: React.FC = () => {
         if (userId) {
             fetchUserData();
         }
-    }, [user?.uid]); // Re-run the effect if user?.uid changes
+    }, [user?.uid]); 
 
     return (
         <div>
