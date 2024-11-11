@@ -1,92 +1,31 @@
-// import React from 'react';
-// import dp from '../../assets/img/Vision.jpg';
-
-
-// function Template1({cvData}) {
-
-//   return (
-//     <div className="my-5 p-4 w-100" style={{border:"5px solid grey", backgroundColor:""}}>
-//         <div>
-//             <div className="row  m-0 d-flex align-items-center" style={{height:"200px"}}>
-//                 <div className="col-2 text-center media" >
-//                     <img className="rounded align-self-center mx-auto " src={dp} alt='profile-pic'
-//                          style={{maxHeight:'180px', minHeight:"120px", width:'100px', background:'grey', padding:0}}/>
-//                 </div>
-//                 <div className="col-6 text-left font-weight-bold" style={{fontFamily:"Serif"}}>
-//                     <div className='d-flex justify-content-center' style={{color:"black", fontSize:"55px"}}>
-//                         {cvData.personalDetails.name}
-//                     </div>
-//                     <h5 className='d-flex justify-content-center'>Web Developer</h5>
-//                 </div>
-//                 <div className="col-4">
-//                     <div className='p-3' style={{fontSize:"18px", float:"left", display:"inline-block"}}>
-//                         <div>{cvData.personalDetails.email}</div>
-//                         <div>{cvData.personalDetails.phone}</div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//         <hr style={{height:"5px", backgroundColor:"black"}}/>
-//         <div className="text-justify mx-4">{cvData.personalSummary}</div>
-//         <hr style={{height:"5px", backgroundColor:"grey"}}/>
-
-//         <div className="container" style={{fontFamily:"Serif"}}>
-//             <div className="row">
-//                 <div className="col-3 text-left" style={{color:"black"}}> <h4>Professional Experience</h4></div>
-//                 <div className="col-9 text-left" style={{fontSize:"18px"}}>
-//                     {cvData.experience.map((item, index) => (
-//                         <div key={index}>
-//                             <div className='mt-2'><b>{item.jobTitle}</b></div>
-//                             <div className='mt-2'>
-//                                 Worked at {item.company} from {item.duration}.
-//                             </div>
-//                             <div>
-//                                 <ul>
-//                                     {item.duties.map((duty, idx) => (
-//                                         <li key={idx}>{duty}</li>
-//                                     ))}
-//                                 </ul>
-//                             </div>
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <div className="w-100 mt-4"></div>
-//                 <hr style={{height:"5px", backgroundColor:"black"}}/>
-//                 <div className="col-3 text-left" style={{color:"black"}}><h4>Education</h4></div>
-//                 <div className="col-9 text-left">
-//                     <div style={{fontSize:"18px"}}>
-//                         {cvData.education.map((item, index) => (
-//                             <div key={index}>
-//                                 <b>{item.degree}</b>
-//                                 <div>Studied at {item.institution} from {item.duration}</div>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-//                 <div className="w-100 mt-4"></div>
-//                 <hr style={{height:"5px", backgroundColor:"black"}}/>
-//                 <div className="col-3 text-left">
-//                     <h4 style={{color:"black"}}>Key Skills</h4>
-//                 </div>
-//                 <div className="col-9 text-left" style={{fontSize:"18px"}}>
-//                     <ul>
-//                         {cvData.skills.map((skill, index) => (
-//                             <li key={index}>{skill}</li>
-//                         ))}
-//                     </ul>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>
-//   )
-// }
-
-// export default Template1;
-
 import React from 'react';
-import dp from '../../assets/img/Vision.jpg';
 
-function Template1({ cvData }) {
+function Template1({ cvData, setCvContent, isEditing }) {
+
+  const handleBlur = (
+    field: keyof typeof cvData,
+    value: string,
+    subField: string | null = null,
+    index: number | null = null,
+    subIndex: number | null = null
+  ) => {
+    const updatedData = { ...cvData };
+
+    if (subField && index !== null) {
+      if (subIndex !== null) {
+        updatedData[field][index][subField][subIndex] = value;
+      } else {
+        updatedData[field][index][subField] = value;
+      }
+    } else if (subField) {
+      updatedData[field][subField] = value;
+    } else {
+      updatedData[field] = value;
+    }
+
+    setCvContent(updatedData);
+  };
+
   return (
     <div className="my-5 p-5 w-100 shadow-sm" style={{ border: "5px solid #e0e0e0", backgroundColor: "#f8f9fa", borderRadius: "10px" }}>
       {/* Header Section */}
@@ -100,19 +39,48 @@ function Template1({ cvData }) {
           />
         </div>
         <div className="col-6 text-center font-weight-bold">
-          <h1 style={{ color: "#333", fontSize: "45px", margin: "0" }}>{cvData?.personalDetails.name}</h1>
-          <h5 style={{ color: "#6c757d", fontStyle: "italic" }}>Web Developer</h5>
+          <h1
+            contentEditable={isEditing}
+            onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "name")}
+            style={{ color: "#333", fontSize: "45px", margin: "0" }}
+          >
+            {cvData?.personalDetails.name}
+          </h1>
+          <h5
+            contentEditable={isEditing}
+            onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "jobTitle")}
+            style={{ color: "#6c757d", fontStyle: "italic" }}
+          >
+           {cvData?.personalDetails.jobTitle}
+          </h5>
         </div>
         <div className="col-3 text-right" style={{ fontSize: "16px" }}>
-          <p className="m-0">{cvData?.personalDetails.email}</p>
-          <p className="m-0">{cvData?.personalDetails.phone}</p>
+          <p
+            contentEditable={isEditing}
+            onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "email")}
+            className="m-0"
+          >
+            {cvData?.personalDetails.email}
+          </p>
+          <p
+            contentEditable={isEditing}
+            onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "phone")}
+            className="m-0"
+          >
+            {cvData?.personalDetails.phone}
+          </p>
         </div>
       </div>
 
       <hr style={{ height: "4px", backgroundColor: "#6c757d" }} />
 
       {/* Personal Summary */}
-      <div className="mx-4 mb-4" style={{ fontSize: "18px", color: "#4a4a4a" }}>
+      <div
+        contentEditable={isEditing}
+        onBlur={(e) => handleBlur("personalSummary", e.target.innerText)}
+        className="mx-4 mb-4"
+        style={{ fontSize: "18px", color: "#4a4a4a" }}
+      >
         {cvData?.personalSummary}
       </div>
 
@@ -125,13 +93,31 @@ function Template1({ cvData }) {
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
             {cvData?.experience.map((item, index) => (
               <div key={index} className="mb-3">
-                <div className="font-weight-bold" style={{ fontSize: "18px", color: "#333" }}>{item.jobTitle}</div>
-                <div style={{ color: "#6c757d" }}>
+                <div
+                  contentEditable={isEditing}
+                  onBlur={(e) => handleBlur("experience", e.target.innerText, "jobTitle", index)}
+                  className="font-weight-bold"
+                  style={{ fontSize: "18px", color: "#333" }}
+                >
+                  {item.jobTitle}
+                </div>
+                <div
+                  contentEditable={isEditing}
+                  onBlur={(e) => handleBlur("experience", e.target.innerText, "company", index)}
+                  style={{ color: "#6c757d" }}
+                >
                   Worked at {item.company} from {item.duration}
                 </div>
                 <ul className="pl-3">
                   {item.duties.map((duty, idx) => (
-                    <li key={idx} style={{ color: "#4a4a4a" }}>{duty}</li>
+                    <li
+                      key={idx}
+                      contentEditable={isEditing}
+                      onBlur={(e) => handleBlur("experience", e.target.innerText, "duties", index, idx)}
+                      style={{ color: "#4a4a4a" }}
+                    >
+                      {duty}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -149,8 +135,19 @@ function Template1({ cvData }) {
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
             {cvData?.education.map((item, index) => (
               <div key={index} className="mb-2">
-                <div className="font-weight-bold" style={{ color: "#333" }}>{item.degree}</div>
-                <div style={{ color: "#6c757d" }}>
+                <div
+                  contentEditable={isEditing}
+                  onBlur={(e) => handleBlur("education", e.target.innerText, "degree", index)}
+                  className="font-weight-bold"
+                  style={{ color: "#333" }}
+                >
+                  {item.degree}
+                </div>
+                <div
+                  contentEditable={isEditing}
+                  onBlur={(e) => handleBlur("education", e.target.innerText, "institution", index)}
+                  style={{ color: "#6c757d" }}
+                >
                   Studied at {item.institution} from {item.duration}
                 </div>
               </div>
@@ -166,9 +163,37 @@ function Template1({ cvData }) {
             <h4 style={{ color: "#333" }}>Key Skills</h4>
           </div>
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
-            <ul className="pl-3">
+            <ul  contentEditable={isEditing} className="pl-3">
               {cvData?.skills.map((skill, index) => (
-                <li key={index} style={{ color: "#4a4a4a" }}>{skill}</li>
+                <li
+                  key={index}
+                  onBlur={(e) => handleBlur("skills", e.target.innerText, null, index)}
+                  style={{ color: "#4a4a4a" }}
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Certifications Section */}
+        <div className="row">
+          <div className="col-3 text-left">
+            <h4 style={{ color: "#4a4a4a", fontSize: "1.5rem", marginBottom: "0.75rem" }}>Certifications</h4>
+          </div>
+          <div className="col-9 text-left" style={{ fontSize: "16px" }}>
+            <ul style={{ listStyleType: "none", paddingLeft: "1.25rem", color: "#555", lineHeight: "1.6" }}>
+              {cvData?.certifications?.map((cert, index) => (
+                <li key={index} style={{ marginBottom: "0.5rem" }}>
+                  <span
+                    contentEditable={isEditing}
+                    onBlur={(e) => handleBlur("certifications", e.target.innerText, "title", index)}
+                    style={{ color: "#6c757d", textDecoration: "none" }}
+                  >
+                    {cert.title}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>

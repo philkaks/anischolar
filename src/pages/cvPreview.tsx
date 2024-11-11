@@ -9,12 +9,16 @@ import Swal from "sweetalert2";
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { useAuth } from '../authProvider';
-import { getDocs, query, where, addDoc, collection } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
+import { updateDoc, query, where, getDocs, collection, doc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Template4 from '../components/templateComponents/Template4';
+
 
 const CVPreview: React.FC = () => {
     const { user, cvContent, setCvContent, template } = useAuth();
     const [isFormVisible, setIsFormVisible] = useState(false); // Step 1: State for visibility
+    const [isEditing, setIsEditing] = useState(false);
 
     // Handle change for personal details, summary, etc.
     const handlePersonalDetailChange = (e) => {
@@ -109,14 +113,14 @@ const CVPreview: React.FC = () => {
 
     useEffect(() => {
         console.log("updated");
-        
+
         const userId = user?.uid;
         const fetchUserData = async () => {
             try {
                 const userDataRef = collection(db, "userData");
                 const q = query(userDataRef, where("userId", "==", userId));
                 const querySnapshot = await getDocs(q);
-                
+
                 if (!querySnapshot.empty) {
                     const doc = querySnapshot.docs[0];
                     setCvContent({ id: doc.id, ...doc.data() });
@@ -128,11 +132,48 @@ const CVPreview: React.FC = () => {
                 console.error("Error fetching user data:", error);
             }
         };
-    
+
         if (userId) {
             fetchUserData();
         }
     }, []);
+    console.log(cvContent);
+
+    const handleToggleEdit = () => {
+        setIsEditing(!isEditing);
+        console.log(cvContent);
+
+    };
+
+    const handleSubmit = async () => {
+        const userId = user?.uid;
+
+
+        try {
+            const userDataRef = collection(db, "userData");
+            const q = query(userDataRef, where("userId", "==", userId));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const docRef = querySnapshot.docs[0].ref;
+
+                // Update Firestore document with updated cvData 
+                await updateDoc(docRef, cvContent);
+                alert("updated successfully!");
+            } else {
+                console.log("No document found with the specified userId.");
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+        }
+    };
+
+    // useEffect to call handleSubmit when isEditing changes from true to false
+    useEffect(() => {
+        if (!isEditing) {
+            handleSubmit();
+        }
+    }, [isEditing]);
 
 
     return (
@@ -141,14 +182,24 @@ const CVPreview: React.FC = () => {
             <div className='container w-100'>
                 <div className='mt-2 p-5 w-100'>
                     <div className='w-100 d-flex justify-content-center'>
-                        <div className='w-100 pt-4 flex flex-row'>
+                        <div className='w-100 pt-4 flex flex-col'>
                             <div className='d-flex w-100 justify-content-between'>
-                                <button
-                                    onClick={toggleUpdateForm} // Step 2: Button to toggle form visibility
-                                    className="formbold-btn mr-4"
-                                >
-                                    {isFormVisible ? 'Hide Update ' : 'Show Update '}
-                                </button>
+                                <div className='d-flex w-25 justify-content-between'>
+                                    <button
+                                        onClick={toggleUpdateForm} // Step 2: Button to toggle form visibility
+                                        className="formbold-btn mr-4 pr-4"
+                                    >
+                                        {isFormVisible ? 'Hide Update ' : 'Show Update '}
+                                    </button>
+
+                                    <button
+                                        onClick={handleToggleEdit} // Step 2: Button to toggle form visibility
+                                        className="formbold-btn ml-4"
+                                    >
+                                        {isEditing ? "Save" : "Edit"}
+                                    </button>
+                                </div>
+
 
                                 <button
                                     onClick={downloadComponentPDF} // Step 2: Button to toggle form visibility
@@ -178,14 +229,25 @@ const CVPreview: React.FC = () => {
                                 {template && template === "Template 1" ?
                                     <Template1
                                         cvData={cvContent}
+                                        setCvContent={setCvContent}
+                                        isEditing={isEditing}
                                     /> : template === "Template 2" ?
                                         <Template2
                                             cvData={cvContent}
+                                            setCvContent={setCvContent}
+                                            isEditing={isEditing}
                                         />
-                                        :
-                                        <Template3
-                                            cvData={cvContent}
-                                        />
+                                        : template === "Template 3" ?
+                                            <Template3
+                                                cvData={cvContent}
+                                                setCvContent={setCvContent}
+                                                isEditing={isEditing}
+                                            /> :
+                                            <Template4
+                                                cvData={cvContent}
+                                                setCvContent={setCvContent}
+                                                isEditing={isEditing}
+                                            />
                                 }
                             </div>
 

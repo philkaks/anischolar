@@ -6,3 +6,8 @@
 @import "./assets/vendor/remixicon/remixicon.css";
 @import "./assets/vendor/swiper/swiper-bundle.min.css";
 
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+

@@ -15,6 +15,8 @@ import './App'
 import UserDataForm from './pages/userDataForm'
 import CVPreview from './pages/cvPreview'
 import TemplateSelect from './pages/templateSelect'
+import FormSection from './resume/FormSection'
+import EditResume from './pages/editResume'
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
   { path: '/register', element: <Register /> },
   {path: '/userDataForm', element: <UserDataForm />},
+  {path: '/resumeForm', element: <EditResume />},
   {path: '/templates', element: <TemplateSelect />},
   {path: '/cvPreview', element: <CVPreview />},
   { path: '*', element: <NotFound /> } // 404 route

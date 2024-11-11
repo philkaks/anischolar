@@ -66,6 +66,7 @@ const MultiStepForm: React.FC = () => {
 
     // Add education entry to formData
     const handleAddEducation = () => {
+        if(educationEntry.degree !== '')
         setFormData((prev) => ({
             ...prev,
             education: [...prev.education, educationEntry],
@@ -75,7 +76,7 @@ const MultiStepForm: React.FC = () => {
 
     // Add education entry to formData
     const handleAddExperience = () => {
-        console.log(experienceEntry);
+        if(experienceEntry.jobTitle !== '')
         setFormData((prev) => ({
             ...prev,
             workExperience: [...prev.workExperience, experienceEntry],
@@ -192,19 +193,19 @@ const MultiStepForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-    
+
         try {
             // Generate CV and get the returned data directly
             const generatedCV = await generateCV();
-            
+
             if (generatedCV) { // Ensure CV data is generated before proceeding
                 console.log(generateCV);
-                
+
                 await addDoc(collection(db, "userData"), {
-                    ...generatedCV, 
+                    ...generatedCV,
                     userId: user?.uid,
                 });
-    
+
                 navigate("/templates");
                 Swal.fire({
                     position: "top-end",
@@ -236,7 +237,7 @@ const MultiStepForm: React.FC = () => {
             setIsLoading(false);
         }
     };
-    
+
 
     useEffect(() => {
         const userId = user?.uid;
@@ -245,11 +246,11 @@ const MultiStepForm: React.FC = () => {
                 const userDataRef = collection(db, "userData");
                 const q = query(userDataRef, where("userId", "==", userId));
                 const querySnapshot = await getDocs(q);
-                
+
                 if (!querySnapshot.empty) {
                     const doc = querySnapshot.docs[0];
                     setCvContent({ id: doc.id, ...doc.data() });
-                    navigate("/templates"); 
+                    navigate("/templates");
                 } else {
                     console.log("No user data found for the specified userId.");
                     setCvContent(null);
@@ -258,11 +259,11 @@ const MultiStepForm: React.FC = () => {
                 console.error("Error fetching user data:", error);
             }
         };
-    
+
         if (userId) {
             fetchUserData();
         }
-    }, [user?.uid]); 
+    }, [user?.uid]);
 
     return (
         <div>
@@ -272,7 +273,7 @@ const MultiStepForm: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                         {step === 1 && (
                             <div>
-                                <h2>Step 1: Bio Data</h2>
+                                <h1 className='fs-3 text-[#27ae60] mb-4 border-bottom pb-2'>Step 1: Bio Data</h1>
                                 <div className="formbold-input-flex">
                                     <div>
                                         <label htmlFor="firstName" className="formbold-form-label">
@@ -341,7 +342,15 @@ const MultiStepForm: React.FC = () => {
 
                         {step === 2 && (
                             <div>
-                                <h2>Step 2: Education</h2>
+                                <div className="d-flex justify-content-between button-container">
+                                    <button type="button" onClick={prevStep} className="formbold-btn">
+                                        Previous
+                                    </button>
+                                    <button type="button" onClick={nextStep} className="formbold-btn">
+                                        Next
+                                    </button>
+                                </div>
+                                <h1 className='fs-3 text-[#fb923c] mb-4 border-bottom pb-2'>Step 2: Education</h1>
                                 {/* <StyledTable /> */}
                                 <table className="formbold-table">
                                     <thead>
@@ -423,10 +432,16 @@ const MultiStepForm: React.FC = () => {
                                         />
                                     </div>
                                 </div>
-                                <button type="button" onClick={handleAddEducation}>
-                                    Add
+                                <button className='formbold-btn' type="button" onClick={handleAddEducation}>
+                                    Save
                                 </button>
-                                <div className="button-container">
+
+                            </div>
+                        )}
+
+                        {step === 3 && (
+                            <div>
+                                <div className="d-flex justify-content-between button-container">
                                     <button type="button" onClick={prevStep} className="formbold-btn">
                                         Previous
                                     </button>
@@ -434,12 +449,7 @@ const MultiStepForm: React.FC = () => {
                                         Next
                                     </button>
                                 </div>
-                            </div>
-                        )}
-
-                        {step === 3 && (
-                            <div>
-                                <h2>Step 3: Work Experience</h2>
+                                <h1 className='fs-3 text-[#fb923c] mb-4 border-bottom pb-2'>Step 3: Work Experience</h1>
                                 <table className="formbold-table">
                                     <thead>
                                         <tr>
@@ -529,23 +539,16 @@ const MultiStepForm: React.FC = () => {
                                         className="formbold-form-input"
                                     />
                                 </div>
-                                <button type="button" onClick={handleAddExperience}>
-                                    Add
+                                <button className='formbold-btn' type="button" onClick={handleAddExperience}>
+                                    Save
                                 </button>
-                                <div className="button-container">
-                                    <button type="button" onClick={prevStep} className="formbold-btn">
-                                        Previous
-                                    </button>
-                                    <button type="button" onClick={nextStep} className="formbold-btn">
-                                        Next
-                                    </button>
-                                </div>
+
                             </div>
                         )}
 
                         {step === 4 && (
                             <div>
-                                <h2>Step 4: Skills & Certifications</h2>
+                                <h2 className='fs-3 text-[#27ae60] mb-4 border-bottom pb-2'>Step 4: Skills & Certifications</h2>
                                 <div>
                                     <label htmlFor="skills" className="formbold-form-label">
                                         Skills
