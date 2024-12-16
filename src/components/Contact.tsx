@@ -3,6 +3,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import React from "react";
 import emailjs from "emailjs-com";
+import logo from "../assets/img/logo2.png";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -76,18 +77,16 @@ const Contact = () => {
 
           <div className="row">
             <div
-              className="col-lg-4 col-md-6"
+              className="col-lg-3 col-md-6"
               data-aos="fade-up"
               data-aos-delay="100"
             >
               <div className="contact-about">
-                <h3>AniScholar</h3>
-                <p>
-                  Feel free to reach out to us for any inquiries,
-                  collaborations, or information about our internship
-                  opportunities for veterinary students. Our dedicated team is
-                  available during our business hours to assist you.
-                </p>
+                <div className="logo">
+                  <a>
+                    <img src={logo} alt="" className="img-fluid w-40 h-12"></img>
+                  </a>
+                </div>
                 <div className="social-links">
                   <a href="#" className="twitter">
                     <i className="bi bi-twitter"></i>
@@ -110,34 +109,48 @@ const Contact = () => {
               data-aos="fade-up"
               data-aos-delay="200"
             >
+              <h1 className="font-bold pb-3">Help</h1>
               <div className="info">
                 <div>
-                  <i className="ri-map-pin-line"></i>
-                  <p>
-                    Makerere University
-                    <br />
-                    college of veterinary services, COVAB
-                  </p>
-                </div>
-
-                <div>
-                  <i className="ri-mail-send-line"></i>
-                  <p>anischolar23@gmail.com</p>
-                </div>
-
-                <div>
-                  <i className="ri-phone-line"></i>
-                  <p>+256 750 621209. / +256 755 144475. </p>
+                  FAQs
                 </div>
               </div>
             </div>
 
             <div
-              className="col-lg-5 col-md-12"
+              className="col-lg-3 col-md-6 mt-4 mt-md-0"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <h1 className="font-bold pb-3">Contacts</h1>
+              <div className="info">
+                <div>
+                  <i className="ri-mail-send-line"></i>
+                  <p>info@anischolar.com</p>
+                </div>
+
+                <div>
+                  <i className="ri-phone-line"></i>
+                  <p>
+                    +256-750-621-209
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className="col-lg-3 col-md-12"
               data-aos="fade-up"
               data-aos-delay="300"
             >
-              <form onSubmit={handleSubmit} className="">
+
+              <h1 className="font-bold pb-3">Explore</h1>
+              <div className="info">
+                <div>
+                  Blog
+                </div>
+              </div>
+              {/* <form onSubmit={handleSubmit} className="">
                 <div className="form-group">
                   <input
                     type="text"
@@ -197,7 +210,7 @@ const Contact = () => {
                     {isLoading ? "Sending message..." : "Send Message"}
                   </button>
                 </div>
-              </form>
+              </form> */}
             </div>
           </div>
         </div>

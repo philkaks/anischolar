@@ -2,7 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { collection, DocumentData, getDocs } from "firebase/firestore";
 import { db } from "../Config/firebase.config"; // Adjust the import path as necessary
+import ysauImage from "../assets/img/ysau.png";
+import bringoImage from "../assets/img/bringo.png";
+import olivietImage from "../assets/img/olivet.png";
+import hiveImage from "../assets/img/hive-colab.png";
+import ticketyoImage from "../assets/img/ticketyo.png";
 
+const PartnerImage = ({image}) => {
+  return (
+    <img
+      src={image}
+      className="img-fluid h-32 w-44 mr-10"
+      data-aos-delay={200}
+    />
+  )
+}
 const Clients = () => {
   const [clients, setClients] = useState<DocumentData[]>([]);
 
@@ -20,16 +34,18 @@ const Clients = () => {
     <div>
       <section id="clients" className="clients clients">
         <div className="container">
+          <div className="section-title" data-aos="fade-up">
+            <h2>Our Partners</h2>
+            {/* <p>We are proud to work with some of the best in the industry.</p> */}
+          </div>
           <div className="row">
-            {clients.map((partner, index) => (
-              <div className="col-lg-2 col-md-4 col-6" key={index}>
-                <img
-                  src={partner.image}
-                  className="img-fluid"
-                  data-aos-delay={`${index * 100}`}
-                />
+              <div className="flex col-6 items-center">
+               <PartnerImage image={hiveImage} />
+               <PartnerImage image={ysauImage} />
+               <PartnerImage image={bringoImage} />
+               <PartnerImage image={ticketyoImage} />
+               <PartnerImage image={olivietImage} />
               </div>
-            ))}
           </div>
         </div>
       </section>

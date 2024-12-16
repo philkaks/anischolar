@@ -10,10 +10,18 @@ const ServiceCard: React.FC<teamCardProps> = ({ icon, name, desription }) => {
   return (
     <div>
       <div className="icon-box" data-aos="fade-up" data-aos-delay="100">
-        <div className="icon">{icon}</div>
+      <div className="flex justify-between px-10 text-3xl">
+          <img className="h-14 w-14" src={icon} alt={name}/>
+        <h4 className="uppercase">
+          <a href="">{name}</a>
+        </h4>
+        </div>
+        {/* <div className="icon">
+          {icon}
         <h4 className="title">
           <a href="">{name}</a>
         </h4>
+        </div> */}
         <p className="description">{desription}</p>
       </div>
     </div>

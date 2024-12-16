@@ -22,13 +22,13 @@ const homePage = () => {
     <>
       <Navbar />
       <Hero />
-      {/* <Clients /> */}
       <AboutUs />
       <Services />
       <Testimonials />
-      <Gallery />
+      {/* <Gallery />
       <Team />
-      <Faq />
+      <Faq /> */}
+      <Clients />
       <Contact />
       <Footer />
       <BackToTop />
