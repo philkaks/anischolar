@@ -81,7 +81,7 @@ const AboutUs = () => {
                         {/* <i className="bi bi-journal-richtext"></i> */}
                         {/* <CountUp start={0} end={85}></CountUp> */}
                         <p>
-                          <h3>Mission</h3> 
+                          <h3>Mission</h3>
                           To foster student-employer synergy through crafted internships that advance career readiness, enhance skill development, and showcase student potential in the workplace.
                         </p>
                       </div>
