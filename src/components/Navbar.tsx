@@ -116,7 +116,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <header id="header" className="fixed-top d-flex align-items-center">
+      <header id="header" className="fixed-top flex flex-col align-items-center">
         <div className="container d-flex align-items-center justify-content-between">
           <div className="logo">
             <a>
@@ -180,15 +180,15 @@ const Navbar = () => {
             <i className="bi bi-list mobile-nav-toggle"></i>
           </nav>
         </div>
-        <div className="blue-bar">
-        {/* Blue bar content */}
-      </div>
-      <div className="yellow-bar">
-        {/* Content goes here  */}
-      </div>
+        <div>
+          <div className="yellow-bar" />
+          <div className="blue-bar" />
+        </div>
+
+
       </header>
 
-      
+
     </div>
   );
 };

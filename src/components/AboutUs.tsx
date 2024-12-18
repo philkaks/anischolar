@@ -27,6 +27,7 @@ const AboutUs = () => {
 
   return (
     <div>
+      <div className="grey-bar" />
       <section id="about" className="mt-0 mb-0">
         <section className="about">
           <div className="container">
@@ -87,14 +88,14 @@ const AboutUs = () => {
               </div>
             </div>
 
-            <div className="row items-center pt-28">
-              <div className="col-lg-5 items-center px-20" data-aos="fade-up" data-aos-delay="150">
-              {activeTab === 'vision' &&  <img className="h-1/2 w-1/2" src={anischolarVision} />}
+            <div className="row items-center justify-center pt-12">
+              <div className="col-lg-0 items-center px-20" data-aos="fade-up" data-aos-delay="150">
+                {/* {activeTab === 'vision' &&  <img className="h-1/2 w-1/2" src={anischolarVision} />}
               {activeTab === 'mission' &&  <img className="h-1/2 w-1/2" src={anischolarMission} />}
-              {activeTab === 'values' &&  <img className="h-1/2 w-1/2" src={anischolarValues} />}
+              {activeTab === 'values' &&  <img className="h-1/2 w-1/2" src={anischolarValues} />} */}
               </div>
 
-              <div className="col-lg-7 pr-20" data-aos="fade-up" data-aos-delay="150">
+              <div className="col-lg-8 pr-20" data-aos="fade-up" data-aos-delay="150">
                 <div className="flex justify-between space-x-4 mb-2">
                   <button
                     onClick={() => setActiveTab('vision')}

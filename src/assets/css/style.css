@@ -286,8 +286,8 @@ h6 {
   position: absolute;
   left: 0;
   right: 0;
-  top: 14vh; /* 100% of the parent element's height */
-  height: 3vh; /* Equivalent to 16.52% of viewport height */
+  bottom: 0;
+  height: 5px; /* Equivalent to 16.52% of viewport height */
   background-color: #27ae60 /* Blue */
 }
 
@@ -296,8 +296,7 @@ h6 {
   position: absolute;
   left: 0;
   right: 0;
-  height: 1vh;
-  top: 14vh;
+  height: 7px;
   bottom: 0; /* Extends to the bottom of the viewport */
   background-color: #f5ab0b; /* Yellow */
 }
@@ -536,7 +535,7 @@ h6 {
     url('../img/44.png');
   background-size: cover;
   background-position: center;
-  height: 90vh;
+  height: auto;
   /* background-color: #3d4640; */
   /* background: linear-gradient(
     to bottom,
@@ -657,9 +656,6 @@ h6 {
 }
 
 @media (max-width: 991px) {
-  #hero {
-    height: 100vh;
-  }
 
   #hero .animated {
     animation: none;
@@ -669,29 +665,38 @@ h6 {
     text-align: center;
   }
 
-  #hero .hero-img img {
+  /* #hero .hero-img img {
     width: 50%;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
   #hero {
     margin-top: 20px;
+    justify-items: center;
+    align-items: center;
   }
 
   #hero h1 {
-    font-size: 28px;
+    font-size: 40px;
     line-height: 36px;
+    margin: 20px 0px;
+    padding: 0 40px;
   }
 
   #hero h2 {
     font-size: 18px;
     line-height: 24px;
-    margin-bottom: 30px;
+    margin: 0;
+    padding: 0 40px;
   }
 
   #hero .hero-img img {
     width: 70%;
+    margin-left: 0px;
+  }
+  #hero .get-started{
+    padding: 20px 40px;
   }
 }
 
@@ -719,10 +724,17 @@ section {
   overflow: hidden;
 }
 
-.section-bg {
+/* .section-bg {
   background-color: #f7fbfe;
-}
+} */
 
+.grey-bar {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px; /* Equivalent to 16.52% of viewport height */
+  background-color: #dbdfe0 /* Blue */
+}
 .section-title {
   text-align: center;
   padding-bottom: 30px;
@@ -1166,7 +1178,7 @@ section {
 
 .testimonials .testimonial-item .quote-icon-left,
 .testimonials .testimonial-item .quote-icon-right {
-  color: #e1f0fa;
+  /* color: #e1f0fa; */
   font-size: 26px;
 }
 

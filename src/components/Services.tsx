@@ -9,6 +9,7 @@ import shortCourseImage from "../assets/img/short-course.png";
 const Services = () => {
   return (
     <div>
+      <div className="grey-bar" />
       <section id="services">
         <section className="services">
           <div className="container">

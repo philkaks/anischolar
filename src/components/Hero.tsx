@@ -14,8 +14,8 @@ const Hero = () => {
         <section className="d-flex align-items-center">
           <div className="container">
             <div className="row items-center">
-              <div className="col-lg-5 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center hero-left">
-                <h1 className="text-7xl flex flex-col" data-aos="fade-up">
+              <div className="col-md-5 pt-4 pt-lg-0 order-2 order-md-1 d-flex flex-column justify-content-center hero-left">
+                <h1 className="xl:text-7xl lg:text-6xl text-4xl flex flex-col" data-aos="fade-up">
                   Launch 
                   <span>Your Career</span>
                 </h1>
@@ -31,7 +31,7 @@ const Hero = () => {
                   educational institutes of learning. */}
                   Start with your CV
                 </h2>
-                <div data-aos="fade-up" data-aos-delay="800">
+                <div className="get-started" data-aos="fade-up" data-aos-delay="800">
                   {isLoggedIn ?
                     <Link to="/userDataForm" className="btn-get-started scrollto">CREATE CV</Link> :
                     <Link to="/register" className="btn-get-started scrollto">Get Started</Link>
@@ -40,7 +40,7 @@ const Hero = () => {
                 <span className="background-blur"></span>
               </div>
               <div
-                className="col-lg-7 order-1 order-lg-2 hero-img"
+                className="col-md-7 order-1 order-md-2 hero-img"
                 data-aos="fade-left"
                 data-aos-delay="200"
               >
