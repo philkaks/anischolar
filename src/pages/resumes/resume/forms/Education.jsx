@@ -5,15 +5,17 @@ import { toast } from 'sonner'
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
+import ResumeService from '../../../../service/ResumeService';
+import { useAuth } from '../../../../authProvider';
 
 function Education() {
   const [loading, setLoading] = useState(false);
-  const { resumeInfo, setResumeInfo } = useState(null);
+  const { cvContent, setCvContent } = useAuth();
   const params = useParams();
 
   // Initialize educationalList from resumeInfo or with a default structure
   const [educationalList, setEducationalList] = useState(
-    resumeInfo?.education || [
+    cvContent?.education || [
       {
         universityName: '',
         degree: '',
@@ -27,10 +29,10 @@ function Education() {
 
   // Populate educationalList with resumeInfo data if it exists
   useEffect(() => {
-    if (resumeInfo?.education) {
-      setEducationalList(resumeInfo.education);
+    if (cvContent?.education) {
+      setEducationalList(cvContent.education);
     }
-  }, [resumeInfo]);
+  }, [cvContent]);
 
   const handleChange = (event, index) => {
     const newEntries = educationalList.slice();
@@ -72,10 +74,10 @@ function Education() {
       (resp) => {
         setLoading(false);
         toast('Details updated!');
-        
+
         // Update resumeInfo context only after saving
-        setResumeInfo({
-          ...resumeInfo,
+        setCvContent({
+          ...cvContent,
           education: educationalList
         });
       },

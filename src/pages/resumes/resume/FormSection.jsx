@@ -8,7 +8,7 @@ import Skills from './forms/Skills';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import ThemeColor from './ThemeColor';
 import { Button } from './ui/button';
-import Header from '../components/Header';
+import Header from '../../../components/Header';
 
 function FormSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -18,7 +18,7 @@ function FormSection() {
     <div>
       <div className='pt-24'>
         <div className='flex justify-between items-center'>
-          <div className='flex gap-5'>
+          <div className='flex gap-5 bg-slate-50'>
             <ThemeColor />
 
           </div>

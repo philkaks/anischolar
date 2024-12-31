@@ -51,7 +51,7 @@ function Template1({ cvData, setCvContent, isEditing }) {
             onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "jobTitle")}
             style={{ color: "#6c757d", fontStyle: "italic" }}
           >
-           {cvData?.personalDetails.jobTitle}
+           {cvData?.jobTitle}
           </h5>
         </div>
         <div className="col-3 text-right" style={{ fontSize: "16px" }}>

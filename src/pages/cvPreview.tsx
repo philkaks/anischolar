@@ -13,6 +13,7 @@ import { db } from "../Config/firebase.config";
 import { updateDoc, query, where, getDocs, collection, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Template4 from '../components/templateComponents/Template4';
+import Template5 from '../components/templateComponents/Template5';
 
 
 const CVPreview: React.FC = () => {
@@ -111,33 +112,33 @@ const CVPreview: React.FC = () => {
                 ;
     }
 
-    useEffect(() => {
-        console.log("updated");
+    // useEffect(() => {
+    //     console.log("updated");
 
-        const userId = user?.uid;
-        const fetchUserData = async () => {
-            try {
-                const userDataRef = collection(db, "userData");
-                const q = query(userDataRef, where("userId", "==", userId));
-                const querySnapshot = await getDocs(q);
+    //     const userId = user?.uid;
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const userDataRef = collection(db, "userData");
+    //             const q = query(userDataRef, where("userId", "==", userId));
+    //             const querySnapshot = await getDocs(q);
 
-                if (!querySnapshot.empty) {
-                    const doc = querySnapshot.docs[0];
-                    setCvContent({ id: doc.id, ...doc.data() });
-                } else {
-                    console.log("No user data found for the specified userId.");
-                    setCvContent(null);
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        };
+    //             if (!querySnapshot.empty) {
+    //                 const doc = querySnapshot.docs[0];
+    //                 setCvContent({ id: doc.id, ...doc.data() });
+    //             } else {
+    //                 console.log("No user data found for the specified userId.");
+    //                 setCvContent(null);
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching user data:", error);
+    //         }
+    //     };
 
-        if (userId) {
-            fetchUserData();
-        }
-    }, []);
-    console.log(cvContent);
+    //     if (userId) {
+    //         fetchUserData();
+    //     }
+    // }, []);
+    // console.log(cvContent);
 
     const handleToggleEdit = () => {
         setIsEditing(!isEditing);
@@ -224,7 +225,7 @@ const CVPreview: React.FC = () => {
                                 />
                             )}
 
-                            <div id='divToPrint' className='w-100 pt-2'>
+                            <div id='divToPrint' className='w-full md:w-[794px] lg:w-[794px] pt-2'>
 
                                 {template && template === "Template 1" ?
                                     <Template1
@@ -242,11 +243,17 @@ const CVPreview: React.FC = () => {
                                                 cvData={cvContent}
                                                 setCvContent={setCvContent}
                                                 isEditing={isEditing}
-                                            /> :
+                                            /> 
+                                            : template === "Template 4" ?
                                             <Template4
                                                 cvData={cvContent}
                                                 setCvContent={setCvContent}
                                                 isEditing={isEditing}
+                                            /> :
+                                            <Template5
+                                                cvData={cvContent}
+                                                setCvContent={setCvContent}
+                                               
                                             />
                                 }
                             </div>

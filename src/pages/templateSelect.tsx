@@ -11,7 +11,6 @@ const TemplateSelect = () => {
 
     return (
         <>
-            <Header title="User Data" title2="" />
             <div className='mt-5' style={{ minWidth: '300px' }}>
                 <div className='d-flex justify-content-center mt-5'>
                     <h3 className='pt-5 rounded' style={{ backgroundColor: 'aliceblue' }}>

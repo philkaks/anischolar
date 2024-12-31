@@ -6,6 +6,8 @@ import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { useAuth } from '../../../../authProvider'
+import ResumeService from '../../../../service/ResumeService'
 
 const formField = {
     title: '',
@@ -18,9 +20,9 @@ const formField = {
 }
 
 function Experience() {
-    const { resumeInfo, setResumeInfo } = useState(null);
+    const { cvContent, setCvContent } = useAuth();
     const params = useParams();
-    const [experinceList, setExperinceList] = useState(resumeInfo?.Experience || []); // Initialize directly from resumeInfo
+    const [experinceList, setExperinceList] = useState(cvContent?.experience || []); // Initialize directly from resumeInfo
     const [loading, setLoading] = useState(false);
 
     const handleChange = (index, event) => {
@@ -28,6 +30,7 @@ function Experience() {
         const { name, value } = event.target;
         newEntries[index][name] = value;
         setExperinceList(newEntries);
+        console.log(experinceList);
     }
 
     const AddNewExperience = () => {
@@ -42,20 +45,27 @@ function Experience() {
         const newEntries = experinceList.slice();
         newEntries[index][name] = e.target.value;
         setExperinceList(newEntries);
+        console.log(experinceList);
+        
     }
 
     const onSave = () => {
+        console.log(cvContent);
+        
         setLoading(true);
         const data = {
             data: {
-                Experience: experinceList.map(({ id, ...rest }) => rest)
+                experience: experinceList.map(({ id, ...rest }) => rest)
             }
         };
 
+        console.log(data);
+        
+
         // Update resumeInfo in context
-        setResumeInfo((prevInfo) => ({
+        setCvContent((prevInfo) => ({
             ...prevInfo,
-            Experience: experinceList
+            experience: experinceList
         }));
 
         ResumeService.UpdateResumeDetail(params?.resumeId, data.data).then(res => {
@@ -125,6 +135,7 @@ function Experience() {
                                         index={index}
                                         defaultValue={item?.workSummery}
                                         onRichTextEditorChange={(event) => handleRichTextEditor(event, 'workSummery', index)}
+                                        item={item}
                                     />
                                 </div>
                             </div>

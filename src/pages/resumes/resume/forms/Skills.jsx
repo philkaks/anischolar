@@ -7,15 +7,17 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { useAuth } from '../../../../authProvider'
+import ResumeService from '../../../../service/ResumeService'
 
 function Skills() {
     const { resumeId } = useParams();
     const [loading, setLoading] = useState(false);
-    const { resumeInfo, setResumeInfo } = useState(null);
+    const { cvContent, setCvContent } = useAuth();
 
     // Initialize skillsList from resumeInfo or with a default structure
     const [skillsList, setSkillsList] = useState(
-        resumeInfo?.skills || [
+        cvContent?.skills || [
             {
                 name: '',
                 rating: 0
@@ -25,10 +27,10 @@ function Skills() {
 
     // Populate skillsList with resumeInfo data if it exists
     useEffect(() => {
-        if (resumeInfo?.skills) {
-            setSkillsList(resumeInfo.skills);
+        if (cvContent?.skills) {
+            setSkillsList(cvContent.skills);
         }
-    }, [resumeInfo]);
+    }, [cvContent]);
 
     const handleChange = (index, name, value) => {
         const newEntries = skillsList.slice();
@@ -65,8 +67,8 @@ function Skills() {
                 (resp) => {
                     setLoading(false);
                     toast('Details updated!');
-                    setResumeInfo({
-                        ...resumeInfo,
+                    setCvContent({
+                        ...cvContent,
                         skills: skillsList
                     });
                 },

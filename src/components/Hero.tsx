@@ -33,7 +33,7 @@ const Hero = () => {
                 </h2>
                 <div className="get-started" data-aos="fade-up" data-aos-delay="800">
                   {isLoggedIn ?
-                    <Link to="/userDataForm" className="btn-get-started scrollto">CREATE CV</Link> :
+                    <Link to="/resumes" className="btn-get-started scrollto">CREATE CV</Link> :
                     <Link to="/register" className="btn-get-started scrollto">Get Started</Link>
                   }
                 </div>

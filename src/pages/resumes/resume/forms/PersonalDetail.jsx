@@ -4,47 +4,65 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { useAuth } from '../../authProvider';
+import { useAuth } from '../../../../authProvider';
+import ResumeService from '../../../../service/ResumeService';
 
 function PersonalDetail({ enabledNext }) {
     const { user, cvContent, setCvContent, template } = useAuth();
     const params = useParams();
 
-    const [formData, setFormData] = useState();
+    const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        console.log("---", cvContent)
-    }, [cvContent])
+   // Set initial form data when cvContent is available
+//    useEffect(() => {
+//     if (cvContent) {
+//         setFormData({
+//             name: cvContent?.personalDetails?.name || '',
+//             jobTitle: cvContent?.title || '',
+//             address: cvContent?.personalDetails?.address || '',
+//             phone: cvContent?.personalDetails?.phone || '',
+//             email: cvContent?.personalDetails?.email || '',
+//         });
+//     }
+// }, [cvContent]);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-        setFormData({
-            ...formData,
-            [name]: value
-        })
-        setCvContent({
-            ...cvContent,
-            [name]: value
-        })
-    }
+    // Update local formData state
+    setFormData({
+        ...formData,
+        [name]: value,
+    });
+
+    // Update cvContent with updated personalDetails while preserving other properties
+    setCvContent({
+        ...cvContent,
+        personalDetails: {
+            ...cvContent.personalDetails,
+            [name]: value,
+        },
+    });
+};
+
+    
 
     const onSave = (e) => {
         e.preventDefault();
         setLoading(true);
         const data = {
-            data: formData
+            personalDetails: cvContent?.personalDetails
         }
         console.log('formdata', data)
-        // ResumeService.UpdateResumeDetail(params?.resumeId, data).then(resp => {
-        //     console.log(resp);
-        //     enabledNext(true);
-        //     setLoading(false);
-        //     toast("Details updated")
-        // }, (error) => {
-        //     setLoading(false);
-        // })
+        ResumeService.UpdateResumeDetail(params?.resumeId, data).then(resp => {
+            console.log(resp);
+            enabledNext(true);
+            setLoading(false);
+            toast("Details updated")
+        }, (error) => {
+            setLoading(false);
+        })
     }
 
     return (
@@ -56,7 +74,7 @@ function PersonalDetail({ enabledNext }) {
                 <div className='grid grid-cols-2 mt-5 gap-3'>
                     <div>
                         <label className='text-sm'>Full Name</label>
-                        <Input name="name" defaultValue={cvContent?.personalDetails.name} required onChange={handleInputChange} />
+                        <Input name="name" defaultValue={cvContent?.personalDetails?.name} required onChange={handleInputChange} />
                     </div>
                     {/* <div>
                         <label className='text-sm'>Last Name</label>
@@ -66,25 +84,25 @@ function PersonalDetail({ enabledNext }) {
                     <div className='col-span-2'>
                         <label className='text-sm'>Job Title</label>
                         <Input name="jobTitle" required 
-                        defaultValue={cvContent?.jobTitle}
+                        defaultValue={cvContent?.title}
                         onChange={handleInputChange} />
                     </div>
                     <div className='col-span-2'>
                         <label className='text-sm'>Address</label>
                         <Input name="address" required 
-                        defaultValue={cvContent?.address}
+                        defaultValue={cvContent?.personalDetails?.address}
                         onChange={handleInputChange} />
                     </div>
                     <div>
                         <label className='text-sm'>Phone</label>
                         <Input name="phone" required 
-                        defaultValue={cvContent?.phone}
+                        defaultValue={cvContent?.personalDetails?.phone}
                         onChange={handleInputChange} />
                     </div>
                     <div>
                         <label className='text-sm'>Email</label>
                         <Input name="email" required 
-                        defaultValue={cvContent?.email}
+                        defaultValue={cvContent?.personalDetails?.email}
                         onChange={handleInputChange} />
                     </div>
                 </div>

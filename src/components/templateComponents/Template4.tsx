@@ -36,10 +36,10 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                         // color: resumeInfo?.themeColor
                     }}
                 >
-                    {cvData?.personalDetails.name}
+                    {cvData?.personalDetails?.name}
                 </h2>
                 <h2 className="text-center fs-6 fw-semibold">
-                    Job Title
+                    Job Title: {cvData?.title}
                 </h2>
                 <h2
                     className="text-center fw-normal fs-7"
@@ -47,7 +47,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                         // color: resumeInfo?.themeColor
                     }}
                 >
-                    Kampala, Uganda
+                    {cvData?.personalDetails?.address}
                 </h2>
 
                 <div className="d-flex justify-content-between">
@@ -57,7 +57,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                             // color: resumeInfo?.themeColor
                         }}
                     >
-                        {cvData?.personalDetails.phone}
+                        {cvData?.personalDetails?.phone}
                     </h2>
                     <h2
                         className="fw-normal fs-7"
@@ -65,7 +65,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                             // color: resumeInfo?.themeColor
                         }}
                     >
-                        {cvData?.personalDetails.email}
+                        {cvData?.personalDetails?.email}
                     </h2>
                 </div>
                 <hr
@@ -81,7 +81,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
             <div
 
             >
-                {cvData?.personalSummary}
+                {cvData?.summary}
             </div>
 
             <div className="my-4">
@@ -116,7 +116,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                             </span>
                         </h2>
                         <ul className="pl-3">
-                            {experience?.duties.map((duty, idx) => (
+                            {experience?.duties?.map((duty, idx) => (
                                 <li
                                     key={idx}
                                     contentEditable={isEditing}
@@ -146,7 +146,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                     }}
                 />
 
-                {cvData?.education.map((education, index) => (
+                {cvData?.education?.map((education, index) => (
                     <div key={index} className="my-4">
                         <h2
                             className="fs-6 fw-bold"
@@ -182,7 +182,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                 />
 
                 <div className="row row-cols-2 g-3 my-4">
-                    {cvData?.skills.map((skill, index) => (
+                    {cvData?.skills?.map((skill, index) => (
                         <div key={index} className="d-flex align-items-center justify-content-between">
                             <h4 className="mb-0">{skill}</h4>
                             <div className="bg-light w-50" style={{ height: '0.5rem' }}>
