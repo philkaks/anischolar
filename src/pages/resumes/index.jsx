@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 
 function Resumes() {
   const { user } = useAuth();
+  const [created, setIsCreated] = useState(false);
   console.log(user);
 
   const [resumeList, setResumeList] = useState([]); // Ensure resumeList is initialized as an empty array
@@ -16,6 +17,10 @@ function Resumes() {
       GetResumesList();
     }
   }, [user]);
+
+  useEffect(() => {
+    GetResumesList();
+  },[created])
 
   /**
    * Used to Get Users Resume List
@@ -41,7 +46,7 @@ function Resumes() {
         <h2 className='font-bold text-3xl'>My Resume</h2>
         <p>Kickstart your CV creation with AI assistance to secure your next dream internship / job!</p>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mt-10'>
-          <AddResume />
+          <AddResume created={created} setIsCreated={setIsCreated}/>
           {resumeList.length > 0 && (
             resumeList.map((resume, index) => (
               <ResumeCardItem resume={resume} key={index} refreshData={GetResumesList} />

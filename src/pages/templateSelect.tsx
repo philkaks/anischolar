@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { templateImagesPaths } from '../Config/constants';
 import Header from '../components/Header';
 import { useAuth } from '../authProvider';
@@ -7,21 +7,21 @@ import { useAuth } from '../authProvider';
 
 const TemplateSelect = () => {
     const [isMouseOver, setIsMouseOver] = useState<string | null>(null);
-    const { setTemplate } = useAuth()
+    const { setTemplate } = useAuth();
 
     return (
         <>
             <div className='mt-5' style={{ minWidth: '300px' }}>
-                <div className='d-flex justify-content-center mt-5'>
-                    <h3 className='pt-5 rounded' style={{ backgroundColor: 'aliceblue' }}>
+                <div className='justify-content-center mt-5'>
+                    <h3 className='pt-1 text-center rounded'>
                         Select a Template to get started!
                     </h3>
                 </div>
 
                 <div className='container' style={{ color: '#1f4287' }}>
-                    <div className='row'>
+                    <div className='flex flex-col'>
                         {templateImagesPaths.map((currentTemplate) => (
-                            <div className='col col-lg-3 col-md-6 col-12 mt-5' key={currentTemplate.name}>
+                            <div className='mt-5' key={currentTemplate.name}>
                                 <div
                                     style={{ position: 'relative' }}
                                     onMouseOver={() => setIsMouseOver(currentTemplate.name)}
@@ -36,16 +36,17 @@ const TemplateSelect = () => {
                                         alt={currentTemplate.name}
                                     />
                                     {isMouseOver === currentTemplate.name && (
-                                        <Link 
-                                        to="/cvPreview">
-                                            <button
-                                                className='btn'
-                                                style={{ position: 'absolute', top: '50%', right: '30%', background: '#27ae60' }}
-                                                onClick={() => setTemplate(currentTemplate.name)}
-                                            >
-                                                Use Template
-                                            </button>
-                                        </Link>
+
+                                        <button
+                                            className='btn'
+                                            style={{ position: 'absolute', top: '50%', right: '30%', background: '#27ae60' }}
+                                            onClick={() => 
+                                                setTemplate(currentTemplate.name)
+                                            }
+                                        >
+                                            Use Template
+                                        </button>
+
                                     )}
                                 </div>
                             </div>

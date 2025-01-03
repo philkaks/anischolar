@@ -38,8 +38,8 @@ const Clients = () => {
             <h2>Our Partners</h2>
             {/* <p>We are proud to work with some of the best in the industry.</p> */}
           </div>
-          <div className="row">
-              <div className="flex col-6 items-center">
+          <div className="">
+              <div className="flex items-center justify-center partners-img">
                <PartnerImage image={hiveImage} />
                <PartnerImage image={ysauImage} />
                <PartnerImage image={bringoImage} />

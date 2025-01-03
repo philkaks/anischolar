@@ -31,13 +31,10 @@ const router = createBrowserRouter([
   {path: '/userDataForm', element: <UserDataForm />},
   {path: '/resumeForm', element: <EditResume />},
   {path: '/templates', element: <TemplateSelect />},
-  {path: '/cvPreview', element: <CVPreview />},
+  {path: '/cvPreview', element: <CVPreview/>},
   {path: '/resumes', element: <Resumes />},
   {path: '/resumes/resume/:resumeId/edit', element: <EditResume />},
   { path:'/my-resume/:resumeId/view', element: <CVPreview/>},
-
-
-  
   { path: '*', element: <NotFound /> } // 404 route
 ])
 

@@ -34,8 +34,10 @@ function ResumeCardItem({ resume, refreshData }) {
 
 
   const onDelete = () => {
+    console.log(resume);
+    
     setLoading(true);
-    ResumeService.DeleteResumeById(resume.documentId).then(resp => {
+    ResumeService.DeleteResumeById(resume.id).then(resp => {
       console.log(resp);
       toast('Resume Deleted!');
       refreshData()
@@ -66,7 +68,7 @@ function ResumeCardItem({ resume, refreshData }) {
       </Link>
       <div className='border p-3 flex justify-between rounded-b-lg shadow-lg'
         style={{
-          background: resume?.themeColor
+          // background: resume?.themeColor
         }}>
         <h2 className='text-sm'>{resume.title}</h2>
 
@@ -96,7 +98,7 @@ function ResumeCardItem({ resume, refreshData }) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => setOpenAlert(false)}>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onDelete}
+              <AlertDialogAction className="bg-[#27ae60]" onClick={onDelete}
                 disabled={loading}>
                 {loading ? <Loader2Icon className='animate-spin' /> : 'Delete'}
               </AlertDialogAction>

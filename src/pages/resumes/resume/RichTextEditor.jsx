@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { useAuth } from '../../../authProvider';
 import { AIChatSession } from '../../../service/AiService';
 
-const PROMPT = 'position titile: {positionTitle} , Depends on position title give me 5-7 summarized bullet points for my experience in resume, give me result in unordered list tags (Please do not add experince level and No JSON array)';
+const PROMPT = 'position titile: {positionTitle} , Depends on position title give me 5-7 summarized bullet points for my experience in resume, give me result in unordered list tags (Please do not add experince level and No JSON array) the format should be ["Consistently delivered exceptional culinary experiences in high-pressure, fast-paced environments.", "Developed and implemented innovative menus that elevated customer satisfaction and increased revenue.", "Successfully managed and mentored large kitchen teams, fostering a positive and highly productive work culture.", "Maintained the highest standards of food quality, presentation, and hygiene, exceeding all regulatory requirements.", "Proficient in a wide range of international cuisines and advanced cooking techniques.", "Demonstrated strong leadership skills in resolving kitchen challenges and adapting to changing demands.", "Effectively controlled food costs while maintaining superior menu quality and exceptional dining experiences."] without an object and property points';
 
 function RichTextEditor({ index, defaultValue, onRichTextEditorChange, item }) {
   const [value, setValue] = useState(defaultValue);
@@ -24,6 +24,8 @@ function RichTextEditor({ index, defaultValue, onRichTextEditorChange, item }) {
 
   const parseAndFormatToHTML = (text) => {
     try {
+      console.log(text);
+      
       const jsonObject = JSON.parse(text);
       const points = Object.values(jsonObject).slice(1).flat();
       return `<ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
@@ -51,6 +53,8 @@ function RichTextEditor({ index, defaultValue, onRichTextEditorChange, item }) {
       // Parse and format response into HTML
       const formattedHTML = parseAndFormatToHTML(resp);
       setValue(formattedHTML);
+      console.log(value);
+      
         // Manually trigger onRichTextEditorChange
     onRichTextEditorChange({ target: { value: formattedHTML } });
     } catch (error) {

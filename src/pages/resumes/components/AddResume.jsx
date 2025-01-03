@@ -17,7 +17,7 @@ import { useAuth } from '../../../authProvider'
 
 
 
-function AddResume() {
+function AddResume({created, setIsCreated}) {
 
     const [openDialog,setOpenDialog]=useState(false)
     const [resumeTitle,setResumeTitle]=useState();
@@ -36,11 +36,12 @@ function AddResume() {
         }
 
         ResumeService.CreateNewResume(data).then(resp=>{
-            console.log(resp.data.data.documentId);
+            console.log(resp.data);
             if(resp)
             {
                 setLoading(false);
-                navigation('/resumes/resume/'+resp.data.data.documentId+"/edit");
+                setIsCreated(!created);
+                setOpenDialog(false);
             }
         },(error)=>{
             setLoading(false);
@@ -75,6 +76,7 @@ function AddResume() {
             <div className='flex justify-end gap-5'>
                 <Button onClick={()=>setOpenDialog(false)} variant="ghost">Cancel</Button>
                 <Button 
+                    className="bg-[#27ae60]"
                     disabled={!resumeTitle||loading}
                 onClick={()=>onCreate()}>
                     {loading?

@@ -16,8 +16,8 @@ const Hero = () => {
             <div className="row items-center">
               <div className="col-md-5 pt-4 pt-lg-0 order-2 order-md-1 d-flex flex-column justify-content-center hero-left">
                 <h1 className="xl:text-7xl lg:text-6xl text-4xl flex flex-col" data-aos="fade-up">
-                  Launch 
-                  <span>Your Career</span>
+                  Launch &nbsp;
+                  <span className="lg:pt-4">Your Career</span>
                 </h1>
                 {/* <div className="gradient-lines">
                   <div className="line green-blur"></div>
@@ -31,7 +31,7 @@ const Hero = () => {
                   educational institutes of learning. */}
                   Start with your CV
                 </h2>
-                <div className="get-started" data-aos="fade-up" data-aos-delay="800">
+                <div className="get-started" data-aos="fade-up" data-aos-delay="100">
                   {isLoggedIn ?
                     <Link to="/resumes" className="btn-get-started scrollto">CREATE CV</Link> :
                     <Link to="/register" className="btn-get-started scrollto">Get Started</Link>

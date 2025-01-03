@@ -35,7 +35,7 @@ const AboutUs = () => {
               <h2>About Us</h2>
             </div>
             <div className="row content items-center">
-              <div className="col-lg-6 pr-20" data-aos="fade-up" data-aos-delay="150">
+              <div className="col-lg-6 lg:pr-20 p-4" data-aos="fade-up" data-aos-delay="150">
                 <p className="text-4xl">
                   “AniScholar is a pioneering EdTech”
                 </p>
@@ -58,7 +58,8 @@ const AboutUs = () => {
                   <div className='absolute -top-2 -right-3 -z-10 w-[101%] h-[103%] rounded-[2rem] bg-dark
                     rounded-br-3xl dark:bg-light md:-right-2 md:w-[101%] xs:h-[102%] xs:rounded-[1.5rem]'
                   />
-                  {
+                  <YoutubeIframe />
+                  {/* {
                     isClicked ? (
                       <YoutubeIframe />
                     ) : (
@@ -83,7 +84,7 @@ const AboutUs = () => {
                         </Link>
                       </>
                     )
-                  }
+                  } */}
                 </article>
               </div>
             </div>
@@ -95,8 +96,8 @@ const AboutUs = () => {
               {activeTab === 'values' &&  <img className="h-1/2 w-1/2" src={anischolarValues} />} */}
               </div>
 
-              <div className="col-lg-8 pr-20" data-aos="fade-up" data-aos-delay="150">
-                <div className="flex justify-between space-x-4 mb-2">
+              <div className="col-lg-8 lg:pr-20" data-aos="fade-up" data-aos-delay="150">
+                <div className="flex justify-between space-x-4 mb-2 w-full">
                   <button
                     onClick={() => setActiveTab('vision')}
                     className={`px-4 py-2 rounded ${activeTab === 'vision'
@@ -127,28 +128,54 @@ const AboutUs = () => {
                 </div>
 
                 {activeTab === 'vision' &&
-                  <p className="py-10">
-                    To be the leading providers of career readiness programs and internships to all students on their
-                    professional journey.
-                  </p>
+                  <div className="py-10 px-4 bg-gray-50 rounded-lg shadow-md">
+                    <p className="lg:py-10 p-4">
+                      To be the leading providers of career readiness programs and internships to all students on their
+                      professional journey.
+                    </p>
+                  </div>
                 }
                 {activeTab === 'mission' &&
-                  <p className="py-10">
-                    To foster student-employer synergy through crafted internships that promote skill development and
-                    showcase student potential in institutional workspaces.
-                  </p>
+                  <div className="py-10 px-4 bg-gray-50 rounded-lg shadow-md">
+                    <p className="py-10">
+                      To foster student-employer synergy through crafted internships that promote skill development and
+                      showcase student potential in institutional workspaces.
+                    </p>
+                  </div>
+
                 }
-                {activeTab === 'values' &&
-                  <p className="py-10">
-                    Inclusivity; Create opportunities for all students, regardless of their background or experience.
-                    Mentorship; Guide students through their career journey with personalized support and expert
-                    advice
-                    Accountability; Take full responsibility for delivering on our commitments, ensuring transparency
-                    and trust in all our actions.
-                    Impact; Our goal is to make a significant and long-lasting difference in the lives of our students and
-                    the companies we work with
-                  </p>
-                }
+                {activeTab === 'values' && (
+                  <div className="py-10 px-4 bg-gray-50 rounded-lg shadow-md">
+                    <ul className="space-y-4">
+                      <li className="">
+                             <span className="text-[#27ae60] font-semibold">Inclusivity:</span>
+                        <span className="ml-2 text-gray-700">
+                          Create opportunities for all students, regardless of their background or experience.
+                        </span>
+                     
+                      </li>
+                      <li className="">
+                        <span className="text-[#27ae60] font-semibold">Mentorship:</span>
+                        <span className="ml-2 text-gray-700">
+                          Guide students through their career journey with personalized support and expert advice.
+                        </span>
+                      </li>
+                      <li className="">
+                        <span className="text-[#27ae60] font-semibold">Accountability:</span>
+                        <span className="ml-2 text-gray-700">
+                          Take full responsibility for delivering on our commitments, ensuring transparency and trust in all our actions.
+                        </span>
+                      </li>
+                      <li className="">
+                        <span className="text-[#27ae60] font-semibold">Impact:</span>
+                        <span className="ml-2 text-gray-700">
+                          Our goal is to make a significant and long-lasting difference in the lives of our students and the companies we work with.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
 
               </div>
             </div>
