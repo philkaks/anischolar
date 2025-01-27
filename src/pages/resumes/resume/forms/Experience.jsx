@@ -8,6 +8,8 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { useAuth } from '../../../../authProvider'
 import ResumeService from '../../../../service/ResumeService'
+import { collection, getDocs, query, updateDoc, where } from '@firebase/firestore'
+import { db } from '../../../../Config/firebase.config'
 
 const formField = {
     title: '',
@@ -20,7 +22,7 @@ const formField = {
 }
 
 function Experience() {
-    const { cvContent, setCvContent } = useAuth();
+    const { user, cvContent, setCvContent } = useAuth();
     const params = useParams();
     const [experinceList, setExperinceList] = useState(cvContent?.experience || []); // Initialize directly from resumeInfo
     const [loading, setLoading] = useState(false);
@@ -46,11 +48,13 @@ function Experience() {
         newEntries[index][name] = e.target.value;
         setExperinceList(newEntries);
         console.log(experinceList);
-        
+
     }
 
-    const onSave = () => {
-        console.log(cvContent);
+    const onSave = async () => {
+
+        const userId = user?.uid;
+        console.log(user);
         
         setLoading(true);
         const data = {
@@ -59,21 +63,33 @@ function Experience() {
             }
         };
 
-        console.log(data);
-        
+        try {
+            const userDataRef = collection(db, "userData");
+            const q = query(userDataRef, where("userId", "==", userId));
+            const querySnapshot = await getDocs(q);
 
-        // Update resumeInfo in context
-        setCvContent((prevInfo) => ({
-            ...prevInfo,
-            experience: experinceList
-        }));
+            if (!querySnapshot.empty) {
+                const docRef = querySnapshot.docs[0].ref;
+                // Update the document with the new about info
+                await updateDoc(docRef, { experience: experinceList });
+            } else {
+                console.log("No document found with the specified userId.");
+            }
 
-        ResumeService.UpdateResumeDetail(params?.resumeId, data.data).then(res => {
+            // Update resumeInfo in context
+            setCvContent((prevInfo) => ({
+                ...prevInfo,
+                experience: experinceList
+            }));
+
+            await ResumeService.UpdateResumeDetail(params?.resumeId, data.data);
+            toast.success("Details updated!");
+
+        } catch (error) {
+            console.error("Error saving experience:", error);
+        } finally {
             setLoading(false);
-            toast('Details updated!');
-        }).catch(error => {
-            setLoading(false);
-        });
+        }
     }
 
     return (
@@ -87,45 +103,45 @@ function Experience() {
                             <div className='grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg'>
                                 <div>
                                     <label className='text-xs'>Position Title</label>
-                                    <Input name="title" 
+                                    <Input name="title"
                                         onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.title}
                                     />
                                 </div>
                                 <div>
                                     <label className='text-xs'>Company Name</label>
-                                    <Input name="companyName" 
+                                    <Input name="companyName"
                                         onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.companyName}
                                     />
                                 </div>
                                 <div>
                                     <label className='text-xs'>City</label>
-                                    <Input name="city" 
-                                        onChange={(event) => handleChange(index, event)} 
+                                    <Input name="city"
+                                        onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.city}
                                     />
                                 </div>
                                 <div>
                                     <label className='text-xs'>State</label>
-                                    <Input name="state" 
+                                    <Input name="state"
                                         onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.state}
                                     />
                                 </div>
                                 <div>
                                     <label className='text-xs'>Start Date</label>
-                                    <Input type="date" 
-                                        name="startDate" 
-                                        onChange={(event) => handleChange(index, event)} 
+                                    <Input type="date"
+                                        name="startDate"
+                                        onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.startDate}
                                     />
                                 </div>
                                 <div>
                                     <label className='text-xs'>End Date</label>
-                                    <Input type="date" 
-                                        name="endDate" 
-                                        onChange={(event) => handleChange(index, event)} 
+                                    <Input type="date"
+                                        name="endDate"
+                                        onChange={(event) => handleChange(index, event)}
                                         defaultValue={item?.endDate}
                                     />
                                 </div>

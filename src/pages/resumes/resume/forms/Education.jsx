@@ -7,10 +7,12 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import ResumeService from '../../../../service/ResumeService';
 import { useAuth } from '../../../../authProvider';
+import { collection, getDocs, query, updateDoc, where } from '@firebase/firestore';
+import { db } from '../../../../Config/firebase.config';
 
 function Education() {
   const [loading, setLoading] = useState(false);
-  const { cvContent, setCvContent } = useAuth();
+  const { user, cvContent, setCvContent } = useAuth();
   const params = useParams();
 
   // Initialize educationalList from resumeInfo or with a default structure
@@ -61,7 +63,8 @@ function Education() {
     }
   };
 
-  const onSave = () => {
+  const onSave = async () => {
+    const userId = user?.uid;
     setLoading(true);
     const data = {
       data: {
@@ -69,23 +72,34 @@ function Education() {
       }
     };
 
-    // Save the updated educational list and update resumeInfo context
-    ResumeService.UpdateResumeDetail(params.resumeId, data.data).then(
-      (resp) => {
-        setLoading(false);
-        toast('Details updated!');
+    try {
+      const userDataRef = collection(db, "userData");
+      const q = query(userDataRef, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
 
-        // Update resumeInfo context only after saving
-        setCvContent({
-          ...cvContent,
-          education: educationalList
-        });
-      },
-      (error) => {
-        setLoading(false);
-        toast('Server Error, Please try again!');
+      if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref;
+          // Update the document with the new about info
+          await updateDoc(docRef, { education: educationalList });
+      } else {
+          console.log("No document found with the specified userId.");
       }
-    );
+
+     // Update resumeInfo context only after saving
+     setCvContent({
+      ...cvContent,
+      education: educationalList
+    });
+
+      await ResumeService.UpdateResumeDetail(params.resumeId, data.data)
+      toast.success("Details updated!");
+
+  } catch (error) {
+      console.error("Error saving education:", error);
+  } finally {
+      setLoading(false);
+  }
+
   };
 
   return (

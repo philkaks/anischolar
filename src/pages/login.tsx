@@ -59,7 +59,7 @@ const Login = () => {
       const { state } = location;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const from = (state as any)?.from || "/";
-      navigate(from);
+      navigate("/userDataForm");
     } catch (error) {
       console.error("Error logging in: ", (error as Error).message);
       Swal.fire({

@@ -59,7 +59,7 @@ function EditResume() {
   return (
     <>
       <Header title="User Data" title2="" />
-      <div className='grid grid-cols-1 md:grid-cols-2 p-10 gap-10'>
+      <div className='grid grid-cols-1 md:grid-cols-2 p-4 lg:p-10 gap-10'>
         {/* Form Section  */}
         <FormSection
           cvData={cvContent}

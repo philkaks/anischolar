@@ -8,6 +8,7 @@ import React, { createContext, ReactNode, useState, useContext, useEffect } from
 // }
 interface User {
   uid: string;
+  email: string;
   // add other user properties if necessary
 }
 

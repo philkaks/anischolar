@@ -1,11 +1,63 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/img/logo2.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useAuth } from "../authProvider";
+import NavDropdown from "./NavDropdown";
+import { collection, getDocs, query, where } from "@firebase/firestore";
+import { db } from "../Config/firebase.config";
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { user, isLoggedIn, logout } = useAuth();
+  const [isClicked, setIsClicked] = useState(false);
+  const [userData, setUserData] = useState({
+    profilePicture: '',
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+
+  const handleProfileClick = ()=> {
+    setIsClicked(!isClicked);
+  }
+
+  useEffect(() => {
+    const userId = user?.uid;
+    const fetchUserData = async () => {
+        try {
+            const userDataRef = collection(db, "userData");
+            const q = query(userDataRef, where("userId", "==", userId));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const doc = querySnapshot.docs[0];
+                const data = doc.data() as {
+                  profilePicture?: { url: string };
+                  firstName?: string;
+                  lastName?: string;
+                  email?: string;
+                };
+          
+                setUserData({
+                  ...data,
+                  profilePicture: data?.profilePicture?.url || "",
+                  firstName: data?.firstName || "",
+                  lastName: data?.lastName || "",
+                  email: data?.email || "",
+                });
+            } else {
+                console.log("No user data found for the specified userId.");
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+
+    if (userId) {
+        fetchUserData();
+    }
+}, [user?.uid]);
+
 
   useEffect(() => {
     const navbar = document.querySelector("#navbar") as HTMLElement;
@@ -162,12 +214,19 @@ const Navbar = () => {
               </li>
               {isLoggedIn ? (
                 <li>
-                  <button
+                  {/* <button
                     className="btn text-decoration-none getstarted"
                     onClick={logout}
                   >
                     Logout
+                  </button> */}
+                  <button 
+                  onClick={handleProfileClick}
+                  className="ml-5 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full text-slate-100 ring-slate-100 transition hover:shadow-md hover:ring-2">
+                    <img className="w-full object-cover" src={userData?.profilePicture} alt="Profile" />
                   </button>
+
+                  {isClicked && <NavDropdown userData={userData} /> }
                 </li>
               ) : (
                 <li>

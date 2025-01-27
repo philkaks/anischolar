@@ -4,6 +4,7 @@ import SummeryPreview from './preview/SummeryPreview'
 import ExperiencePreview from './preview/ExperiencePreview'
 import EducationalPreview from './preview/EducationalPreview'
 import SkillsPreview from './preview/SkillsPreview'
+import CertificatesPreview from './preview/CertificatesPreview'
 
 
 function Template5({ cvData, setCvContent }) {
@@ -23,6 +24,8 @@ function Template5({ cvData, setCvContent }) {
             {cvData?.education?.length > 0 && <EducationalPreview resumeInfo={cvData} />}
             {/* Skilss  */}
             {cvData?.skills?.length > 0 && <SkillsPreview resumeInfo={cvData} />}
+            {/* Certifications */}
+            {cvData?.certificates?.length > 0 && <CertificatesPreview resumeInfo={cvData} />}
         </div>
     )
 }

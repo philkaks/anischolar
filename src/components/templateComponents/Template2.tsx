@@ -89,7 +89,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                   onBlur={(e) => handleBlur("skills", e.target.innerText, null, index)}
                   style={{ color: "#b3d4d8" }}
                 >
-                  {skill}
+                  {skill?.name}
                 </li>
               ))}
             </ul>
@@ -108,7 +108,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
               onBlur={(e) => handleBlur("personalSummary", e.target.innerText)}
               style={{ fontSize: "16px", color: "#6c757d" }}
             >
-              {cvData?.personalSummary}
+              {cvData?.summery}
             </p>
           </div>
 
@@ -116,7 +116,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
           <div className="mb-4">
             <h4 style={{ color: "#3a506b" }}>Professional Experience</h4>
             <div>
-              {cvData?.experience.map((item, index) => (
+              {cvData?.experience?.map((item, index) => (
                 <div key={index} className="mb-3 pl-3" style={{ borderLeft: "3px solid #3a506b", paddingLeft: "15px" }}>
                   <h5
                     className='editable'
@@ -124,7 +124,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                     onBlur={(e) => handleBlur("experience", e.target.innerText, "company", index)}
                     style={{ fontSize: "18px", color: "#3a506b", margin: 0 }}
                   >
-                    {item.company}
+                    {item?.company}
                   </h5>
                   <span
                     className='editable'
@@ -132,7 +132,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                     onBlur={(e) => handleBlur("experience", e.target.innerText, "duration", index)}
                     style={{ fontSize: "16px", color: "#6c757d" }}
                   >
-                    {item.duration}
+                    {item?.startDate} To {item?.currentlyWorking?'Present':item?.endDate}
                   </span>
                   <p
                     className='editable'
@@ -140,20 +140,9 @@ function Template2({ cvData, setCvContent, isEditing }) {
                     onBlur={(e) => handleBlur("experience", e.target.innerText, "jobTitle", index)}
                     style={{ fontSize: "17px", color: "#495057" }}
                   >
-                    <strong>{item.jobTitle}</strong>
+                    <strong>{item?.title}</strong>
                   </p>
-                  <ul className='editable' style={{ color: "#6c757d" }}>
-                    {item.duties.map((duty, idx) => (
-                      <li
-                        key={idx}
-                        contentEditable={isEditing}
-                        onBlur={(e) => handleBlur("experience", e.target.innerText, "duties", index, idx)}
-                        style={{ fontSize: "16px" }}
-                      >
-                        {duty}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className='text-xs my-2 text-[#6c757d]' dangerouslySetInnerHTML={{__html:item?.workSummery}} />
                 </div>
               ))}
             </div>
@@ -162,7 +151,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
           {/* Education */}
           <div className="mb-4">
             <h4 style={{ color: "#3a506b" }}>Education</h4>
-            {cvData?.education.map((item, index) => (
+            {cvData?.education?.map((item, index) => (
               <div key={index} className="mb-3 pl-3" style={{ borderLeft: "3px solid #3a506b", paddingLeft: "15px" }}>
                 <h5
                   className='editable'
@@ -170,7 +159,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                   onBlur={(e) => handleBlur("education", e.target.innerText, "degree", index)}
                   style={{ fontSize: "18px", color: "#3a506b", margin: 0 }}
                 >
-                  {item.degree}
+                  {item?.degree}
                 </h5>
                 <span
                   className='editable'
@@ -178,7 +167,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                   onBlur={(e) => handleBlur("education", e.target.innerText, "institution", index)}
                   style={{ fontSize: "16px", color: "#6c757d" }}
                 >
-                  at {item.institution}
+                  at {item?.universityName}
                 </span>
                 <p
                   className='editable'
@@ -186,7 +175,7 @@ function Template2({ cvData, setCvContent, isEditing }) {
                   onBlur={(e) => handleBlur("education", e.target.innerText, "duration", index)}
                   style={{ color: "#6c757d" }}
                 >
-                  {item.duration}
+                  {item?.startDate} - {item?.endDate}
                 </p>
               </div>
             ))}
@@ -196,15 +185,19 @@ function Template2({ cvData, setCvContent, isEditing }) {
           <div className="mb-4">
             <h4 style={{ color: "#3a506b" }}>Certifications</h4>
             <ul className='editable' style={{ listStyleType: "none", paddingLeft: "1.25rem", color: "#555", lineHeight: "1.6" }}>
-              {cvData?.certifications?.map((cert, index) => (
+              {cvData?.certificates?.map((cert, index) => (
                 <li key={index} style={{ marginBottom: "0.5rem" }}>
                   <span
                     contentEditable={isEditing}
                     onBlur={(e) => handleBlur("certifications", e.target.innerText, "title", index)}
                     style={{ color: "#4b6982", textDecoration: "none" }}
                   >
-                    {cert.title}
+                    {cert.name} :
                   </span>
+                  <a href={cert.link} className="text-xs text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+   &nbsp;{cert.link}
+</a>
+
                 </li>
               ))}
             </ul>

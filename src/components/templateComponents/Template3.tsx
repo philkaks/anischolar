@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Template3 = ({ cvData, setCvContent, isEditing }) => {
-    const { personalDetails, personalSummary, experience, education, skills, certifications } = cvData;
+    const { personalDetails, summery, experience, education, skills, certificates } = cvData;
 
     const handleBlur = (
         field: keyof typeof cvData,
@@ -87,7 +87,7 @@ const Template3 = ({ cvData, setCvContent, isEditing }) => {
                     onBlur={(e) => handleBlur("personalSummary", e.target.innerText)}
                     style={{ color: "#555", lineHeight: "1.6", marginTop: "0.5rem" }}
                 >
-                    {personalSummary && personalSummary}
+                    {summery && summery}
                 </p>
             </div>
 
@@ -113,26 +113,18 @@ const Template3 = ({ cvData, setCvContent, isEditing }) => {
                                 onBlur={(e) => handleBlur("experience", e.target.innerText, "jobTitle", index)}
                                 style={{ fontSize: "1.1rem", fontWeight: "bold", color: "#333", margin: 0 }}
                             >
-                                {exp.jobTitle} at {exp.company}
+                                {exp?.title} at {exp?.company}
                             </p>
                             <p
                                 contentEditable={isEditing}
                                 onBlur={(e) => handleBlur("experience", e.target.innerText, "duration", index)}
                                 style={{ color: "#777", fontSize: "0.9rem", margin: "0.5rem 0" }}
                             >
-                                {exp.duration}
+                                {exp?.company} From {exp?.startDate} To {exp?.currentlyWorking?'Present':exp?.endDate}
                             </p>
-                            <ul style={{ color: "#555", lineHeight: "1.6", marginLeft: "1.25rem" }}>
-                                {exp.duties?.map((duty, dutyIndex) => (
-                                    <li
-                                        key={dutyIndex}
-                                        contentEditable={isEditing}
-                                        onBlur={(e) => handleBlur("experience", e.target.innerText, "duties", index, dutyIndex)}
-                                    >
-                                        {duty}
-                                    </li>
-                                ))}
-                            </ul>
+
+                            <div className='text-xs my-2 text-[#555]' dangerouslySetInnerHTML={{__html:exp?.workSummery}} />
+           
                         </div>
                     ))}
                 </div>
@@ -167,7 +159,7 @@ const Template3 = ({ cvData, setCvContent, isEditing }) => {
                                 onBlur={(e) => handleBlur("education", e.target.innerText, "institution", index)}
                                 style={{ color: "#777", fontSize: "0.9rem" }}
                             >
-                                {edu.institution} ({edu.duration})
+                                {edu.universityName} ({edu?.startDate} - {edu?.endDate})
                             </p>
                         </div>
                     ))}
@@ -186,7 +178,7 @@ const Template3 = ({ cvData, setCvContent, isEditing }) => {
                             onBlur={(e) => handleBlur("skills", e.target.innerText, null, index)}
                             style={{ marginBottom: "0.5rem" }}
                         >
-                            {skill}
+                            {skill?.name}
                         </li>
                     ))}
                 </ul>
@@ -198,15 +190,18 @@ const Template3 = ({ cvData, setCvContent, isEditing }) => {
                     Certifications
                 </h2>
                 <ul style={{ listStyleType: "none", paddingLeft: "1.25rem", color: "#555", lineHeight: "1.6" }}>
-                    {certifications?.map((cert, index) => (
+                    {certificates?.map((cert, index) => (
                         <li key={index} style={{ marginBottom: "0.5rem" }}>
                             <span
                                 contentEditable={isEditing}
                                 onBlur={(e) => handleBlur("certifications", e.target.innerText, "title", index)}
                                 style={{ color: "#4b6982" }}
                             >
-                                {cert.title}
+                                {cert.name} :
                             </span>
+                            <a href={cert.link} className="text-xs text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+   &nbsp;{cert.link}
+</a>
                         </li>
                     ))}
                 </ul>

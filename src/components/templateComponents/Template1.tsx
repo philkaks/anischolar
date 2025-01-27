@@ -1,7 +1,8 @@
 import React from 'react';
 
 function Template1({ cvData, setCvContent, isEditing }) {
-
+  console.log(cvData);
+  
   const handleBlur = (
     field: keyof typeof cvData,
     value: string,
@@ -27,9 +28,9 @@ function Template1({ cvData, setCvContent, isEditing }) {
   };
 
   return (
-    <div className="my-5 p-5 w-100 shadow-sm" style={{ border: "5px solid #e0e0e0", backgroundColor: "#f8f9fa", borderRadius: "10px" }}>
+    <div className="my-1 shadow-sm w-full" style={{ border: "5px solid #e0e0e0", backgroundColor: "#f8f9fa", borderRadius: "10px" }}>
       {/* Header Section */}
-      <div className="d-flex align-items-center mb-4" style={{ height: "200px" }}>
+      <div className="d-flex align-items-center mb-0" style={{ height: "150px" }}>
         <div className="col-3 text-center">
           <img
             className="rounded-circle border border-3"
@@ -42,7 +43,7 @@ function Template1({ cvData, setCvContent, isEditing }) {
           <h1
             contentEditable={isEditing}
             onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "name")}
-            style={{ color: "#333", fontSize: "45px", margin: "0" }}
+            style={{ color: "#333", fontSize: "35px", margin: "0" }}
           >
             {cvData?.personalDetails?.name}
           </h1>
@@ -54,7 +55,7 @@ function Template1({ cvData, setCvContent, isEditing }) {
            {cvData?.title}
           </h5>
         </div>
-        <div className="col-3 text-right" style={{ fontSize: "16px" }}>
+        <div className="col-3 text-left" style={{ fontSize: "10px" }}>
           <p
             contentEditable={isEditing}
             onBlur={(e) => handleBlur("personalDetails", e.target.innerText, "email")}
@@ -72,8 +73,6 @@ function Template1({ cvData, setCvContent, isEditing }) {
         </div>
       </div>
 
-      <hr style={{ height: "4px", backgroundColor: "#6c757d" }} />
-
       {/* Personal Summary */}
       <div
         contentEditable={isEditing}
@@ -81,8 +80,10 @@ function Template1({ cvData, setCvContent, isEditing }) {
         className="mx-4 mb-4"
         style={{ fontSize: "18px", color: "#4a4a4a" }}
       >
-        {cvData?.summary}
+        {cvData?.summery}
       </div>
+
+      <hr style={{ height: "4px", backgroundColor: "#6c757d" }} />
 
       {/* Professional Experience */}
       <div className="container">
@@ -108,7 +109,7 @@ function Template1({ cvData, setCvContent, isEditing }) {
                 >
                   Worked at {item?.company} From {item?.startDate} To {item?.currentlyWorking?'Present':item?.endDate}
                 </div>
-                <div className='text-xs my-2' dangerouslySetInnerHTML={{__html:item?.workSummery}} />
+                <div className='text-xs my-2 text-[#4a4a4a]' dangerouslySetInnerHTML={{__html:item?.workSummery}} />
               </div>
             ))}
           </div>
@@ -147,7 +148,7 @@ function Template1({ cvData, setCvContent, isEditing }) {
         <hr style={{ height: "4px", backgroundColor: "#6c757d" }} />
 
         {/* Key Skills Section */}
-        <div className="row">
+        <div className="row mb-4">
           <div className="col-3 text-left">
             <h4 style={{ color: "#333" }}>Key Skills</h4>
           </div>
@@ -166,22 +167,27 @@ function Template1({ cvData, setCvContent, isEditing }) {
           </div>
         </div>
 
+        <hr style={{ height: "4px", backgroundColor: "#6c757d" }} />
+
         {/* Certifications Section */}
-        <div className="row">
+        <div className="row mb-4">
           <div className="col-3 text-left">
             <h4 style={{ color: "#4a4a4a", fontSize: "1.5rem", marginBottom: "0.75rem" }}>Certifications</h4>
           </div>
           <div className="col-9 text-left" style={{ fontSize: "16px" }}>
             <ul style={{ listStyleType: "none", paddingLeft: "1.25rem", color: "#555", lineHeight: "1.6" }}>
-              {cvData?.certifications?.map((cert, index) => (
+              {cvData?.certificates?.map((cert, index) => (
                 <li key={index} style={{ marginBottom: "0.5rem" }}>
                   <span
                     contentEditable={isEditing}
                     onBlur={(e) => handleBlur("certifications", e.target.innerText, "title", index)}
                     style={{ color: "#6c757d", textDecoration: "none" }}
                   >
-                    {cert.title}
+                    {cert.name} : 
                   </span>
+                  <a href={cert.link} className="text-xs text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+  &nbsp;{cert.link}
+</a>
                 </li>
               ))}
             </ul>

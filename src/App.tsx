@@ -18,6 +18,7 @@ import TemplateSelect from './pages/templateSelect'
 import FormSection from './pages/resumes/resume/FormSection'
 import EditResume from './pages/editResume'
 import Resumes from './pages/resumes'
+import Profile from './pages/profile/page/profile'
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
   {path: '/resumes', element: <Resumes />},
   {path: '/resumes/resume/:resumeId/edit', element: <EditResume />},
   { path:'/my-resume/:resumeId/view', element: <CVPreview/>},
+  { path:'/profile', element: <Profile />},
   { path: '*', element: <NotFound /> } // 404 route
 ])
 

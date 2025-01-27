@@ -72,7 +72,7 @@ const handleInputChange = (e) => {
 
             <form onSubmit={onSave}>
                 <div className='grid grid-cols-2 mt-5 gap-3'>
-                    <div>
+                    <div className='col-span-2 lg:col-span-1'>
                         <label className='text-sm'>Full Name</label>
                         <Input name="name" defaultValue={cvContent?.personalDetails?.name} required onChange={handleInputChange} />
                     </div>
@@ -93,20 +93,20 @@ const handleInputChange = (e) => {
                         defaultValue={cvContent?.personalDetails?.address}
                         onChange={handleInputChange} />
                     </div>
-                    <div>
+                    <div className='col-span-2 lg:col-span-1'>
                         <label className='text-sm'>Phone</label>
                         <Input name="phone" required 
                         defaultValue={cvContent?.personalDetails?.phone}
                         onChange={handleInputChange} />
                     </div>
-                    <div>
+                    <div className='col-span-2 lg:col-span-1'>
                         <label className='text-sm'>Email</label>
                         <Input name="email" required 
                         defaultValue={cvContent?.personalDetails?.email}
                         onChange={handleInputChange} />
                     </div>
                 </div>
-                <div className='mt-3 flex justify-end'>
+                <div className='mt-3 flex lg:justify-end'>
                     <Button type="submit" disabled={loading}>
                         {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
                     </Button>

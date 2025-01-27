@@ -28,7 +28,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
     };
 
     return (
-        <div className=''>
+        <div className='mx-5'>
             <div>
                 <h2
                     className="fw-bold text-center fs-4"
@@ -81,7 +81,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
             <div
 
             >
-                {cvData?.summary}
+                {cvData?.summery}
             </div>
 
             <div className="my-4">
@@ -107,26 +107,17 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                                 // color: resumeInfo?.themeColor,
                             }}
                         >
-                            {experience?.jobTitle}
+                            {experience?.title}
                         </h2>
                         <h2 className="fs-7 d-flex justify-content-between">
-                            {experience?.company}, Kampala, Uganda
+                            {experience?.company}
                             <span>
-                                {experience?.duration}
+                            {experience?.startDate} To {experience?.currentlyWorking?'Present':experience?.endDate}
                             </span>
                         </h2>
-                        <ul className="pl-3">
-                            {experience?.duties?.map((duty, idx) => (
-                                <li
-                                    key={idx}
-                                    contentEditable={isEditing}
-                                    onBlur={(e) => handleBlur("experience", e.target.innerText, "duties", index, idx)}
-                                    style={{ color: "#4a4a4a" }}
-                                >
-                                    {duty}
-                                </li>
-                            ))}
-                        </ul>
+                        
+                        <div className='my-2 text-[#4a4a4a]' dangerouslySetInnerHTML={{__html:experience?.workSummery}} />
+           
                     </div>
                 ))}
             </div>
@@ -154,12 +145,12 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                                 // color: resumeInfo?.themeColor,
                             }}
                         >
-                            {education.institution}
+                            {education.universityName}
                         </h2>
                         <h2 className="fs-7 d-flex justify-content-between">
                             {education?.degree}
                             <span>
-                                {education?.duration}
+                            {education?.startDate} - {education?.endDate}
                             </span>
                         </h2>
                     </div>
@@ -184,7 +175,7 @@ const Template4 = ({ cvData, setCvContent, isEditing }) => {
                 <div className="row row-cols-2 g-3 my-4">
                     {cvData?.skills?.map((skill, index) => (
                         <div key={index} className="d-flex align-items-center justify-content-between">
-                            <h4 className="mb-0">{skill}</h4>
+                            <h4 className="mb-0">{skill?.name}</h4>
                             <div className="bg-light w-50" style={{ height: '0.5rem' }}>
                                 <div
                                     style={{

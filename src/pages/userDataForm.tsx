@@ -3,11 +3,31 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
-import { getDocs, query, where, addDoc, collection } from "@firebase/firestore";
+import { getDocs, query, where, addDoc, collection, updateDoc, doc } from "@firebase/firestore";
 import { db } from "../Config/firebase.config";
 import Swal from "sweetalert2";
 import { API_KEY } from '../Config/constants';
 import { useAuth } from '../authProvider';
+
+const sectors = [
+    { name: "Agriculture", icon: "🌾" },
+    { name: "Business", icon: "💼" },
+    { name: "Technology", icon: "💻" },
+    { name: "Engineering", icon: "⚙️" },
+    { name: "Education", icon: "📚" },
+    { name: "Healthcare", icon: "🩺" },
+    { name: "Arts", icon: "🎨" },
+    { name: "Sports", icon: "⚽" },
+    { name: "Science", icon: "🔬" },
+    { name: "Environment", icon: "🌍" },
+    { name: "Media", icon: "🎥" },
+    { name: "Hospitality", icon: "🏨" },
+    { name: "Transportation", icon: "🚗" },
+    { name: "Energy", icon: "⚡" },
+    { name: "Real Estate", icon: "🏠" },
+    { name: "Law", icon: "⚖️" },
+    { name: "Public Services", icon: "🏛️" },
+]
 
 const MultiStepForm: React.FC = () => {
     const { user, cvContent, setCvContent } = useAuth();
@@ -18,70 +38,72 @@ const MultiStepForm: React.FC = () => {
 
     const [step, setStep] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
+
+    interface FormData {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phoneNumber: string;
+        company: string;
+        title: string;
+        address: string;
+        gender: string;
+        dob: string;
+        interests: string[];
+        educationLevel: string;
+    }
+
+    const [formData, setFormData] = useState<FormData>({
+        id: '',
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        education: [] as Array<{ degree: string; institution: string; educationStartDate: string; educationEndDate: string }>,
-        workExperience: [] as Array<{ jobTitle: string; company: string; experienceStartDate: string; experienceEndDate: string; description: string }>,
-        skills: [],
-        certifications: [],
-    });
-
-    // Temporary state for each education input
-    const [educationEntry, setEducationEntry] = useState({
-        degree: '',
-        institution: '',
-        educationStartDate: '',
-        educationEndDate: '',
-    });
-
-    // Temporary state for each experience input
-    const [experienceEntry, setExperienceEntry] = useState({
-        jobTitle: '',
         company: '',
-        experienceStartDate: '',
-        experienceEndDate: '',
-        description: '',
+        title: '',
+        address: '',
+        gender: '',
+        dob: '',
+        interests: [],
+        educationLevel: '',
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+    useEffect(() => {
+        if (user?.email) {
+            setFormData((prev) => ({
+                ...prev,
+                email: user.email,
+            }));
+        }
+    }, [user?.email]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle change for education entry
-    const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setEducationEntry((prev) => ({ ...prev, [name]: value }));
+
+    const handleInterestChange = (sectorName: string) => {
+        setFormData((prev) => {
+            const isAlreadySelected = prev.interests.includes(sectorName);
+
+            if (!isAlreadySelected && prev.interests.length < 3) {
+                return { ...prev, interests: [...prev.interests, sectorName] };
+            } else if (isAlreadySelected) {
+                return { ...prev, interests: prev.interests.filter((interest) => interest !== sectorName) };
+            }
+            return prev;
+        });
     };
 
-    // Handle change for experience entry
-    const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setExperienceEntry((prev) => ({ ...prev, [name]: value }));
-    };
 
-
-    // Add education entry to formData
-    const handleAddEducation = () => {
-        if(educationEntry.degree !== '')
+    const handleEducationLevelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({
             ...prev,
-            education: [...prev.education, educationEntry],
+            educationLevel: e.target.value,
         }));
-        setEducationEntry({ degree: '', institution: '', educationStartDate: '', educationEndDate: '' });
-    };
-
-    // Add education entry to formData
-    const handleAddExperience = () => {
-        if(experienceEntry.jobTitle !== '')
-        setFormData((prev) => ({
-            ...prev,
-            workExperience: [...prev.workExperience, experienceEntry],
-        }));
-        setExperienceEntry({ jobTitle: '', company: '', experienceStartDate: '', experienceEndDate: '', description: '' });
     };
 
     const nextStep = () => {
@@ -92,101 +114,6 @@ const MultiStepForm: React.FC = () => {
         setStep((prev) => Math.max(prev - 1, 1)); // Limit to min step
     };
 
-    const generateCV = async () => {
-        const formattedExperience = formData.workExperience.map(exp => ({
-            jobTitle: exp.jobTitle,
-            company: exp.company,
-            duration: `${exp.experienceStartDate} to ${exp.experienceEndDate}`, // Consistent format
-            duties: exp.description.split('. ').map(duty => duty.trim()) // Split duties into an array
-        }));
-
-        const formattedEducation = formData.education.map(edu => ({
-            degree: edu.degree,
-            institution: edu.institution,
-            duration: `${edu.educationStartDate} to ${edu.educationEndDate}` // Consistent format
-        }));
-
-        const prompt = `
-          Generate a professional CV in JSON format for the following details:
-          {
-            "personalDetails": {
-              "name": "${formData.firstName} ${formData.lastName}",
-              "email": "${formData.email}",
-              "phone": "${formData.phoneNumber}"
-            },
-            "personalSummary": "Generate a personal summary based on the provided details.",
-            "experience": ${JSON.stringify(formattedExperience)},
-            "education": ${JSON.stringify(formattedEducation)},
-            "skills": ${JSON.stringify(formData.skills)},
-            "certifications": ${JSON.stringify(formData.certifications)}
-          }
-          Please make sure that:
-          - "duties" are formatted as an array for each experience entry.
-          - Use "to" between the start and end dates for consistency in "duration".
-          - Skills should be formatted as an array.
-          - Certifications should be in the format of an array with "title" and "link" fields.
-          Respond only with a valid JSON object in the following format:
-          {
-            personalDetails: {
-              name: "string",
-              email: "string",
-              phone: "string"
-            },
-            personalSummary: "string",
-            experience: [
-              {
-                jobTitle: "string",
-                company: "string",
-                duration: "string",
-                duties: ["string"]
-              }
-            ],
-            education: [
-              {
-                degree: "string",
-                institution: "string",
-                duration: "string"
-              }
-            ],
-            skills: ["string"],
-            certifications: [
-              {
-                title: "string",
-                link: "string"
-              }
-            ]
-          }
-        `;
-
-        try {
-            const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-                model: 'gpt-4',
-                messages: [
-                    { role: 'user', content: prompt }
-                ],
-                max_tokens: 800,
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${API_KEY}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const cvText = response.data.choices[0].message.content;
-
-            // Use regex to extract the JSON part from the response
-            const jsonMatch = cvText.match(/\{.*\}/s);
-            if (jsonMatch) {
-                const parsedCV = JSON.parse(jsonMatch[0]);  // Parse the JSON part
-                setCvContent(parsedCV);
-                return parsedCV;  // You can now use the parsed CV
-            } else {
-                console.error("Could not find a valid JSON in the response");
-            }
-        } catch (error) {
-            console.error('Error generating CV:', error);
-        }
-    };
 
 
 
@@ -194,36 +121,60 @@ const MultiStepForm: React.FC = () => {
         e.preventDefault();
         setIsLoading(true);
 
+        // Validation: Check for empty required fields
+        const { firstName, lastName, email, phoneNumber, interests, educationLevel } = formData;
+
+        if (!firstName || !lastName || !email || !phoneNumber || interests.length === 0 || !educationLevel) {
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: "Please fill out all required fields",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            setIsLoading(false);
+            return;
+        }
+
         try {
-            // Generate CV and get the returned data directly
-            const generatedCV = await generateCV();
+            // Check if the user data already exists in Firestore
+            const userId = user?.uid;
+            const userDataRef = collection(db, "userData");
+            const q = query(userDataRef, where("userId", "==", userId));
+            const querySnapshot = await getDocs(q);
 
-            if (generatedCV) { // Ensure CV data is generated before proceeding
-                console.log(generateCV);
-
-                await addDoc(collection(db, "userData"), {
-                    ...generatedCV,
+            if (!querySnapshot.empty) {
+                // Document exists, so update it
+                const docId = querySnapshot.docs[0].id;
+                await updateDoc(doc(db, "userData", docId), {
+                    ...formData,
                     userId: user?.uid,
                 });
 
-                navigate("/templates");
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Data saved Successfully",
+                    title: "Data updated successfully",
                     showConfirmButton: false,
                     timer: 1000,
                 });
             } else {
-                console.error("CV generation failed, no data to save");
+                // Document does not exist, so create a new one
+                await addDoc(collection(db, "userData"), {
+                    ...formData,
+                    userId: user?.uid,
+                });
+
                 Swal.fire({
                     position: "top-end",
-                    icon: "error",
-                    title: "CV generation failed, please try again",
+                    icon: "success",
+                    title: "Data saved successfully",
                     showConfirmButton: false,
                     timer: 1000,
                 });
             }
+
+            navigate("/profile");
         } catch (error) {
             console.error("Error submitting application:", error);
             Swal.fire({
@@ -249,11 +200,14 @@ const MultiStepForm: React.FC = () => {
 
                 if (!querySnapshot.empty) {
                     const doc = querySnapshot.docs[0];
-                    setCvContent({ id: doc.id, ...doc.data() });
-                    navigate("/templates");
+                    setFormData((prev) => ({
+                        ...prev,
+                        ...doc.data(),
+                        id: doc.id, 
+                    }));
+                    navigate("/");
                 } else {
                     console.log("No user data found for the specified userId.");
-                    setCvContent(null);
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -265,6 +219,7 @@ const MultiStepForm: React.FC = () => {
         }
     }, [user?.uid]);
 
+
     return (
         <div>
             <Header title="User Data" title2="" />
@@ -273,7 +228,8 @@ const MultiStepForm: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                         {step === 1 && (
                             <div>
-                                <h1 className='fs-3 text-[#27ae60] mb-4 border-bottom pb-2'>Step 1: Bio Data</h1>
+                                <h1 className='fs-3 text-[#27ae60] pb-2'>Fill in your details</h1>
+                                <p className='mb-4 border-bottom'>These will be used on your profile page</p>
                                 <div className="formbold-input-flex">
                                     <div>
                                         <label htmlFor="firstName" className="formbold-form-label">
@@ -334,6 +290,94 @@ const MultiStepForm: React.FC = () => {
                                         />
                                     </div>
                                 </div>
+
+                                <div className="formbold-input-flex">
+                                    <div>
+                                        <label htmlFor="company" className="formbold-form-label">
+                                            Company/Institution
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="formbold-form-input"
+                                            id="company"
+                                            name="company"
+                                            value={formData.company}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="title" className="formbold-form-label">
+                                            Title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="formbold-form-input"
+                                            id="title"
+                                            name="title"
+                                            placeholder='eg. Student or Engineer'
+                                            value={formData.title}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="formbold-input-flex">
+                                    <div>
+                                    <label htmlFor="address" className="formbold-form-label">
+                                            Address
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="formbold-form-input w-full"
+                                            id="address"
+                                            name="address"
+                                            placeholder='Kampala, Central Region, Uganda'
+                                            value={formData.address}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="formbold-input-flex">
+                                    <div>
+                                        <label htmlFor="gender" className="formbold-form-label">
+                                            Gender
+                                        </label>
+                                        <select
+                                            id="gender"
+                                            name="gender"
+                                            className="formbold-form-input"
+                                            value={formData.gender}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="" disabled>
+                                                Select your gender
+                                            </option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="dob" className="formbold-form-label">
+                                            Date of Birth
+                                        </label>
+                                        <input
+                                            type="date"
+                                            className="formbold-form-input"
+                                            id="dob"
+                                            name="dob"
+                                            value={formData.dob}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
                                 <button type="button" onClick={nextStep} className="formbold-btn">
                                     Next
                                 </button>
@@ -342,6 +386,31 @@ const MultiStepForm: React.FC = () => {
 
                         {step === 2 && (
                             <div>
+
+                                <h1 className='fs-3 text-[#27ae60] pb-2'>Which sectors are you interested in ?</h1>
+                                <p className='mb-4 border-bottom'>Tell us what interests you, and we will tailor your job, internships and courses.
+                                    Select up to 3 </p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {/* Checkbox Item */}
+                                    {sectors.map((sector) => (
+                                        <label
+                                            key={sector.name}
+                                            className={`flex items-center gap-3 p-2 w-48 bg-white border ${formData.interests.includes(sector.name) ? 'border-blue-500' : 'border-gray-300'
+                                                } rounded-lg shadow-sm cursor-pointer hover:border-blue-500 hover:shadow-md transition`}
+                                        >
+                                            <span className="text-xl">{sector.icon}</span>
+                                            <span className="text-sm font-medium text-gray-700">{sector.name}</span>
+                                            <input
+                                                type="checkbox"
+                                                className="form-checkbox h-5 text-blue-500 border-gray-300 rounded focus:ring focus:ring-blue-200"
+                                                checked={formData.interests.includes(sector.name)}
+                                                onChange={() => handleInterestChange(sector.name)}
+                                            />
+                                        </label>
+                                    ))}
+
+                                </div>
+
                                 <div className="d-flex justify-content-between button-container">
                                     <button type="button" onClick={prevStep} className="formbold-btn">
                                         Previous
@@ -350,230 +419,45 @@ const MultiStepForm: React.FC = () => {
                                         Next
                                     </button>
                                 </div>
-                                <h1 className='fs-3 text-[#fb923c] mb-4 border-bottom pb-2'>Step 2: Education</h1>
-                                {/* <StyledTable /> */}
-                                <table className="formbold-table">
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th>Award</th>
-                                            <th>Institution</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {formData.education.map((edu, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{edu.degree}</td>
-                                                <td>{edu.institution}</td>
-                                                <td>{edu.educationStartDate}</td>
-                                                <td>{edu.educationEndDate}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                <div>
-                                    <label htmlFor="degree" className="formbold-form-label">
-                                        Award
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="degree"
-                                        name="degree"
-                                        value={educationEntry.degree}
-                                        onChange={handleEducationChange}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="institution" className="formbold-form-label">
-                                        Institution
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="institution"
-                                        name="institution"
-                                        value={educationEntry.institution}
-                                        onChange={handleEducationChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="formbold-input-flex">
-                                    <div>
-                                        <label htmlFor="educationStartDate" className="formbold-form-label">
-                                            Start Date
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="formbold-form-input"
-                                            id="educationStartDate"
-                                            name="educationStartDate"
-                                            // value={educationEntry.startDate}
-                                            onChange={handleEducationChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="educationEndDate" className="formbold-form-label">
-                                            End Date
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="formbold-form-input"
-                                            id="educationEndDate"
-                                            name="educationEndDate"
-                                            // value={educationEntry.endDate}
-                                            onChange={handleEducationChange}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <button className='formbold-btn' type="button" onClick={handleAddEducation}>
-                                    Save
-                                </button>
 
                             </div>
                         )}
 
                         {step === 3 && (
                             <div>
-                                <div className="d-flex justify-content-between button-container">
-                                    <button type="button" onClick={prevStep} className="formbold-btn">
-                                        Previous
-                                    </button>
-                                    <button type="button" onClick={nextStep} className="formbold-btn">
-                                        Next
-                                    </button>
-                                </div>
-                                <h1 className='fs-3 text-[#fb923c] mb-4 border-bottom pb-2'>Step 3: Work Experience</h1>
-                                <table className="formbold-table">
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th>Degree</th>
-                                            <th>Institution</th>
-                                            <th>Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {formData.workExperience.map((work, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{work.jobTitle}</td>
-                                                <td>{work.company}</td>
-                                                <td>{work.description}</td>
-                                            </tr>
+                                <h1 className='fs-3 text-[#27ae60] pb-2'>What is your education level</h1>
+                                <p className='mb-4 border-bottom'>Help us customize alerts to match your experience, Pick one level that best fits you </p>
+                                <div>
+                                    <div className="">
+                                        {[
+                                            { name: "Fresher", desc: "0-1 years at university" },
+                                            { name: "Continuing Student", desc: "1-3 years at university" },
+                                            { name: "Finalist", desc: "Students in final year" },
+                                            { name: "Graduate", desc: "Students who have recently graduated" },
+                                        ].map((level) => (
+                                            <label
+                                                key={level.name}
+                                                className="flex items-center justify-between gap-3 p-3 mb-2 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:border-blue-500 hover:shadow-md transition"
+                                            >
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-medium text-gray-900">{level.name}</span>
+                                                    <span className="text-sm font-medium text-gray-700">{level.desc}</span>
+                                                </div>
+                                                <input
+                                                    type="radio"
+                                                    name="educationLevel"
+                                                    value={level.name}
+                                                    checked={formData.educationLevel === level.name}
+                                                    onChange={handleEducationLevelChange}
+                                                    className="form-radio h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring focus:ring-blue-200"
+                                                />
+                                            </label>
                                         ))}
-                                    </tbody>
-                                </table>
 
-                                <div>
-                                    <label htmlFor="jobTitle" className="formbold-form-label">
-                                        Job Title
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="jobTitle"
-                                        name="jobTitle"
-                                        value={experienceEntry.jobTitle}
-                                        onChange={handleExperienceChange}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="company" className="formbold-form-label">
-                                        Company
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="company"
-                                        name="company"
-                                        value={experienceEntry.company}
-                                        onChange={handleExperienceChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="formbold-input-flex">
-                                    <div>
-                                        <label htmlFor="experienceStartDate" className="formbold-form-label">
-                                            Start Date
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="formbold-form-input"
-                                            id="experienceStartDate"
-                                            name="experienceStartDate"
-                                            onChange={handleExperienceChange}
-                                            required
-                                        />
                                     </div>
-                                    <div>
-                                        <label htmlFor="experienceEndDate" className="formbold-form-label">
-                                            End Date
-                                        </label>
-                                        <input
-                                            type="date"
-                                            className="formbold-form-input"
-                                            id="experienceEndDate"
-                                            name="experienceEndDate"
-                                            onChange={handleExperienceChange}
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="description" className="formbold-form-label">
-                                        Job Description
-                                    </label>
-                                    <textarea
-                                        id="description"
-                                        name="description"
-                                        // value={experienceEntry.description}
-                                        onChange={handleExperienceChange}
-                                        required
-                                        className="formbold-form-input"
-                                    />
-                                </div>
-                                <button className='formbold-btn' type="button" onClick={handleAddExperience}>
-                                    Save
-                                </button>
 
-                            </div>
-                        )}
+                                </div>
 
-                        {step === 4 && (
-                            <div>
-                                <h2 className='fs-3 text-[#27ae60] mb-4 border-bottom pb-2'>Step 4: Skills & Certifications</h2>
-                                <div>
-                                    <label htmlFor="skills" className="formbold-form-label">
-                                        Skills
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="skills"
-                                        name="skills"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="certifications" className="formbold-form-label">
-                                        Certifications
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="formbold-form-input"
-                                        id="certifications"
-                                        name="certifications"
-                                        onChange={handleChange}
-                                    />
-                                </div>
                                 <div className="button-container">
                                     <button type="button" onClick={prevStep} className="formbold-btn">
                                         Previous
@@ -582,6 +466,7 @@ const MultiStepForm: React.FC = () => {
                                         Submit
                                     </button>
                                 </div>
+
                             </div>
                         )}
                     </form>

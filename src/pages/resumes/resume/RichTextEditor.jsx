@@ -25,15 +25,35 @@ function RichTextEditor({ index, defaultValue, onRichTextEditorChange, item }) {
   const parseAndFormatToHTML = (text) => {
     try {
       console.log(text);
-      
       const jsonObject = JSON.parse(text);
-      const points = Object.values(jsonObject).slice(1).flat();
-      return `<ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+  
+      // Extract the first array of points found in the object
+      const pointsArray = Object.values(jsonObject).find((value) => Array.isArray(value));
+  
+      if (!pointsArray) {
+        throw new Error("No array found in the response.");
+      }
+  
+      // Format the points into an HTML unordered list
+      return `<ul>${pointsArray.map(point => `<li>${point}</li>`).join('')}</ul>`;
     } catch (error) {
-      console.error("Failed to parse text:", error);
+      console.error("Failed to parse text or find array:", error);
       return "<ul><li>Error generating list</li></ul>";
     }
   };
+  
+  // const parseAndFormatToHTML = (text) => {
+  //   try {
+  //     console.log(text);
+      
+  //     const jsonObject = JSON.parse(text);
+  //     const points = Object.values(jsonObject).slice(1).flat();
+  //     return `<ul>${points.map(point => `<li>${point}</li>`).join('')}</ul>`;
+  //   } catch (error) {
+  //     console.error("Failed to parse text:", error);
+  //     return "<ul><li>Error generating list</li></ul>";
+  //   }
+  // };
 
 
   const GenerateSummaryFromAI = async () => {
