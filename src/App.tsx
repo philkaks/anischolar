@@ -19,6 +19,8 @@ import FormSection from './pages/resumes/resume/FormSection'
 import EditResume from './pages/editResume'
 import Resumes from './pages/resumes'
 import Profile from './pages/profile/page/profile'
+import PaymentPlans from './pages/paymentPlans'
+import Checkout from './pages/checkout'
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -37,6 +39,8 @@ const router = createBrowserRouter([
   {path: '/resumes/resume/:resumeId/edit', element: <EditResume />},
   { path:'/my-resume/:resumeId/view', element: <CVPreview/>},
   { path:'/profile', element: <Profile />},
+  { path:'/compare/plans', element: <PaymentPlans />},
+  { path:'/checkout', element: <Checkout />},
   { path: '*', element: <NotFound /> } // 404 route
 ])
 
