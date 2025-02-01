@@ -197,7 +197,8 @@ const Internships = () => {
                               </p>
                               {isLoggedIn ? (
                                 <Link
-                                  to={`/applicationForm?internshipId=${internship.id}&internshipName=${internship.title}`}
+                                  // to={`/applicationForm?internshipId=${internship.id}&internshipName=${internship.title}`}
+                                  to='/compare/plans'
                                   className="btn bg-success text-white"
                                 >
                                   Apply Now

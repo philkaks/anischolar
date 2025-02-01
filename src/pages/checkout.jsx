@@ -63,19 +63,16 @@ const Checkout = () => {
     // Configure Recaptcha
     function onCaptchVerify() {
         if (!window.recaptchaVerifier) {
-            window.recaptchaVerifier = new RecaptchaVerifier(
-                auth, // Pass auth instance first
-                "recaptcha-container",
-                {
-                    size: "invisible",
-                    callback: (response) => {
-                        onSignup();
-                    },
-                    "expired-callback": () => { },
-                }
-            );
+            window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+                size: "invisible",
+                callback: (response) => {
+                    sendOtp();
+                },
+                "expired-callback": () => { console.log("Recaptcha expired"); },
+            });
         }
     }
+    
 
     // Send OTP
     function sendOtp() {
@@ -86,15 +83,16 @@ const Checkout = () => {
         const formattedPhone = `+256${phone.trim().replace(/^0/, '')}`;
 
         // console.log("Using API Key:", firebaseConfig.apiKey);
-        console.log("Auth Instance:", auth);
-
+        console.log(formattedPhone);
+        
 
         signInWithPhoneNumber(auth, formattedPhone, appVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
                 setVerificationId(confirmationResult.verificationId); // Store verification ID
                 setLoading(false);
-                toast.success("OTP sent successfully!");
+                console.log("OTP sent successfully!");
+                // toast.success("OTP sent successfully!");
             })
             .catch((error) => {
                 console.log(error);
@@ -196,7 +194,7 @@ const Checkout = () => {
                             </button>
                         </div>
 
-                        {/* {verificationId && ( */}
+                        {verificationId && (
                             <div className="mt-4">
                                 <input
                                     type="text"
@@ -213,11 +211,11 @@ const Checkout = () => {
                                     {loading ? 'Verifying...' : 'Verify OTP'}
                                 </button>
                             </div>
-                        {/* )} */}
+                      )} 
                     </div>
 
                     {/* Payment Form */}
-                    {/* {isVerified && ( */}
+                    {isVerified && (
                         <form onSubmit={handlePayment} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium mb-1">Amount</label>
@@ -248,7 +246,7 @@ const Checkout = () => {
                                 {loading ? 'Processing Payment...' : 'Complete Payment'}
                             </button>
                         </form>
-                    {/* )} */}
+                  )} 
 
                     <div id="recaptcha-container"></div>
                 </div>
